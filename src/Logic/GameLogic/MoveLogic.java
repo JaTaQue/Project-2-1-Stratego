@@ -63,4 +63,10 @@ public class MoveLogic {
             return false;
         } 
     }
+
+    public void move(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+        positionArray[targetPosition[0]][targetPosition[1]] = positionArray[piece.getPosition()[0]][piece.getPosition()[1]];
+        positionArray[piece.getPosition()[0]][piece.getPosition()[1]] = null;
+        piece.setPosition(targetPosition);
+    }
 }
