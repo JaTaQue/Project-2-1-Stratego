@@ -1,12 +1,19 @@
 package PieceClasses;
 
 public class Piece {
-    private final int rank;
+    private final int RANK;
     private int[] position = new int[2];
     private boolean isDead;
+    private final String COLOR;
 
-    public Piece(int rank) {
-        this.rank = rank;
+    public Piece(int rank, String color) {
+        this.RANK = rank;
+        this.COLOR = COLOR;
+    }
+
+
+    public String getColor() {
+        return COLOR;
     }
 
     public int getRank() {
