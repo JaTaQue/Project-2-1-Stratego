@@ -11,7 +11,7 @@ public class Piece {
     }
 
     public boolean isMovable(){
-        if(rank==11||rank==12||rank==0){//flag, bomb, empty
+        if(rank==11||rank==12||rank==0){//flag, bomb, lake
             return false;
         }
             return true;

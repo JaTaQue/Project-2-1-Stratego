@@ -4,7 +4,7 @@ public class PiecesCreator {
     private int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
     //last index is bombs
 
-    // Rank 0 = Empty
+    // Rank 0 = Lake
     // Rank 1 = Spy
     // Rank 2 = Scout
     // Rank 3 = Miner
