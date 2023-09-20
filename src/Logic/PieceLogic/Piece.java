@@ -1,4 +1,4 @@
-package PieceClasses;
+package PieceLogic;
 
 public class Piece {
     private final int RANK;
@@ -8,16 +8,15 @@ public class Piece {
 
     public Piece(int rank, String color) {
         this.RANK = rank;
-        this.COLOR = COLOR;
+        this.COLOR = color;
     }
-
 
     public String getColor() {
         return COLOR;
     }
 
     public int getRank() {
-        return rank;
+        return RANK;
     }
 
     public int[] getPosition() {

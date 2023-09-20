@@ -1,8 +1,21 @@
-package PieceClasses;
+package PieceLogic;
 
 public class PiecesCreator {
     private int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
-    //last index is bombs
+    
+    // Rank 0 = Lake
+    // Rank 1 = Spy
+    // Rank 2 = Scout
+    // Rank 3 = Miner
+    // Rank 4 = Sergeant
+    // Rank 5 = Lieutenant
+    // Rank 6 = Captain
+    // Rank 7 = Major
+    // Rank 8 = Colonel
+    // Rank 9 = General
+    // Rank 10 = Marshal
+    // Rank 11 = Flag
+    // Rank 12 = Bomb
 
     public Piece[][] createPieces(String color) {
         Piece[][] newPieces = new Piece[pieceInfos.length][];
