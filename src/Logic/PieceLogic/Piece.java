@@ -1,24 +1,22 @@
-// src/Logic/Piece
-package Pieces;
+package PieceLogic;
 
 public class Piece {
-    private final int rank;
+    private final int RANK;
     private int[] position = new int[2];
     private boolean isDead;
+    private final String COLOR;
 
-    public Piece(int rank) {
-        this.rank = rank;
+    public Piece(int rank, String color) {
+        this.RANK = rank;
+        this.COLOR = color;
     }
 
-    public boolean isMovable(){
-        if(rank==11||rank==12||rank==0){//flag, bomb, lake
-            return false;
-        }
-            return true;
-        }
+    public String getColor() {
+        return COLOR;
+    }
 
     public int getRank() {
-        return rank;
+        return RANK;
     }
 
     public int[] getPosition() {
