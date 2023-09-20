@@ -1,4 +1,5 @@
-package PieceClasses;
+// src/Logic/Piece
+package Pieces;
 
 public class Piece {
     private final int rank;
