@@ -10,6 +10,13 @@ public class Piece {
         this.rank = rank;
     }
 
+    public boolean isMovable(){
+        if(rank==11||rank==12||rank==0){//flag, bomb, empty
+            return false;
+        }
+            return true;
+        }
+
     public int getRank() {
         return rank;
     }
