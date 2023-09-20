@@ -10,7 +10,8 @@ public class Initiator{
         Player player1 = new Player("R", piecesCreator);
 
         Player player2 = new Player("B", piecesCreator);
+    
+        //TODO: controller calls GUI, hardcoded board/players for demo
 
-        
     }
 } 
