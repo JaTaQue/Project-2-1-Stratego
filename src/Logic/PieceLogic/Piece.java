@@ -3,11 +3,6 @@ package PieceLogic;
 import java.util.Arrays;
 
 public class Piece {
-    @Override
-    public String toString() {
-        return "Piece [RANK=" + RANK + ", position=" + Arrays.toString(position) + ", isDead=" + isDead + ", COLOR="
-                + COLOR + "]";
-    }
 
     private final int RANK;
     private int[] position = new int[2];
@@ -41,5 +36,10 @@ public class Piece {
 
     public void setDead() {
         this.isDead = true;
+    }
+
+    public String toString() {
+        return "Piece [RANK=" + RANK + ", position=" + Arrays.toString(position) + ", isDead=" + isDead + ", COLOR="
+        + COLOR + "]";
     }
 }
