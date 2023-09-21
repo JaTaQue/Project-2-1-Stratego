@@ -13,7 +13,7 @@ public class MoveLogic {
             return false;
         } else if (piece.getRank() == 2 && !canScoutMove(piece, targetPosition, positionArray)) {
             return false;
-        } else if (((piece.getPosition()[0] == targetPosition[0]) && Math.abs(piece.getPosition()[1] -targetPosition[1]) > 1) || ((piece.getPosition()[1] == targetPosition[1]) && Math.abs(piece.getPosition()[0] - targetPosition[0]) > 1)) {
+        } else if (piece.getRank() != 2 &&(((piece.getPosition()[0] == targetPosition[0]) && Math.abs(piece.getPosition()[1] -targetPosition[1]) > 1) || ((piece.getPosition()[1] == targetPosition[1]) && Math.abs(piece.getPosition()[0] - targetPosition[0]) > 1))) {
             return false;
         }
         return true;
