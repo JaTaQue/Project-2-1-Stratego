@@ -1,6 +1,6 @@
 package GameLogic;
 import PieceLogic.Piece;
-import PlayerClasses.PlayerInterface;
+import PlayerClasses.*;
 
 public class AttackLogic {
     private PlayerInterface Attacker;
@@ -44,7 +44,7 @@ public class AttackLogic {
     }
 
     public Piece getDefendFigure() {
-        return attackerFigure;
+        return defenderFigure;
     }
 
     public void battle() {
