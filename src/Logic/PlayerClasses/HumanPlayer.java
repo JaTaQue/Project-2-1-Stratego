@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import PieceLogic.Piece;
 
 public class HumanPlayer extends PlayerInterface {
-    private  String COlOR;
+    private String COlOR;
     private Piece[][] pieces;
     private ArrayList<Piece> deadPieces = new ArrayList<>();
     private ArrayList<Piece> availablePieces = new ArrayList<>(); //is it needed
@@ -50,5 +50,18 @@ public class HumanPlayer extends PlayerInterface {
     @Override
     public void setWinner() {
         this.isWinner = false;
+    }
+
+    @Override
+    public boolean hasPieces() {
+        for (int i = 0; i < 10; i++) {
+            for(int j = 0; j < pieces[i].length; j++) {
+                if(pieces[i][j].isDead() == false) {
+                    return true;
+                }
+            }
+        }
+        setWinner();
+        return false;
     }
 }

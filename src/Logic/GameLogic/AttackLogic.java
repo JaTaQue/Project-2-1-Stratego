@@ -1,9 +1,28 @@
 package GameLogic;
 import PieceLogic.Piece;
+import PlayerClasses.PlayerInterface;
 
 public class AttackLogic {
+    private PlayerInterface Attacker;
+    private PlayerInterface Defender;
     private Piece attackerFigure;
     private Piece defenderFigure;
+
+    public void setAttacker(PlayerInterface Attacker) {
+        this.Attacker = Attacker;
+    }
+
+    public void setDefender(PlayerInterface Defender) {
+        this.Defender = Defender;
+    }
+
+    public PlayerInterface getAttacker() {
+        return Attacker;
+    }
+
+    public PlayerInterface getDefender() {
+        return Defender;
+    }
 
     public void setAttackerPiece(Piece Attacker) {
         this.attackerFigure = Attacker;
@@ -29,7 +48,7 @@ public class AttackLogic {
         } else if (defenderFigure.getRank() == 12) {
             attackerFigure.setDead();
         } else if (defenderFigure.getRank() == 11) {
-            //Attacker wins
+            Attacker.setWinner();
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
             attackerFigure.setDead();
             defenderFigure.setDead();
