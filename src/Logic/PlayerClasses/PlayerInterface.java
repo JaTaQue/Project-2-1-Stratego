@@ -40,7 +40,7 @@ public abstract class PlayerInterface {
     }
 
     public void setWinner() {
-        this.isWinner = false;
+        this.isWinner = true;
     }
 
     public boolean hasPieces() {

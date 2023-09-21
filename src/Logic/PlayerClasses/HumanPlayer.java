@@ -49,7 +49,7 @@ public class HumanPlayer extends PlayerInterface {
 
     @Override
     public void setWinner() {
-        this.isWinner = false;
+        this.isWinner = true;
     }
 
     @Override
