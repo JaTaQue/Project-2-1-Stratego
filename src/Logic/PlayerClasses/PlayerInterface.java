@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import PieceLogic.Piece;
 
 public abstract class PlayerInterface {
-    private final String COlOR;
+    private  String COlOR;
     private Piece[][] pieces;
     private ArrayList<Piece> deadPieces = new ArrayList<>();
     private ArrayList<Piece> availablePieces = new ArrayList<>(); //is it needed
