@@ -24,6 +24,13 @@ public class AttackLogic {
         return Defender;
     }
 
+    public void switchRoles() {
+        PlayerInterface newAttacker = Defender;
+        PlayerInterface newDefender = Attacker;
+        Attacker = newAttacker;
+        Defender = newDefender;
+    }
+
     public void setAttackerPiece(Piece Attacker) {
         this.attackerFigure = Attacker;
     }
