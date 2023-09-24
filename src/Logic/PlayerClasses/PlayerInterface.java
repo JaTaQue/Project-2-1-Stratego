@@ -3,6 +3,7 @@ package PlayerClasses;
 import java.util.ArrayList;
 
 import PieceLogic.Piece;
+import PieceLogic.PiecesCreator;
 
 public abstract class PlayerInterface {
     private  String COlOR;
@@ -10,6 +11,11 @@ public abstract class PlayerInterface {
     private ArrayList<Piece> deadPieces = new ArrayList<>();
     private ArrayList<Piece> availablePieces = new ArrayList<>(); //is it needed
     private boolean isWinner;
+
+
+    public void initializePieces(String color) {
+        this.pieces = PiecesCreator.createPieces(color);
+    }
 
     public ArrayList<Piece> getDeadPieces() {
         return this.deadPieces;
@@ -21,6 +27,10 @@ public abstract class PlayerInterface {
 
     public Piece[][] getPieces() {
         return this.pieces;
+    }
+
+    public void setColor(String color) {
+        this.COlOR = color;
     }
 
     public String getColor() {

@@ -4,7 +4,7 @@ import PieceLogic.Piece;
 
 public class MoveLogic {
 
-    public boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+    public static boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
         if(piece.getRank() == 12 || piece.getRank() == 11 || piece.getRank() == -1) {
             return false;
         } else if (positionArray[piece.getPosition()[targetPosition[0]]][piece.getPosition()[targetPosition[1]]] != null) {
@@ -19,7 +19,7 @@ public class MoveLogic {
         return true;
     }
 
-    private boolean canScoutMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+    private static boolean canScoutMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
         if(piece.getPosition()[0] == targetPosition[0]) {
             if(targetPosition[1]  > piece.getPosition()[1]) {
                 for (int i = piece.getPosition()[1]; i <= targetPosition[1]; i++) {
@@ -64,7 +64,7 @@ public class MoveLogic {
         } 
     }
 
-    public void move(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+    public static void move(Piece piece, int[] targetPosition, Piece[][] positionArray) {
         positionArray[targetPosition[0]][targetPosition[1]] = positionArray[piece.getPosition()[0]][piece.getPosition()[1]];
         positionArray[piece.getPosition()[0]][piece.getPosition()[1]] = null;
         piece.setPosition(targetPosition);

@@ -1,51 +1,94 @@
 import java.util.ArrayList;
 
-import PieceLogic.Piece;
+import PieceLogic.*;
+import PlayerClasses.*;
+import GameLogic.*;
 
 public class Board {
+    private Piece[][] board;
+    private static PlayerInterface Attacker;
+    private static PlayerInterface Defender;
+    private PlayerInterface isPlaying = Attacker;
+    private int[][] placingBorders = {{0,0}, {9,3}};
+    private String colorOfPlayer1;
 
-Piece[][]board = new Piece[10][10];
-ArrayList<Piece> availablePiecesBlue = new ArrayList<Piece>();
-ArrayList<Piece> availablePiecesRed = new ArrayList<Piece>();
-ArrayList<Piece> deadPiecesBlue = new ArrayList<Piece>();
-ArrayList<Piece> deadPiecesRed = new ArrayList<Piece>();
 
-    public Board(ArrayList<Piece> availablePieces){
-        this.availablePiecesRed = availablePieces;
-        this.availablePiecesBlue = availablePieces;
+    public void createBoard() {
+        board = new Piece[10][10];
+        PiecesCreator.createLakes(board);
     }
 
-    public void removeAvailablePiece(Piece piece){
-        if(piece.getColor().equals("B")){
-            if(availablePiecesBlue.contains(piece)){
-            availablePiecesBlue.remove(piece);
-        }else{
-            System.out.println("This piece is not one of the available pieces!");
+    public Piece getPiece(int[] position) {
+        return board[position[0]][position[1]];
+    }
+
+    public String getPieceColor(int[] position) {
+        return board[position[0]][position[1]].getColor();
+    }
+
+    public int getPieceRank(int[] position) {
+        return board[position[0]][position[1]].getRank();
+    }
+
+    public boolean isPieceDead(int[] position) {
+        return board[position[0]][position[1]].isDead();
+    }
+
+    public void createHumanPlayer(String color) {
+        HumanPlayer a = new HumanPlayer(color);
+        if(this.Attacker == null) {
+            this.Attacker = a;
+            this.colorOfPlayer1 = color;
+        } else {
+            this.Defender = a;
         }
     }
-        if(piece.getColor().equals("R")){
-            if(availablePiecesBlue.contains(piece)){
-            availablePiecesBlue.remove(piece);
+
+    public void switchPlayers() {
+        AttackLogic.switchRoles();
+        if(isPlaying.getColor().equals(colorOfPlayer1)) {
+            placingBorders[0][0] = 0;
+            placingBorders[0][1] = 6;
+            placingBorders[1][0] = 9;
+            placingBorders[1][1] = 9;
+        } else {
+            placingBorders[0][0] = 0;
+            placingBorders[0][1] = 0;
+            placingBorders[1][0] = 9;
+            placingBorders[1][1] = 3;
         }
-        else{
-            System.out.println("This piece is not one of the available pieces!");
-        }
-        }
+        isPlaying = Defender;
     }
 
-    public void addDeadPieces(Piece piece){
-        if(piece.getColor().equals("B")){
-        deadPiecesBlue.add(piece);}
-        if(piece.getColor().equals("R")){
-        deadPiecesRed.add(piece);}
+    public boolean canMoveWhileBuildUp(int[] targetPosition) {
+        if(board[targetPosition[0]][targetPosition[1]] != null) {
+            return false;
+        } else if(placingBorders[0][1] < targetPosition[0] || targetPosition[0] < placingBorders[0][0]) {
+            return false;
+        } else if(placingBorders[1][1] < targetPosition[1] || targetPosition[1] < placingBorders[1][0]) {
+            return false;
+        }
+        return true;
     }
 
-    public void changePosition(int i, int j, Piece piece){
-        board[i][j]=piece;
+    public boolean canMove(int[] currentPosition, int[] targetPosition) {
+        return MoveLogic.canMove(getPiece(currentPosition), targetPosition, board);
     }
 
-    public Piece getPiece(int i, int j){
-        Piece returnPiece = board[i][j];
-        return returnPiece;
+    public void move(int[] currentPosition, int[] targetPosition) {
+        MoveLogic.move(getPiece(currentPosition), targetPosition, board);
+    }
+
+    public boolean canAttack(int[] attackerPosition, int[] defenderPosition) {
+        AttackLogic.setAttackerPiece(getPiece(attackerPosition));
+        AttackLogic.setDefenderPiece(getPiece(defenderPosition));
+        return AttackLogic.canAttack();
+    }
+
+    public void battle(int[] attackerPosition, int[] defenderPosition) {
+        AttackLogic.setAttackerPiece(getPiece(attackerPosition));
+        AttackLogic.setDefenderPiece(getPiece(defenderPosition));
+        AttackLogic.battle();
     }
 }
+
