@@ -1,5 +1,7 @@
 package GameLogic;
 
+import java.util.ArrayList;
+
 import PieceLogic.Piece;
 
 public class MoveLogic {
@@ -68,5 +70,11 @@ public class MoveLogic {
         positionArray[targetPosition[0]][targetPosition[1]] = positionArray[piece.getPosition()[0]][piece.getPosition()[1]];
         positionArray[piece.getPosition()[0]][piece.getPosition()[1]] = null;
         piece.setPosition(targetPosition);
+    }
+
+    public static ArrayList<Integer[]> returnPossiblePositions(int[] currentPosition, Piece[][] positionArray) {
+        ArrayList<Integer[]> possiblePositions = new ArrayList<>();
+        
+        return possiblePositions;
     }
 }

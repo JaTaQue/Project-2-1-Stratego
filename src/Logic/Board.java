@@ -71,6 +71,22 @@ public class Board {
         return true;
     }
 
+    public boolean isEveryPieceAtBeginningOnBoard() {
+        int count = 0;
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                if(board[i][j] != null) {
+                    count++; 
+                }
+            }
+        }
+        if(count != 88) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public boolean canMove(int[] currentPosition, int[] targetPosition) {
         return MoveLogic.canMove(getPiece(currentPosition), targetPosition, board);
     }
@@ -89,6 +105,14 @@ public class Board {
         AttackLogic.setAttackerPiece(getPiece(attackerPosition));
         AttackLogic.setDefenderPiece(getPiece(defenderPosition));
         AttackLogic.battle();
+    }
+
+    public ArrayList<Piece> getDeadPieces() {
+        return Attacker.getDeadPieces();
+    }
+
+    public ArrayList<Piece> getAvailablePieces() {
+        return Attacker.getAvailablePieces();
     }
 }
 

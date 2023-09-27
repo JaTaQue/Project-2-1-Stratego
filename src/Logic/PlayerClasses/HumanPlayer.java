@@ -44,10 +44,6 @@ public class HumanPlayer extends PlayerInterface {
         return this.COlOR;
     }
 
-    public void setColor(String color) {
-        this.COlOR = color;
-    }
-
     @Override
     public boolean isWinner() {
         return this.isWinner;

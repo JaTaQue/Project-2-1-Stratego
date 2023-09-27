@@ -15,6 +15,11 @@ public abstract class PlayerInterface {
 
     public void initializePieces(String color) {
         this.pieces = PiecesCreator.createPieces(color);
+        for(int i = 0; i < pieces.length; i++) {
+            for(int j = 0; j < pieces[i].length; j++) {
+                availablePieces.add(pieces[i][j]);
+            }
+        }
     }
 
     public ArrayList<Piece> getDeadPieces() {

@@ -29,7 +29,7 @@ public class PiecesCreator {
         return newPieces;
     }
 
-    public static Piece[] createLakes(Piece[][] board) {
+    public static void createLakes(Piece[][] board) {
         int[][] lakeCoordinates = {{3,5}, {3,6}, {4,5}, {4,6}, {7,5}, {8,5}, {7,6}, {8,6}};
         Piece[] lakePeaces = new Piece[8];
         for (int i = 0; i < 8; i++) {
@@ -37,7 +37,6 @@ public class PiecesCreator {
             lakePeaces[i].setPosition(lakeCoordinates[i]);
             board[lakeCoordinates[i][0]][lakeCoordinates[i][1]] = lakePeaces[i];
         }
-        return lakePeaces;
     }
 
     private static Piece createPiece(int rank, String color) {
