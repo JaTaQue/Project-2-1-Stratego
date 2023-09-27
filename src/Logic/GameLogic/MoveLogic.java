@@ -7,6 +7,9 @@ import PieceLogic.Piece;
 public class MoveLogic {
 
     public static boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+        if(piece.getPosition()[0] == targetPosition[0] && piece.getPosition()[1] == targetPosition[1]) {
+            return false;
+        }
         if(piece.getRank() == 12 || piece.getRank() == 11 || piece.getRank() == -1) {
             return false;
         } else if (positionArray[piece.getPosition()[targetPosition[0]]][piece.getPosition()[targetPosition[1]]] != null) {
@@ -74,7 +77,7 @@ public class MoveLogic {
 
     public static ArrayList<Integer[]> returnPossiblePositions(int[] currentPosition, Piece[][] positionArray) {
         ArrayList<Integer[]> possiblePositions = new ArrayList<>();
-        
+
         return possiblePositions;
     }
 }
