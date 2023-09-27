@@ -73,5 +73,8 @@ public class AttackLogic {
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
+        if(!Defender.hasPieces()) {
+            Attacker.setWinner();
+        }
     }
 }
