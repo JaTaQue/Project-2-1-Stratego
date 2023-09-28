@@ -1,5 +1,7 @@
 package PieceLogic;
 
+import java.util.Arrays;
+
 public class PiecesCreator {
     private static int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
     
@@ -30,12 +32,15 @@ public class PiecesCreator {
     }
 
     public static void createLakes(Piece[][] board) {
-        int[][] lakeCoordinates = {{3,5}, {3,6}, {4,5}, {4,6}, {7,5}, {8,5}, {7,6}, {8,6}};
+        //int[][] lakeCoordinates = {{2,4}, {2,5}, {3,4}, {3,5}, {6,4}, {6,5}, {7,4}, {7,5}};
+        int[][] lakeCoordinatesTilted = {{4,2}, {5,2}, {4,3}, {5,3}, {4,6}, {5,6}, {4,7}, {5,7}};
         Piece[] lakePeaces = new Piece[8];
         for (int i = 0; i < 8; i++) {
             lakePeaces[i] = createPiece(-1, null);
-            lakePeaces[i].setPosition(lakeCoordinates[i]);
-            board[lakeCoordinates[i][0]][lakeCoordinates[i][1]] = lakePeaces[i];
+            lakePeaces[i].setPosition(lakeCoordinatesTilted[i]);
+            board[lakeCoordinatesTilted[i][0]][lakeCoordinatesTilted[i][1]] = lakePeaces[i];
+            System.out.println(Arrays.deepToString(board) + " THIS" + board);
+
         }
     }
 

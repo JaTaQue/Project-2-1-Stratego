@@ -6,14 +6,14 @@ import PieceLogic.Piece;
 import PieceLogic.PiecesCreator;
 
 public class HumanPlayer extends PlayerInterface {
-    private String COlOR;
+    private final String COLOR;
     private Piece[][] pieces;
     private ArrayList<Piece> deadPieces = new ArrayList<>();
     private ArrayList<Piece> availablePieces = new ArrayList<>(); //is it needed
     private boolean isWinner;
 
     public HumanPlayer(String color) {
-        this.COlOR = color;
+        this.COLOR = color;
         initializePieces(color);
     }
 
@@ -46,7 +46,7 @@ public class HumanPlayer extends PlayerInterface {
     
     @Override
     public String getColor() {
-        return this.COlOR;
+        return this.COLOR;
     }
 
     @Override

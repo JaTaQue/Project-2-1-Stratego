@@ -5,15 +5,15 @@ import PlayerClasses.*;
 import GameLogic.*;
 
 public class Board {
-    private Piece[][] board;
+    public Piece[][] board;
     private static PlayerInterface Attacker;
     private static PlayerInterface Defender;
-    private PlayerInterface isPlaying = Attacker;
+    private PlayerInterface isPlaying;
     private int[][] placingBorders = {{0,0}, {9,3}};
     private String colorOfPlayer1;
 
 
-    public void createBoard() {
+    public Board() {
         this.board = new Piece[10][10];
         PiecesCreator.createLakes(board);
     }
@@ -40,6 +40,7 @@ public class Board {
             this.Attacker = a;
             AttackLogic.setAttacker(this.Attacker);
             this.colorOfPlayer1 = color;
+            this.isPlaying = Attacker;
         } else {
             this.Defender = a;
             AttackLogic.setDefender(this.Defender);
@@ -110,15 +111,30 @@ public class Board {
     }
 
     public ArrayList<Piece> getDeadPieces() {
-        return Attacker.getDeadPieces();
+        return isPlaying.getDeadPieces();
     }
 
     public ArrayList<Piece> getAvailablePieces() {
-        return Attacker.getAvailablePieces();
+        return isPlaying.getAvailablePieces();
     }
 
     public ArrayList<Integer[]> returnAvailablePosition(int[] position) {
         return MoveLogic.returnPossiblePositions(position, board);
     }
+
+    public PlayerInterface getAttacker(){
+        return Attacker;
+    }
+
+    public PlayerInterface getDefender(){
+        return Defender;
+    }
+
+    public PlayerInterface getIsPlaying(){
+        return isPlaying;
+    }
+
+
+
 }
 

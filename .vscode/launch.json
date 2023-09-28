@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "Project-2-1-Stratego_adc0368c"
+        },
+        {
+            "type": "java",
             "name": "Initiator",
             "request": "launch",
             "mainClass": "Initiator",
