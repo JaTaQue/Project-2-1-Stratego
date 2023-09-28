@@ -57,24 +57,33 @@ public class AttackLogic {
     public static void battle() {
         if (attackerFigure.getRank() == 1 && defenderFigure.getRank() == 10) {
             defenderFigure.setDead();
+            Defender.addDeadPiece(defenderFigure);
         } else if (attackerFigure.getRank() == 3 && defenderFigure.getRank() == 12) {
             defenderFigure.setDead();
+            Defender.addDeadPiece(defenderFigure);
         } else if (defenderFigure.getRank() == 12) {
             attackerFigure.setDead();
+            Attacker.addDeadPiece(attackerFigure);
         } else if (defenderFigure.getRank() == 11) {
             Attacker.setWinner();
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
             attackerFigure.setDead();
+            Attacker.addDeadPiece(attackerFigure);
             defenderFigure.setDead();
+            Defender.addDeadPiece(defenderFigure);
         } else if(attackerFigure.getRank() > defenderFigure.getRank()) {
             defenderFigure.setDead();
+            Defender.addDeadPiece(defenderFigure);
         } else if(attackerFigure.getRank() < defenderFigure.getRank()) {
             attackerFigure.setDead();
+            Attacker.addDeadPiece(attackerFigure);
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
         if(!Defender.hasPieces()) {
             Attacker.setWinner();
+        } else if(!Attacker.hasPieces()) {
+            Defender.setWinner();
         }
     }
 }

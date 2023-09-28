@@ -14,7 +14,7 @@ public class Board {
 
 
     public void createBoard() {
-        board = new Piece[10][10];
+        this.board = new Piece[10][10];
         PiecesCreator.createLakes(board);
     }
 
@@ -38,9 +38,11 @@ public class Board {
         HumanPlayer a = new HumanPlayer(color);
         if(this.Attacker == null) {
             this.Attacker = a;
+            AttackLogic.setAttacker(this.Attacker);
             this.colorOfPlayer1 = color;
         } else {
             this.Defender = a;
+            AttackLogic.setDefender(this.Defender);
         }
     }
 
@@ -80,7 +82,7 @@ public class Board {
                 }
             }
         }
-        if(count != 88) {
+        if(count != 48 || count != 88) {
             return false;
         } else {
             return true;
