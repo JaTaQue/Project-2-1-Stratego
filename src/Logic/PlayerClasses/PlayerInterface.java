@@ -10,16 +10,24 @@ public abstract class PlayerInterface {
     private Piece[][] pieces;
     private ArrayList<Piece> deadPieces = new ArrayList<>();
     private ArrayList<Piece> availablePieces = new ArrayList<>(); //is it needed
+    private ArrayList<ArrayList<Piece>> pieceAtBeginning = new ArrayList<>();
     private boolean isWinner;
 
 
     public void initializePieces(String color) {
         this.pieces = PiecesCreator.createPieces(color);
         for(int i = 0; i < pieces.length; i++) {
+            ArrayList<Piece> newRank = new ArrayList<>();
+            this.pieceAtBeginning.add(newRank);
             for(int j = 0; j < pieces[i].length; j++) {
                 availablePieces.add(pieces[i][j]);
+                this.pieceAtBeginning.get(i).add(pieces[i][j]);
             }
         }
+    }
+
+    public ArrayList<ArrayList<Piece>> getPiecesAtBeginning() {
+        return this.pieceAtBeginning;
     }
 
     public ArrayList<Piece> getDeadPieces() {

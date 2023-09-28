@@ -74,6 +74,21 @@ public class Board {
         return true;
     }
 
+    public int hasManysLeft(int rank) {
+        int figuresLeft = 0;
+        try {
+            figuresLeft = Attacker.getPiecesAtBeginning().get(rank - 1).size();
+        } catch (Exception e) {
+            System.out.println("Sth went wrong with the ranks");
+        }
+        return figuresLeft;
+    }
+
+    public void setPiece(int rank, int[] targetPosition) {
+        board[targetPosition[0]][targetPosition[0]] = Attacker.getPiecesAtBeginning().get(rank - 1).get(Attacker.getPiecesAtBeginning().get(rank - 1).size());
+        Attacker.getPiecesAtBeginning().get(rank - 1).remove(Attacker.getPiecesAtBeginning().get(rank - 1).size() - 1);
+    }
+
     public boolean isEveryPieceAtBeginningOnBoard() {
         int count = 0;
         for(int i = 0; i < board.length; i++) {
