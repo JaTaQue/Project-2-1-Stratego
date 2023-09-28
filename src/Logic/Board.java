@@ -116,5 +116,9 @@ public class Board {
     public ArrayList<Piece> getAvailablePieces() {
         return Attacker.getAvailablePieces();
     }
+
+    public ArrayList<Integer[]> returnAvailablePosition(int[] position) {
+        return MoveLogic.returnPossiblePositions(position, board);
+    }
 }
 
