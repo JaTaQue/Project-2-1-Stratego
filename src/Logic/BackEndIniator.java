@@ -7,7 +7,7 @@ public class BackEndIniator {
     private Piece[][] board = new Piece[10][10];
 
     public HumanPlayer createHumanPlayer (String color) {
-        HumanPlayer A = new HumanPlayer(color);
+        HumanPlayer A = new HumanPlayer();
         A.setColor(color);
         A.initializePieces(color);
         return A;

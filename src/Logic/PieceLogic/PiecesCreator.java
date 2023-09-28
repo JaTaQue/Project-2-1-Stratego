@@ -1,7 +1,7 @@
 package PieceLogic;
 
 public class PiecesCreator {
-    private int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
+    private static int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
     
     // Rank 0 = Lake
     // Rank 1 = Spy
@@ -17,7 +17,7 @@ public class PiecesCreator {
     // Rank 11 = Flag
     // Rank 12 = Bomb
 
-    public Piece[][] createPieces(String color) {
+    public static Piece[][] createPieces(String color) {
         Piece[][] newPieces = new Piece[pieceInfos.length][];
         for (int i = 0; i < pieceInfos.length; i++) {
             Piece[] newFigureTyp = new Piece[pieceInfos[i]];
@@ -29,15 +29,17 @@ public class PiecesCreator {
         return newPieces;
     }
 
-    public Piece[] createLakes() {
+    public static void createLakes(Piece[][] board) {
+        int[][] lakeCoordinates = {{3,5}, {3,6}, {4,5}, {4,6}, {7,5}, {8,5}, {7,6}, {8,6}};
         Piece[] lakePeaces = new Piece[8];
         for (int i = 0; i < 8; i++) {
             lakePeaces[i] = createPiece(-1, null);
+            lakePeaces[i].setPosition(lakeCoordinates[i]);
+            board[lakeCoordinates[i][0]][lakeCoordinates[i][1]] = lakePeaces[i];
         }
-        return lakePeaces;
     }
 
-    private Piece createPiece(int rank, String color) {
+    private static Piece createPiece(int rank, String color) {
         return new Piece(rank, color);
 
     }
