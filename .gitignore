@@ -3,3 +3,5 @@
 .idea/modules.xml
 .idea/Project-2-1-Stratego.iml
 .idea/vcs.xml
+.vscode/launch.json
+.vscode/settings.json
