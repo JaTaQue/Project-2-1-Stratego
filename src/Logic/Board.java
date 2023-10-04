@@ -64,45 +64,19 @@ public class Board {
     }
 
     public boolean canMoveWhileBuildUp(int[] targetPosition) {
-        if(board[targetPosition[0]][targetPosition[1]] != null) {
-            return false;
-        } else if(placingBorders[0][1] < targetPosition[0] || targetPosition[0] < placingBorders[0][0]) {
-            return false;
-        } else if(placingBorders[1][1] < targetPosition[1] || targetPosition[1] < placingBorders[1][0]) {
-            return false;
-        }
-        return true;
+        return MoveLogic.canMoveWhileBuildUp(targetPosition, board, placingBorders);
     }
 
     public int hasManysLeft(int rank) {
-        int figuresLeft = 0;
-        try {
-            figuresLeft = Attacker.getPiecesAtBeginning().get(rank - 1).size();
-        } catch (Exception e) {
-            System.out.println("Sth went wrong with the ranks");
-        }
-        return figuresLeft;
+        return Attacker.hasManysLeft(rank);
     }
 
     public void setPiece(int rank, int[] targetPosition) {
-        board[targetPosition[0]][targetPosition[0]] = Attacker.getPiecesAtBeginning().get(rank - 1).get(Attacker.getPiecesAtBeginning().get(rank - 1).size());
-        Attacker.getPiecesAtBeginning().get(rank - 1).remove(Attacker.getPiecesAtBeginning().get(rank - 1).size() - 1);
+        MoveLogic.setPiece(rank, targetPosition, Attacker, board);
     }
 
     public boolean isEveryPieceAtBeginningOnBoard() {
-        int count = 0;
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[i].length; j++) {
-                if(board[i][j] != null) {
-                    count++; 
-                }
-            }
-        }
-        if(count != 48 || count != 88) {
-            return false;
-        } else {
-            return true;
-        }
+        return Attacker.isEveryPieceAtBeginningOnBoard(board);
     }
 
     public boolean canMove(int[] currentPosition, int[] targetPosition) {
@@ -117,12 +91,13 @@ public class Board {
         AttackLogic.setAttackerPiece(getPiece(attackerPosition));
         AttackLogic.setDefenderPiece(getPiece(defenderPosition));
         return AttackLogic.canAttack();
+        //needs to be fixed
     }
 
     public void battle(int[] attackerPosition, int[] defenderPosition) {
         AttackLogic.setAttackerPiece(getPiece(attackerPosition));
         AttackLogic.setDefenderPiece(getPiece(defenderPosition));
-        AttackLogic.battle();
+        AttackLogic.battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, Attacker, Defender);
     }
 
     public ArrayList<Piece> getDeadPieces() {

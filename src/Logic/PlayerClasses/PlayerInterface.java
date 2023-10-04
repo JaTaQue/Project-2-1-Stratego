@@ -77,4 +77,30 @@ public abstract class PlayerInterface {
         setWinner();
         return false;
     }
+
+    public int hasManysLeft(int rank) {
+        int figuresLeft = 0;
+        try {
+            figuresLeft = getPiecesAtBeginning().get(rank - 1).size();
+        } catch (Exception e) {
+            System.out.println("Sth went wrong with the ranks");
+        }
+        return figuresLeft;
+    }
+
+    public boolean isEveryPieceAtBeginningOnBoard(Piece[][] board) {
+        int count = 0;
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                if(board[i][j] != null) {
+                    count++; 
+                }
+            }
+        }
+        if(count != 48 || count != 88) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

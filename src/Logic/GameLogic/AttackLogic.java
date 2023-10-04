@@ -148,7 +148,7 @@ public class AttackLogic {
         return false;
     }
 
-    public static void battle() {
+    public static void battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition) {
         if (attackerFigure.getRank() == 1 && defenderFigure.getRank() == 10) {
             defenderFigure.setDead();
             Defender.addDeadPiece(defenderFigure);
