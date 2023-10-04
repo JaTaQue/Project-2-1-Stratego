@@ -6,6 +6,15 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "GameLogic.App",
+            "projectName": "Project-2-1-Stratego_c9c73ed9",
+            "vmArgs": "--module-path \"C:/Users/kobra/Downloads/openjfx-20_windows-x64_bin-sdk/javafx-sdk-20/lib\" --add-modules javafx.controls,javafx.fxml"
+
+        },
+        {
+            "type": "java",
             "name": "Test",
             "request": "launch",
             "mainClass": "Test",
@@ -17,14 +26,6 @@
             "request": "launch",
             "mainClass": "Initiator",
             "projectName": "Project-2-1-Stratego_210b8987"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "GameLogic.App",
-            "projectName": "Project-2-1-Stratego_210b8987",
-            "vmArgs": "--module-path /Library/Java/JavaVirtualMachines/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
