@@ -8,7 +8,6 @@ public class Board {
     public Piece[][] board;
     private static PlayerInterface Attacker;
     private static PlayerInterface Defender;
-    private PlayerInterface isPlaying;
     private int[][] placingBorders = {{0,0}, {9,3}};
     private String colorOfPlayer1;
 
@@ -35,21 +34,21 @@ public class Board {
     }
 
     public void createHumanPlayer(String color) {
-        HumanPlayer a = new HumanPlayer(color);
-        if(this.Attacker == null) {
-            this.Attacker = a;
-            AttackLogic.setAttacker(this.Attacker);
-            this.colorOfPlayer1 = color;
-            this.isPlaying = Attacker;
+        if(Attacker != null && Defender != null) {
+            return;
         } else {
-            this.Defender = a;
-            AttackLogic.setDefender(this.Defender);
+            HumanPlayer a = new HumanPlayer(color);
+            if(this.Attacker == null) {
+                this.Attacker = a;
+                this.colorOfPlayer1 = color;
+            } else {
+                this.Defender = a;
+            }
         }
     }
 
     public void switchPlayers() {
-        AttackLogic.switchRoles();
-        if(isPlaying.getColor().equals(colorOfPlayer1)) {
+        if(Attacker.getColor().equals(colorOfPlayer1)) {
             placingBorders[0][0] = 0;
             placingBorders[0][1] = 6;
             placingBorders[1][0] = 9;
@@ -60,14 +59,16 @@ public class Board {
             placingBorders[1][0] = 9;
             placingBorders[1][1] = 3;
         }
-        isPlaying = Defender;
+        PlayerInterface isPlaying = Attacker;
+        Attacker = Defender;
+        Defender = isPlaying;
     }
 
     public boolean canMoveWhileBuildUp(int[] targetPosition) {
         return MoveLogic.canMoveWhileBuildUp(targetPosition, board, placingBorders);
     }
 
-    public int hasManysLeft(int rank) {
+    public int hasManysLeftWhileBuildUp(int rank) {
         return Attacker.hasManysLeft(rank);
     }
 
@@ -88,24 +89,28 @@ public class Board {
     }
 
     public boolean canAttack(int[] attackerPosition, int[] defenderPosition) {
-        AttackLogic.setAttackerPiece(getPiece(attackerPosition));
-        AttackLogic.setDefenderPiece(getPiece(defenderPosition));
-        return AttackLogic.canAttack();
+        return AttackLogic.canAttack(attackerPosition, defenderPosition, board);
         //needs to be fixed
     }
 
     public void battle(int[] attackerPosition, int[] defenderPosition) {
-        AttackLogic.setAttackerPiece(getPiece(attackerPosition));
-        AttackLogic.setDefenderPiece(getPiece(defenderPosition));
-        AttackLogic.battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, Attacker, Defender);
+        AttackLogic.battle(board, attackerPosition, defenderPosition, Attacker, Defender);
     }
 
-    public ArrayList<Piece> getDeadPieces() {
-        return isPlaying.getDeadPieces();
+    public int deadPiecesCountAttacker(int rank) {
+        return Attacker.getDeadPiece(rank);
     }
 
-    public ArrayList<Piece> getAvailablePieces() {
-        return isPlaying.getAvailablePieces();
+    public int deadPiecesCountDefender(int rank) {
+        return Defender.getDeadPiece(rank);
+    }
+
+    public int piecesLeftofRankAttacker(int rank) {
+        return Attacker.getAvailablePieceAmount(rank);
+    }
+
+    public int piecesLeftofRankDefender(int rank) {
+        return Attacker.getAvailablePieceAmount(rank);
     }
 
     public ArrayList<Integer[]> returnAvailablePosition(int[] position) {
@@ -118,10 +123,6 @@ public class Board {
 
     public PlayerInterface getDefender(){
         return Defender;
-    }
-
-    public PlayerInterface getIsPlaying(){
-        return isPlaying;
     }
 }
 
