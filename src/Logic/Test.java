@@ -25,86 +25,77 @@ public class Test {
         game.addPlayers(player1, player2);
         game.setCurrentPlayer(player1);
 
-        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+        System.out.println();
+
+        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+
+        System.out.println();
 
         while(!game.hasStarted()){
+            System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
+            scanner.nextLine();     
             game.placePieces(game.getCurrentPlayer());
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+            
+            System.out.println();
             game.switchCurrentPlayer(); 
         }
 
         System.out.println("GAME ON\n");
 
         while(!game.isOver()){
-            System.out.println("Current player: " + game.getCurrentPlayer().getColor());
+            System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
+            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
 
-            game.switchCurrentPlayer(); 
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+            int currY = scanner.nextInt(); 
+            int currX = scanner.nextInt();
 
-            scanner.nextLine();
-        }
+            int targY = scanner.nextInt();  
+            int targX = scanner.nextInt();  
 
-    //     Board board = new Board();
-    //     board.createHumanPlayer("Blue");
-    //     board.createHumanPlayer("Red");
-        
+            Piece currPiece = game.getBoard()[currX][currY];
+            int[] targetPosition = new int[]{targX, targY};
 
-    //     int counter = 0;
+            System.out.println(Arrays.toString(targetPosition) + " " + currPiece.toString());
+            boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard());
+            if(canMove){
+                MoveLogic.move(currPiece, targetPosition, game.getBoard());
+                game.switchCurrentPlayer(); 
+            }else{
+                System.out.println("can't move");
+            }
 
-    //     ArrayList<Piece> availablePiece = board.getAvailablePieces();
-    //     System.out.println(availablePiece.get(0).getColor());
 
-   
-    //     for (int i = 0; i < 4; i++) {
-    //         for (int j = 0; j < 10; j++) {
-    //             board.board[i][j]=availablePiece.get(counter);
-    //             availablePiece.get(counter).setPosition(new int[]{i, j});
-    //             counter++;
 
-    //         }
-    //     }
-
-    //     board.switchPlayers();
-       
-
-    //     availablePiece = board.getAvailablePieces();
-    //     counter = 0;
-    //     System.out.println(availablePiece.get(0).getColor());
-    //     for (int i = 9; i > 5; i--) {
-    //         for (int j = 0; j < 10; j++) {
-    //             board.board[i][j]=availablePiece.get(counter);
-    //             availablePiece.get(counter).setPosition(new int[]{i, j});
-    //             counter++;
-    //         }
-    //     }
-       
-
-    //     System.out.println(Arrays.deepToString(board.board) + " " + board);
-        
-        
+            
+            
+        }  
     }
 
-    public static void boardToASCIIArt(Piece[][] board, PlayerInterface currentPlayer){
-        if(currentPlayer.getColor().equals("Blue")){
+    public static void boardToASCIIArt(Piece[][] board, PlayerInterface currentPlayer, PlayerInterface player2){
+        if(currentPlayer.getColor().equals(player2.getColor())){
             for(int i = 0; i < 10; i++){
                 for(int j = 0; j < 10; j++){
-                    printRow(board, i, j);
+                    printTile(board, i, j);
                 }
-
+                System.out.print(" "+i);
                 System.out.println();
             }
+            
+            System.out.println("\n0 1 2 3 4 5 6 7 8 9\n");
         }else{
             for(int i = 9; i >= 0; i--){
                 for(int j = 9; j >= 0; j--){
-                    printRow(board, i, j);
+                    printTile(board, i, j);
                 }
+                System.out.print(" "+i);
                 System.out.println();
             }
+            System.out.println("\n9 8 7 6 5 4 3 2 1 0\n");
         }
-        System.out.println();
     }
 
-    private static void printRow(Piece[][] board, int i, int j) {
+    private static void printTile(Piece[][] board, int i, int j) {
         try{
             int rank = board[i][j].getRank();
             String symb = checkRank(rank);

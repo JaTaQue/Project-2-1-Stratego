@@ -80,8 +80,8 @@ public class Game {
         if(player.equals(player1)){
             for (int y = placingBordersPlayer1[1][0]; y <= placingBordersPlayer1[1][1]; y++) {
                 for (int x = placingBordersPlayer1[0][0]; x <= placingBordersPlayer1[0][1]; x++) {
-                    board[y][x]=availablePiece.get(counter);
-                    availablePiece.get(counter).setPosition(new int[]{y, x});
+                    board[y][x]=availablePiece.get(40-1-counter);
+                    availablePiece.get(40-1-counter).setPosition(new int[]{y, x});
                     counter++;
                 }
             }

@@ -24,17 +24,23 @@ public class MoveLogic {
     }
 
     private static boolean canScoutMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
-        if(piece.getPosition()[0] == targetPosition[0]) {
-            if(targetPosition[1]  > piece.getPosition()[1]) {
-                for (int i = piece.getPosition()[1]; i <= targetPosition[1]; i++) {
-                    if(positionArray[0][i] != null) {
+        int currX = piece.getPosition()[0];
+        int currY = piece.getPosition()[1];
+
+        int targX = targetPosition[0];
+        int targY = targetPosition[1];
+
+        if(currX == targX) {
+            if(targY > currY) {
+                for (int i = currY+1; i <= targY; i++) {
+                    if(positionArray[currX][i] != null) {
                         return false;
                     }
                 }
                 return true;
-            } else if(targetPosition[1]  < piece.getPosition()[1]) {
-                for (int i = piece.getPosition()[1]; i >= targetPosition[1]; i--) {
-                    if(positionArray[0][i] != null) {
+            } else if(targY < currY) {
+                for (int i = currY-1; i >= targY; i--) {
+                    if(positionArray[currX][i] != null) {
                         return false;
                     }
                 }
@@ -43,17 +49,17 @@ public class MoveLogic {
                 System.out.println("Sth went wrong in CanScoutMove");
                 return false;
             }
-        } else if(piece.getPosition()[1] == targetPosition[1]) {
-           if(targetPosition[0]  > piece.getPosition()[0]) {
-                for (int i = piece.getPosition()[0]; i <= targetPosition[0]; i++) {
-                    if(positionArray[i][1] != null) {
+        } else if(currY == targY) {
+           if(targX > currX) {
+                for (int i = currX+1; i <= targX; i++) {
+                    if(positionArray[i][currY] != null) {
                         return false;
                     }
                 }
                 return true;
-            } else if(targetPosition[1]  < piece.getPosition()[1]) {
-                for (int i = piece.getPosition()[0]; i >= targetPosition[0]; i--) {
-                    if(positionArray[i][1] != null) {
+            } else if(targX < currX) {
+                for (int i = currX-1; i >= targX; i--) {
+                    if(positionArray[i][currY] != null) {
                         return false;
                     }
                 } 
