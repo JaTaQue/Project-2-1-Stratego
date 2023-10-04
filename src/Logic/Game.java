@@ -96,7 +96,4 @@ public class Game {
             setStarted(); //start game after placing player2's pieces
         }
     }
-
-
-
 }

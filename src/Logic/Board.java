@@ -148,8 +148,5 @@ public class Board {
     public PlayerInterface getIsPlaying(){
         return isPlaying;
     }
-
-
-
 }
 
