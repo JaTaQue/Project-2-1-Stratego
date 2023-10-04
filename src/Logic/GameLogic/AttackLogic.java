@@ -110,19 +110,19 @@ public class AttackLogic {
         Piece defenderFigure = board[defenderPosition[0]][defenderPosition[1]];
         if (attackerFigure.getRank() == 1 && defenderFigure.getRank() == 10) {
             defenderFigure.setDead();
-            Defender.addDeadPiece(defenderFigure);
+            Defender.addDeadPiece(defenderFigure.getRank());
             board[defenderPosition[0]][defenderPosition[1]] = attackerFigure;
             board[attackerPosition[0]][attackerPosition[1]] = null;
             attackerFigure.setPosition(defenderPosition);
         } else if (attackerFigure.getRank() == 3 && defenderFigure.getRank() == 12) {
             defenderFigure.setDead();
-            Defender.addDeadPiece(defenderFigure);
+            Defender.addDeadPiece(defenderFigure.getRank());
             board[defenderPosition[0]][defenderPosition[1]] = attackerFigure;
             board[attackerPosition[0]][attackerPosition[1]] = null;
             attackerFigure.setPosition(defenderPosition);
         } else if (defenderFigure.getRank() == 12) {
             attackerFigure.setDead();
-            Attacker.addDeadPiece(attackerFigure);
+            Attacker.addDeadPiece(attackerFigure.getRank());
             board[attackerPosition[0]][attackerPosition[1]] = defenderFigure;
             board[defenderPosition[0]][defenderPosition[1]] = null;
             defenderFigure.setPosition(attackerPosition);
@@ -130,20 +130,20 @@ public class AttackLogic {
             Attacker.setWinner();
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
             attackerFigure.setDead();
-            Attacker.addDeadPiece(attackerFigure);
+            Attacker.addDeadPiece(attackerFigure.getRank());
             defenderFigure.setDead();
-            Defender.addDeadPiece(defenderFigure);
+            Defender.addDeadPiece(defenderFigure.getRank());
             board[defenderPosition[0]][defenderPosition[1]] = null;
             board[attackerPosition[0]][attackerPosition[1]] = null;
         } else if(attackerFigure.getRank() > defenderFigure.getRank()) {
             defenderFigure.setDead();
-            Defender.addDeadPiece(defenderFigure);
+            Defender.addDeadPiece(defenderFigure.getRank());
             board[defenderPosition[0]][defenderPosition[1]] = attackerFigure;
             board[attackerPosition[0]][attackerPosition[1]] = null;
             attackerFigure.setPosition(defenderPosition);
         } else if(attackerFigure.getRank() < defenderFigure.getRank()) {
             attackerFigure.setDead();
-            Attacker.addDeadPiece(attackerFigure);
+            Attacker.addDeadPiece(attackerFigure.getRank());
             board[attackerPosition[0]][attackerPosition[1]] = defenderFigure;
             board[defenderPosition[0]][defenderPosition[1]] = null;
             defenderFigure.setPosition(attackerPosition);
