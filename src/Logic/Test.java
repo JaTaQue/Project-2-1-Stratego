@@ -65,6 +65,7 @@ public class Test {
                 System.out.println("can't move");
             }
 
+            //TESTED: canMove, canScoutMove
 
 
             
