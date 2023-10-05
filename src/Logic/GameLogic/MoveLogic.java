@@ -102,7 +102,7 @@ public class MoveLogic {
                 int nextI_Scout = i + movement_Scout[0];
                 int nextJ_Scout = j + movement_Scout[1];
     
-                while (positionArray[nextI_Scout][nextJ_Scout] == null && (0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextI_Scout && 10>nextJ_Scout) ) {
+                while ((0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextJ_Scout && 10>nextI_Scout) && positionArray[nextI_Scout][nextJ_Scout] == null) {
                     Integer[] newPositionOfScout = {nextI_Scout, nextJ_Scout};
                     possiblePositions.add(newPositionOfScout);
     
