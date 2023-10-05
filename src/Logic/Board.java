@@ -17,6 +17,15 @@ public class Board {
         PiecesCreator.createLakes(board);
     }
 
+    public boolean isWinnerAttacker() {
+        return Attacker.isWinner();
+    }
+
+    public boolean isWinnerDefender() {
+        return Defender.isWinner();
+    }
+
+    
     public Piece getPiece(int[] position) {
         return board[position[0]][position[1]];
     }
