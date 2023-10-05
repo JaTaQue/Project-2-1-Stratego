@@ -7,6 +7,9 @@ import PieceLogic.Piece;
 public class MoveLogic {
 
     public static boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+        if(piece == null || piece.getRank() == -1){
+            return false;
+        }
         if(piece.getPosition()[0] == targetPosition[0] && piece.getPosition()[1] == targetPosition[1]) {
             return false;
         } else if(piece.getRank() == 12 || piece.getRank() == 11 || piece.getRank() == -1) {
@@ -86,6 +89,10 @@ public class MoveLogic {
         int j = currentPosition[1];
         Piece currentPiece = positionArray[i][j];
 
+        if(currentPiece == null || currentPiece.getRank() == -1 || currentPiece.getRank() > 10){
+            return possiblePositions;
+        }
+
         int[][] movesForPieces = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
         //Scout pieace
@@ -95,7 +102,7 @@ public class MoveLogic {
                 int nextI_Scout = i + movement_Scout[0];
                 int nextJ_Scout = j + movement_Scout[1];
     
-                while (positionArray[nextI_Scout][nextJ_Scout] == null && (0<=nextI_Scout && 10>=nextJ_Scout) && (0<=nextI_Scout && 10>=nextJ_Scout) ) {
+                while (positionArray[nextI_Scout][nextJ_Scout] == null && (0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextI_Scout && 10>nextJ_Scout) ) {
                     Integer[] newPositionOfScout = {nextI_Scout, nextJ_Scout};
                     possiblePositions.add(newPositionOfScout);
     
@@ -107,9 +114,9 @@ public class MoveLogic {
             for (int[] movement_Other : movesForPieces) {
                 int nextI = i + movement_Other[0];
                 int nextJ = j + movement_Other[1];
-                if (positionArray[nextI][nextJ] == null && (0<=nextI && 10>=nextI) && (0<=nextJ && 10>=nextJ)) {
-                Integer[] newPosition_ofpiece = { nextI, nextJ };
-                possiblePositions.add(newPosition_ofpiece);
+                if ((0<=nextI && 10>nextI) && (0<=nextJ && 10>nextJ) && positionArray[nextI][nextJ] == null) {
+                    Integer[] newPosition_ofpiece = { nextI, nextJ };
+                    possiblePositions.add(newPosition_ofpiece);
                 }
             }
         }

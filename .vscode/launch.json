@@ -9,6 +9,20 @@
             "name": "Test",
             "request": "launch",
             "mainClass": "Test",
+            "projectName": "Project-2-1-Stratego_210b8987"
+        },
+        {
+            "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "Game",
+            "projectName": "Project-2-1-Stratego_210b8987"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Test",
             "projectName": "Project-2-1-Stratego_adc0368c"
         },
         {

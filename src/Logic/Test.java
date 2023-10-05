@@ -3,8 +3,10 @@ import PlayerClasses.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EventListener;
 import java.util.Scanner;
+import java.util.stream.Collector;
 
 import GameLogic.*;
 
@@ -56,13 +58,21 @@ public class Test {
             Piece currPiece = game.getBoard()[currX][currY];
             int[] targetPosition = new int[]{targX, targY};
 
-            System.out.println(Arrays.toString(targetPosition) + " " + currPiece.toString());
+            try{
+                System.out.println(Arrays.toString(new int[]{targetPosition[1], targetPosition[0]}) + " " + currPiece.toString());
+            }catch(NullPointerException npe){
+                System.out.println(Arrays.toString(targetPosition) + " " + "null");
+            }
+
             boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard());
             if(canMove){
                 MoveLogic.move(currPiece, targetPosition, game.getBoard());
                 game.switchCurrentPlayer(); 
             }else{
                 System.out.println("can't move");
+                System.out.println("options: ");
+                showAvailablePositions(game, currPiece);
+                System.out.println();
             }
 
             //TESTED: canMove, canScoutMove
@@ -71,6 +81,18 @@ public class Test {
             
             
         }  
+    }
+
+    private static void showAvailablePositions(Game game, Piece currPiece) {
+        if(currPiece == null || currPiece.getRank() == -1){
+            return;
+        }
+
+        ArrayList<Integer[]> positions = MoveLogic.returnPossiblePositions(currPiece.getPosition(), game.getBoard());
+        
+        for (Integer[] p : positions) {
+            System.out.print(Arrays.toString(new int[]{p[1], p[0]}));
+        }
     }
 
     public static void boardToASCIIArt(Piece[][] board, PlayerInterface currentPlayer, PlayerInterface player2){

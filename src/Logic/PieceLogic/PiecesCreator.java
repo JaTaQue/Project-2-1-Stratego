@@ -39,7 +39,7 @@ public class PiecesCreator {
             lakePeaces[i] = createPiece(-1, null);
             lakePeaces[i].setPosition(lakeCoordinatesTilted[i]);
             board[lakeCoordinatesTilted[i][0]][lakeCoordinatesTilted[i][1]] = lakePeaces[i];
-            System.out.println(Arrays.deepToString(board) + " THIS" + board);
+            //System.out.println(Arrays.deepToString(board) + " THIS" + board);
 
         }
     }
