@@ -3,6 +3,7 @@ package GameLogic;
 import java.util.ArrayList;
 
 import PieceLogic.Piece;
+import PlayerClasses.PlayerInterface;
 
 public class MoveLogic {
 
@@ -121,5 +122,21 @@ public class MoveLogic {
             }
         }
         return possiblePositions;
+    }
+
+    public static boolean canMoveWhileBuildUp(int[] targetPosition, Piece[][] board, int[][] placingBorders) {
+        if(board[targetPosition[0]][targetPosition[1]] != null) {
+            return false;
+        } else if(placingBorders[0][1] < targetPosition[0] || targetPosition[0] < placingBorders[0][0]) {
+            return false;
+        } else if(placingBorders[1][1] < targetPosition[1] || targetPosition[1] < placingBorders[1][0]) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void setPiece(int rank, int[] targetPosition, PlayerInterface Attacker, Piece[][] board) {
+        board[targetPosition[0]][targetPosition[0]] = Attacker.getPiecesAtBeginning().get(rank - 1).get(Attacker.getPiecesAtBeginning().get(rank - 1).size());
+        Attacker.getPiecesAtBeginning().get(rank - 1).remove(Attacker.getPiecesAtBeginning().get(rank - 1).size() - 1);
     }
 }
