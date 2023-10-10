@@ -13,7 +13,6 @@ public abstract class PlayerInterface {
     private ArrayList<ArrayList<Piece>> pieceAtBeginning = new ArrayList<>();
     private boolean isWinner;
 
-
     public void initializePieces(String color) {
         this.pieces = PiecesCreator.createPieces(color);
         for(int i = 0; i < pieces.length; i++) {

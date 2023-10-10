@@ -4,106 +4,89 @@ import PlayerClasses.*;
 
 public class AttackLogic {
 
-    public static boolean canAttack(int[] attackerPos,int[] defenderPos, Piece[][] positionArray) {
-        attackerPos = attackerFigure.getPosition();
+    /**
+     * Checks wheather an atttack is legal
+     * @author Group 7
+     * @version 1 
+     * @param attackerFigure is the attacker figure
+     * @param defenderFigure is the defender figure 
+     * @param positionArray shows all the pices on the board and where they are
+     * @returns boolean if the move can be done  
+     */
+    public static boolean canAttack(Piece attackerFigure, Piece defenderFigure, Piece[][] positionArray) {
+        int [] attackerPos = attackerFigure.getPosition();
         int AttackerXPos = attackerPos[0];
         int AttackerYPos = attackerPos[1];
-
-        defenderPos = defenderFigure.getPosition();
+    
+        int [] defenderPos = defenderFigure.getPosition();
         int DefenderXPos = defenderPos[0];
         int DefenderYPos = defenderPos[1];
-
-        
-        //all other pieces 
-        if (attackerFigure.getRank() != 2 && attackerFigure.getColor() != defenderFigure.getColor()) 
+    
+        int boardHeight = 10;
+        int boardWidth = 10;
+    
+        // all other pieces
+        if (attackerFigure.getRank() != 2 && !attackerFigure.getColor().equals(defenderFigure.getColor())) 
         {
-            
-            if(AttackerXPos == DefenderXPos)
+            if (AttackerXPos == DefenderXPos) {
+                if (Math.abs(DefenderYPos - AttackerYPos) == 1) 
+                {
+                    return true;
+                }
+            } 
+            else if (AttackerYPos == DefenderYPos) 
             {
-                    if(DefenderYPos - AttackerYPos > 0)
-                    {
-                        AttackerYPos++; // if the X cordiante are the same then it will go towards the piece in the Y axis
-                    }
-                    else {
-                        AttackerYPos--;
-                    }
-                    if(AttackerYPos == DefenderYPos)
-                        {
-                             return true;
-                        }   
+                if (Math.abs(DefenderXPos - AttackerXPos) == 1) 
+                {
+                    return true;
+                }
             }
-            else if(AttackerYPos == DefenderYPos)
-            {
-                    if(DefenderYPos - AttackerYPos > 0)
-                    {
-                        AttackerXPos++; // if the X cordiante are the same then it will go towards the piece in the Y axis
-                    }
-                    else {
-                        AttackerXPos--;
-                    }
-                    if(AttackerXPos == DefenderXPos)
-                        {
-                            return true;
-                        }
-            }
-            
         }
-
-        //Scout 
-        if (attackerFigure.getRank() == 2 && attackerFigure.getColor() != defenderFigure.getColor())
+    
+        // Scout
+        if (attackerFigure.getRank() == 2 && !attackerFigure.getColor().equals(defenderFigure.getColor())) 
         {
-            if(AttackerXPos == DefenderXPos)
+            if (AttackerXPos == DefenderXPos) 
             {
-                for (int i=0; i < Math.abs(AttackerYPos-DefenderYPos); i++) // the loop is for the number od steps it takes
+                int yDirection = Integer.compare(DefenderYPos, AttackerYPos); // this is better that doing -- and ++
+    
+                int newYPos = AttackerYPos + yDirection;
+    
+                while (newYPos != DefenderYPos) 
                 {
-                    if(DefenderYPos - AttackerYPos > 0)
+                    if (newYPos >= 0 && newYPos < boardHeight && positionArray[AttackerXPos][newYPos] == null) 
                     {
-                        AttackerYPos++; // if the X cordiante are the same then it will go towards the piece in the Y axis
-                    }
-                    else {
-                        AttackerYPos--;
-                    }
-                   
-                    if(positionArray[AttackerXPos][AttackerYPos] == null)
-                        {
-                            continue; // moves in the direction where there is no pice (null) until it reaches the piece 
-                        }
-                    else if(positionArray[AttackerXPos][AttackerYPos] != null)
-                        {
-                            break;
-                        }
-                    else if(AttackerYPos == DefenderYPos){
-                        return true;
-                    }
-                } 
-            }
-            else if(AttackerYPos == DefenderYPos)
-            {
-                for (int i=0; i < Math.abs(AttackerXPos-DefenderXPos); i++)
-                {
-                    if(DefenderXPos - AttackerXPos > 0)
-                    {
-                        AttackerYPos++; // if the X cordiante are the same then it will go towards the piece in the Y axis
-                    }
-                    else {
-                        AttackerXPos--;
+                        newYPos += yDirection;
                     } 
-                    if(positionArray[AttackerXPos][AttackerYPos] == null)
-                        {
-                            continue;
-                        }
-                    else if(positionArray[AttackerXPos][AttackerYPos] != null)
-                        {
-                            break;
-                        }
-                    else if(AttackerXPos == DefenderXPos){
-                        return true;
+                    else 
+                    {
+                        return false;
                     }
-                } 
+                }
+                return true;
+            } 
+            else if (AttackerYPos == DefenderYPos) 
+            {
+                int xDirection = Integer.compare(DefenderXPos, AttackerXPos); // This is better that doing -- and ++
+    
+                int newXPos = AttackerXPos + xDirection;
+    
+                while (newXPos != DefenderXPos) 
+                {
+                    if (newXPos >= 0 && newXPos < boardWidth && positionArray[newXPos][AttackerYPos] == null) 
+                    {
+                        newXPos += xDirection;
+                    } 
+                    else 
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
-        } 
+        }
         return false;
-    }
+    }
 
     public static void battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, PlayerInterface Attacker, PlayerInterface Defender) {
         Piece attackerFigure = board[attackerPosition[0]][attackerPosition[1]];

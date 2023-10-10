@@ -98,7 +98,7 @@ public class Board {
     }
 
     public boolean canAttack(int[] attackerPosition, int[] defenderPosition) {
-        return AttackLogic.canAttack(attackerPosition, defenderPosition, board);
+        return AttackLogic.canAttack(getPiece(attackerPosition), getPiece(defenderPosition), board);
         //needs to be fixed
     }
 
