@@ -5,7 +5,7 @@ import PlayerClasses.*;
 public class AttackLogic {
 
     /**
-     * Checks wheather an atttack is legal
+     * Checks wheather an atttack is legal for a non scout and a scout 
      * @author Group 7
      * @version 1 
      * @param attackerFigure is the attacker figure
@@ -88,6 +88,11 @@ public class AttackLogic {
         return false;
     }
 
+    /**
+     * sets the state of the piece either it dies (and adds it to the dead pieces arraylist) or wins
+     * @author Group 7
+     * @version 1   
+     */
     public static void battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, PlayerInterface Attacker, PlayerInterface Defender) {
         Piece attackerFigure = board[attackerPosition[0]][attackerPosition[1]];
         Piece defenderFigure = board[defenderPosition[0]][defenderPosition[1]];
