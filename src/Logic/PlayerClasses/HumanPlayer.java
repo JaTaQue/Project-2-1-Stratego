@@ -19,18 +19,6 @@ public class HumanPlayer extends PlayerInterface {
     }
 
     @Override
-    public void initializePieces(String color) {
-        this.pieces = PiecesCreator.createPieces(color);
-        for(int i = 0; i < pieces.length; i++) {
-            ArrayList<Piece> newRank = new ArrayList<>();
-            this.pieceAtBeginning.add(newRank);
-            for(int j = 0; j < pieces[i].length; j++) {
-                this.pieceAtBeginning.get(i).add(pieces[i][j]);
-            }
-        }
-    }
-
-    @Override
     public int getDeadPiece(int rank) {
         return this.deadPieces[rank - 1];
     }

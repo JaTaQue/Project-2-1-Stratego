@@ -11,9 +11,6 @@ import PieceLogic.Piece;
 import PieceLogic.PiecesCreator;
 import PlayerClasses.HumanPlayer;
 import PlayerClasses.PlayerInterface;
-import javafx.event.Event;
-import javafx.event.EventDispatcher;
-import javafx.event.EventHandler;
 
 public class Game {
     private boolean isOver = false;
