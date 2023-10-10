@@ -9,7 +9,8 @@ public abstract class PlayerInterface {
     private  String COlOR;
     private Piece[][] pieces;
     private int[] deadPieces = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private int[] availablePieces = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; 
+    private int[] availablePiecesAmount = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; 
+    private ArrayList<Piece> availablePieces = new ArrayList<Piece>();
     private ArrayList<ArrayList<Piece>> pieceAtBeginning = new ArrayList<>();
     private boolean isWinner;
 
@@ -19,9 +20,14 @@ public abstract class PlayerInterface {
             ArrayList<Piece> newRank = new ArrayList<>();
             this.pieceAtBeginning.add(newRank);
             for(int j = 0; j < pieces[i].length; j++) {
+                availablePieces.add(pieces[i][j]);
                 this.pieceAtBeginning.get(i).add(pieces[i][j]);
             }
         }
+    }
+
+    public ArrayList<Piece> getAvailablePieces(){
+        return this.availablePieces;
     }
 
     public ArrayList<ArrayList<Piece>> getPiecesAtBeginning() {
@@ -33,7 +39,7 @@ public abstract class PlayerInterface {
     }
 
     public int getAvailablePieceAmount(int rank) {
-        return this.availablePieces[rank - 1];
+        return this.availablePiecesAmount[rank - 1];
     }
 
     public Piece[][] getPieces() {
@@ -55,7 +61,7 @@ public abstract class PlayerInterface {
 
     public void addDeadPiece(int rank) {
         this.deadPieces[rank -1] += 1;
-        this.availablePieces[rank -1] -= 1;
+        this.availablePiecesAmount[rank -1] -= 1;
     }
 
     public void setWinner() {
