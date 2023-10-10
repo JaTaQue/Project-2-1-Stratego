@@ -75,7 +75,7 @@ public class Test {
                 System.out.println();
             }
 
-            //TESTED: canMove, canScoutMove
+            //TESTED: canMove, canScoutMove, availablePositions
 
 
             
