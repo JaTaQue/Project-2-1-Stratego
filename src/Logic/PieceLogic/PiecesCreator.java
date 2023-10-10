@@ -3,7 +3,7 @@ package PieceLogic;
 import java.util.Arrays;
 
 /**
- * Used the Creater design pattern from Software engineering to make this class and to amke the pieces
+ * Used the Factory design pattern from Software engineering to make this class and to amke the pieces
  */
 public class PiecesCreator {
     private static int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
