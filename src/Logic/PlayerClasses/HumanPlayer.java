@@ -58,7 +58,7 @@ public class HumanPlayer extends PlayerInterface {
 
     @Override
     public boolean hasPieces() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < pieces.length; i++) {
             for(int j = 0; j < pieces[i].length; j++) {
                 if(!pieces[i][j].isDead()) {
                     return true;

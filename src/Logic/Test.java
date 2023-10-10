@@ -64,15 +64,33 @@ public class Test {
                 System.out.println(Arrays.toString(targetPosition) + " " + "null");
             }
 
+            
+
+        
+
             boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard());
             if(canMove){
                 MoveLogic.move(currPiece, targetPosition, game.getBoard());
                 game.switchCurrentPlayer(); 
+                System.out.println("can move");
+
             }else{
                 System.out.println("can't move");
                 System.out.println("options: ");
                 showAvailablePositions(game, currPiece);
                 System.out.println();
+            }
+
+            int[] defenderPosition = new int[]{targetPosition[0], targetPosition[1]};
+            int[] attackerPosition = new int[]{currX,currY};
+            boolean canAttack = AttackLogic.canAttack(currPiece, game.getBoard()[targetPosition[0]][targetPosition[1]], game.getBoard());
+            if(canAttack){
+                System.out.println("can attack");
+                AttackLogic.battle(game.getBoard(), attackerPosition, defenderPosition, player1, player2);
+                game.switchCurrentPlayer();
+            }
+            else{
+                System.out.println("can't attack");
             }
 
             //TESTED: canMove, canScoutMove, availablePositions

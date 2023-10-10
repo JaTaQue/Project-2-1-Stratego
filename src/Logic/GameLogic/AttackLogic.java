@@ -14,6 +14,12 @@ public class AttackLogic {
      * @returns boolean if the move can be done  
      */
     public static boolean canAttack(Piece attackerFigure, Piece defenderFigure, Piece[][] positionArray) {
+        if(attackerFigure==null||defenderFigure==null||attackerFigure.getColor()==null||defenderFigure.getColor()==null){
+            System.out.println("one of the pieces is null or lake");
+            return false;
+        }
+
+
         int [] attackerPos = attackerFigure.getPosition();
         int AttackerXPos = attackerPos[0];
         int AttackerYPos = attackerPos[1];
@@ -24,6 +30,10 @@ public class AttackLogic {
     
         int boardHeight = 10;
         int boardWidth = 10;
+
+        if(attackerFigure.getRank()==12||attackerFigure.getRank()==11||attackerFigure.getRank()==0||attackerFigure.getRank()==-1){
+            return false;
+        }
     
         // all other pieces
         if (attackerFigure.getRank() != 2 && !attackerFigure.getColor().equals(defenderFigure.getColor())) 
@@ -111,9 +121,9 @@ public class AttackLogic {
         } else if (defenderFigure.getRank() == 12) {
             attackerFigure.setDead();
             Attacker.addDeadPiece(attackerFigure.getRank());
-            board[attackerPosition[0]][attackerPosition[1]] = defenderFigure;
-            board[defenderPosition[0]][defenderPosition[1]] = null;
-            defenderFigure.setPosition(attackerPosition);
+            board[attackerPosition[0]][attackerPosition[1]] = null;
+            board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
+            // defenderFigure.setPosition(attackerPosition); what does this do
         } else if (defenderFigure.getRank() == 11) {
             Attacker.setWinner();
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
@@ -138,10 +148,10 @@ public class AttackLogic {
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
-        if(!Defender.hasPieces()) {
-            Attacker.setWinner();
-        } else if(!Attacker.hasPieces()) {
-            Defender.setWinner();
-        }
+        // if(!Defender.hasPieces()) {
+        //     Attacker.setWinner();
+        // } else if(!Attacker.hasPieces()) {
+        //     Defender.setWinner();
+        // }
     }
 }
