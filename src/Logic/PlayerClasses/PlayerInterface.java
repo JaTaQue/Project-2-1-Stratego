@@ -124,7 +124,16 @@ public abstract class PlayerInterface {
                 }
             }
         }
-
+     }
+     if(counterBlue==0&&counterRed==0){
+        return "Both";
+     }
+     if(counterBlue==0){
         return "Blue";
+     }
+     if(counterRed==0){
+        return "Red";
+     }
+     return "None";
     }
 }

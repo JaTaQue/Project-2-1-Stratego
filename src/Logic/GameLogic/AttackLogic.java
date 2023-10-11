@@ -153,9 +153,25 @@ public class AttackLogic {
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
-        // if(PlayerInterface.isSomeoneStuck(board).equals("Blue")){
-        //     Attacker.getColor().equals("Blue") ? Defender.setWinner() : Attacker.setWinner();
-        // }
+        if(PlayerInterface.isSomeoneStuck(board).equals("Blue")){
+            if(Attacker.getColor().equals("Blue")){
+                Defender.setWinner();
+            }
+            else{
+                Attacker.setWinner();
+            }
+        }
+        if(PlayerInterface.isSomeoneStuck(board).equals("Red")){
+            if(Attacker.getColor().equals("Red")){
+                Defender.setWinner();
+            }
+            else{
+                Attacker.setWinner();
+            }
+        }
+        if(PlayerInterface.isSomeoneStuck(board).equals("Both")){
+            System.out.println("Really weird, both are stuck!");
+        }
         // if(!Defender.hasPieces()) {
         //     Attacker.setWinner();
         // } else if(!Attacker.hasPieces()) {

@@ -108,10 +108,15 @@ public class MoveLogic {
                 int nextI_Scout = i + movement_Scout[0];
                 int nextJ_Scout = j + movement_Scout[1];
     
-                while ((0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextJ_Scout && 10>nextI_Scout) && positionArray[nextI_Scout][nextJ_Scout] == null) {
+                while ((0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextJ_Scout && 10>nextI_Scout) && (positionArray[nextI_Scout][nextJ_Scout]==null || (positionArray[nextI_Scout][nextJ_Scout].getRank() != -1 && !positionArray[nextI_Scout][nextJ_Scout].getColor().equals(currentPiece.getColor()) ) ) ) {
+                    
                     Integer[] newPositionOfScout = {nextI_Scout, nextJ_Scout};
                     possiblePositions.add(newPositionOfScout);
     
+                    if(positionArray[nextI_Scout][nextJ_Scout]!=null){
+                        break;
+                    }
+
                     nextI_Scout += movement_Scout[0];
                     nextJ_Scout += movement_Scout[1];
                 }
@@ -126,7 +131,7 @@ public class MoveLogic {
             for (int[] movement_Other : movesForPieces) {
                 int nextI = i + movement_Other[0];
                 int nextJ = j + movement_Other[1];
-                if ((0<=nextI && 10>nextI) && (0<=nextJ && 10>nextJ) && positionArray[nextI][nextJ] == null) {
+                if ((0<=nextI && 10>nextJ) && (0<=nextJ && 10>nextI) && (positionArray[nextI][nextJ]==null || (positionArray[nextI][nextJ].getRank() != -1 && !positionArray[nextI][nextJ].getColor().equals(currentPiece.getColor()) ) ) ) {
                     Integer[] newPosition_ofpiece = { nextI, nextJ };
                     possiblePositions.add(newPosition_ofpiece);
                 }
