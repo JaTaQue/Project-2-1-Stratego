@@ -14,7 +14,7 @@ public class AttackLogic {
      * @returns boolean if the move can be done  
      */
     public static boolean canAttack(Piece attackerFigure, Piece defenderFigure, Piece[][] positionArray) {
-        if(attackerFigure==null||defenderFigure==null||attackerFigure.getColor()==null||defenderFigure.getColor()==null){
+        if(attackerFigure==null||defenderFigure==null||attackerFigure.getRank()==-1||defenderFigure.getRank()==-1||attackerFigure.getColor()==null||defenderFigure.getColor()==null){
             System.out.println("one of the pieces is null or lake");
             return false;
         }
@@ -125,7 +125,12 @@ public class AttackLogic {
             board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
             // defenderFigure.setPosition(attackerPosition); what does this do
         } else if (defenderFigure.getRank() == 11) {
+            defenderFigure.setDead();
+            Defender.addDeadPiece(defenderFigure.getRank());
+            board[defenderPosition[0]][defenderPosition[1]] = attackerFigure;
+            board[attackerPosition[0]][attackerPosition[1]] = null;
             Attacker.setWinner();
+            System.out.println(Attacker.getColor()+" wins!");
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
             attackerFigure.setDead();
             Attacker.addDeadPiece(attackerFigure.getRank());
@@ -142,12 +147,15 @@ public class AttackLogic {
         } else if(attackerFigure.getRank() < defenderFigure.getRank()) {
             attackerFigure.setDead();
             Attacker.addDeadPiece(attackerFigure.getRank());
-            board[attackerPosition[0]][attackerPosition[1]] = defenderFigure;
-            board[defenderPosition[0]][defenderPosition[1]] = null;
+            board[attackerPosition[0]][attackerPosition[1]] = null;
+            board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
             defenderFigure.setPosition(attackerPosition);
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
+        // if(PlayerInterface.isSomeoneStuck(board).equals("Blue")){
+        //     Attacker.getColor().equals("Blue") ? Defender.setWinner() : Attacker.setWinner();
+        // }
         // if(!Defender.hasPieces()) {
         //     Attacker.setWinner();
         // } else if(!Attacker.hasPieces()) {

@@ -2,11 +2,13 @@ package PlayerClasses;
 
 import java.util.ArrayList;
 
+import GameLogic.AttackLogic;
+import GameLogic.MoveLogic;
 import PieceLogic.Piece;
 import PieceLogic.PiecesCreator;
 
 public abstract class PlayerInterface {
-    private  String COlOR;
+    private String COlOR;
     private Piece[][] pieces;
     private int[] deadPieces = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private int[] availablePiecesAmount = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; 
@@ -66,6 +68,7 @@ public abstract class PlayerInterface {
 
     public void setWinner() {
         this.isWinner = true;
+        System.out.println("We have winner!");
     }
 
     public boolean hasPieces() {
@@ -104,5 +107,24 @@ public abstract class PlayerInterface {
         } else {
             return true;
         }
+    }
+
+    public static String isSomeoneStuck(Piece[][] board){
+        int counterBlue=0;
+        int counterRed=0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(board[i][j]!=null&&board[i][j].getRank()!=-1){
+                    if(!MoveLogic.returnPossiblePositions(new int[]{i,j}, board).isEmpty()){
+                        if(board[i][j].getColor().equals("Blue")){
+                            counterBlue++;
+                        }else{
+                            counterRed++;
+                        }
+                }
+            }
+        }
+
+        return "Blue";
     }
 }

@@ -41,7 +41,15 @@ public class Test {
             
             System.out.println();
             game.switchCurrentPlayer(); 
+
         }
+
+        // game.getBoard()[4][9]=game.getBoard()[6][3];
+        // game.getBoard()[4][9].setPosition(new int[]{4,9});
+
+        // System.out.println( game.getBoard()[4][9].toString());
+        // System.out.println( game.getBoard()[3 ][9].toString());
+
 
         System.out.println("GAME ON\n");
 
@@ -68,7 +76,7 @@ public class Test {
 
         
 
-            boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard());
+            boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard(), game.getCurrentPlayer().getColor());
             if(canMove){
                 MoveLogic.move(currPiece, targetPosition, game.getBoard());
                 game.switchCurrentPlayer(); 
@@ -86,7 +94,7 @@ public class Test {
             boolean canAttack = AttackLogic.canAttack(currPiece, game.getBoard()[targetPosition[0]][targetPosition[1]], game.getBoard());
             if(canAttack){
                 System.out.println("can attack");
-                AttackLogic.battle(game.getBoard(), attackerPosition, defenderPosition, player1, player2);
+                AttackLogic.battle(game.getBoard(), attackerPosition, defenderPosition, game.getCurrentPlayer(), game.getCurrentPlayer().equals(player1) ? player2 : player1);
                 game.switchCurrentPlayer();
             }
             else{
@@ -96,7 +104,14 @@ public class Test {
             //TESTED: canMove, canScoutMove, availablePositions
 
 
-            
+            if(player1.isWinner()){
+                System.out.println(player1.getColor()+" is winner!");
+                game.setOver();
+            }            
+            else if(player2.isWinner()){
+                System.out.println(player2.getColor()+" is winner!");
+                game.setOver();
+            }     
             
         }  
     }

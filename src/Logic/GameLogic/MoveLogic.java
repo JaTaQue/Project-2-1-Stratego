@@ -2,13 +2,18 @@ package GameLogic;
 
 import java.util.ArrayList;
 
+
+
 import PieceLogic.Piece;
 import PlayerClasses.PlayerInterface;
 
 public class MoveLogic {
 
-    public static boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
+    public static boolean canMove(Piece piece, int[] targetPosition, Piece[][] positionArray, String currentPlayerColor) {
         if(piece == null || piece.getRank() == -1){
+            return false;
+        }
+        if(!piece.getColor().equals(currentPlayerColor)){
             return false;
         }
         if(piece.getPosition()[0] == targetPosition[0] && piece.getPosition()[1] == targetPosition[1]) {
@@ -110,6 +115,12 @@ public class MoveLogic {
                     nextI_Scout += movement_Scout[0];
                     nextJ_Scout += movement_Scout[1];
                 }
+                // nextI_Scout += movement_Scout[0];
+                // nextJ_Scout += movement_Scout[1];
+                // if((0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextJ_Scout && 10>nextI_Scout) && positionArray[nextI_Scout][nextJ_Scout] != null){
+                //     Integer[] newPositionOfScout = {nextI_Scout, nextJ_Scout};
+                //     possiblePositions.add(newPositionOfScout);
+                // }
             }
         } else if(currentPiece.getRank() != 2) {
             for (int[] movement_Other : movesForPieces) {

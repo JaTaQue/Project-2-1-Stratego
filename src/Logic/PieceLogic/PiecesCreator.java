@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class PiecesCreator {
     private static int[] pieceInfos = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; //gives us the amount of figures we need prelast index is flag,
     
-    // Rank 0 = Lake
+    // Rank -1 = Lake
     // Rank 1 = Spy
     // Rank 2 = Scout
     // Rank 3 = Miner
