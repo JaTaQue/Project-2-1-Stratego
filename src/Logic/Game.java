@@ -10,15 +10,15 @@ import org.w3c.dom.events.EventTarget;
 import PieceLogic.Piece;
 import PieceLogic.PiecesCreator;
 import PlayerClasses.HumanPlayer;
-import PlayerClasses.PlayerInterface;
+import PlayerClasses.Player;
 
 public class Game {
     private boolean isOver = false;
     private boolean hasStarted = false;
     private Piece[][] board;
-    private PlayerInterface player1;
-    private PlayerInterface player2;
-    private PlayerInterface currentPlayer;
+    private Player player1;
+    private Player player2;
+    private Player currentPlayer;
     private int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
     private int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
 
@@ -36,7 +36,7 @@ public class Game {
         return new HumanPlayer(color);
     }
 
-    public void addPlayers(PlayerInterface player1, PlayerInterface player2){
+    public void addPlayers(Player player1, Player player2){
         this.player1 = player1;
         this.player2 = player2;
     }
@@ -57,11 +57,11 @@ public class Game {
         this.hasStarted = true;
     }
 
-    public PlayerInterface getCurrentPlayer(){
+    public Player getCurrentPlayer(){
         return this.currentPlayer;
     }
 
-    public void setCurrentPlayer(PlayerInterface player){
+    public void setCurrentPlayer(Player player){
         this.currentPlayer = player;
     }
 
@@ -70,7 +70,7 @@ public class Game {
         else this.currentPlayer = player1;
     }
 
-    public void placePieces(PlayerInterface player){
+    public void placePieces(Player player){
         int counter = 0;
         ArrayList<Piece> availablePiece = player.getAvailablePieces();
     
@@ -92,5 +92,11 @@ public class Game {
             }
             setStarted(); //start game after placing player2's pieces
         }
+    }
+
+    public void placePiece(Piece piece, int[] targetPosition, Player player) {
+        piece.setPosition(targetPosition);
+        board[targetPosition[0]][targetPosition[1]] = piece;
+        player.piecePlaced(piece);
     }
 }

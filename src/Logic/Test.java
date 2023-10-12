@@ -22,8 +22,8 @@ public class Test {
 
         Game game = new Game();
         game.createBoard();
-        PlayerInterface player1 = game.createHumanPlayer("Blue");
-        PlayerInterface player2 = game.createHumanPlayer("Red");
+        Player player1 = game.createHumanPlayer("Blue");
+        Player player2 = game.createHumanPlayer("Red");
         game.addPlayers(player1, player2);
         game.setCurrentPlayer(player1);
 
@@ -132,7 +132,7 @@ public class Test {
         }
     }
 
-    public static void boardToASCIIArt(Piece[][] board, PlayerInterface currentPlayer, PlayerInterface player2){
+    public static void boardToASCIIArt(Piece[][] board, Player currentPlayer, Player player2){
         if(currentPlayer.getColor().equals(player2.getColor())){
             for(int i = 0; i < 10; i++){
                 for(int j = 0; j < 10; j++){

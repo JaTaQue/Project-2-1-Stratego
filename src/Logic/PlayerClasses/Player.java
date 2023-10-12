@@ -1,29 +1,36 @@
 package PlayerClasses;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
-import GameLogic.AttackLogic;
 import GameLogic.MoveLogic;
 import PieceLogic.Piece;
 import PieceLogic.PiecesCreator;
 
-public abstract class PlayerInterface {
-    private String COlOR;
+public abstract class Player {
+    private String color;
     private Piece[][] pieces;
-    private int[] deadPieces = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private int[] availablePiecesAmount = {1, 8, 5, 4, 4, 4, 3 , 2, 1, 1, 1, 6}; 
+    private int[] deadPiecesAmount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private int[] availablePiecesAmount = {1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 1, 6}; 
     private ArrayList<Piece> availablePieces = new ArrayList<Piece>();
-    private ArrayList<ArrayList<Piece>> pieceAtBeginning = new ArrayList<>();
-    private boolean isWinner;
+    private int[] piecesToBePlaced = Arrays.copyOf(availablePiecesAmount, availablePiecesAmount.length);
+    private boolean isWinner = false;
+
+    public Player(String color){
+        this.color = color;
+        initializePieces(color);
+    }
 
     public void initializePieces(String color) {
         this.pieces = PiecesCreator.createPieces(color);
         for(int i = 0; i < pieces.length; i++) {
-            ArrayList<Piece> newRank = new ArrayList<>();
-            this.pieceAtBeginning.add(newRank);
+            // ArrayList<Piece> newRank = new ArrayList<>();
+            // this.piecesToBePlaced.add(newRank);
             for(int j = 0; j < pieces[i].length; j++) {
                 availablePieces.add(pieces[i][j]);
-                this.pieceAtBeginning.get(i).add(pieces[i][j]);
+                // this.piecesToBePlaced.get(i).add(pieces[i][j]);
+                
             }
         }
     }
@@ -32,12 +39,12 @@ public abstract class PlayerInterface {
         return this.availablePieces;
     }
 
-    public ArrayList<ArrayList<Piece>> getPiecesAtBeginning() {
-        return this.pieceAtBeginning;
-    }
+    // public ArrayList<ArrayList<Piece>> getPiecesAtBeginning() {
+    //     return this.pieceAtBeginning;
+    // }
 
     public int getDeadPiece(int rank) {
-        return this.deadPieces[rank - 1];
+        return this.deadPiecesAmount[rank - 1];
     }
 
     public int getAvailablePieceAmount(int rank) {
@@ -49,21 +56,23 @@ public abstract class PlayerInterface {
     }
 
     public void setColor(String color) {
-        this.COlOR = color;
+        this.color = color;
     }
 
     public String getColor() {
-        return this.COlOR;
+        return this.color;
     }
 
     public boolean isWinner() {
         return this.isWinner;
     }
 
-
     public void addDeadPiece(int rank) {
-        this.deadPieces[rank -1] += 1;
+        this.deadPiecesAmount[rank -1] += 1;
         this.availablePiecesAmount[rank -1] -= 1;
+        System.out.println("available:\t" + this.getAvailablePieces());
+        System.out.println("available:\t" + Arrays.toString(this.availablePiecesAmount));
+        System.out.println("dead:\t" + Arrays.toString(this.deadPiecesAmount));
     }
 
     public void setWinner() {
@@ -83,14 +92,12 @@ public abstract class PlayerInterface {
         return false;
     }
 
-    public int hasManysLeft(int rank) {
-        int figuresLeft = 0;
-        try {
-            figuresLeft = getPiecesAtBeginning().get(rank - 1).size();
-        } catch (Exception e) {
-            System.out.println("Sth went wrong with the ranks");
-        }
-        return figuresLeft;
+    public int howManyAliveOfRank(int rank) {
+        return availablePiecesAmount[rank-1];
+    }
+
+    public int howManyDeadOfRank(int rank) {
+        return deadPiecesAmount[rank-1];
     }
 
     public boolean isEveryPieceAtBeginningOnBoard(Piece[][] board) {
@@ -135,5 +142,9 @@ public abstract class PlayerInterface {
         return "Red";
      }
      return "None";
+    }
+
+    public void piecePlaced(Piece piece){
+        this.piecesToBePlaced[piece.getRank()]--;
     }
 }

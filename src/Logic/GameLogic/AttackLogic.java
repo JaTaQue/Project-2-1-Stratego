@@ -109,7 +109,7 @@ public class AttackLogic {
      * @author Group 7
      * @version 1   
      */
-    public static void battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, PlayerInterface Attacker, PlayerInterface Defender) {
+    public static void battle(Piece[][] board, int[] attackerPosition, int[] defenderPosition, Player Attacker, Player Defender) {
         Piece attackerFigure = board[attackerPosition[0]][attackerPosition[1]];
         Piece defenderFigure = board[defenderPosition[0]][defenderPosition[1]];
         if (attackerFigure.getRank() == 1 && defenderFigure.getRank() == 10) {
@@ -159,7 +159,7 @@ public class AttackLogic {
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }
-        if(PlayerInterface.isSomeoneStuck(board).equals("Blue")){
+        if(Player.isSomeoneStuck(board).equals("Blue")){
             if(Attacker.getColor().equals("Blue")){
                 Defender.setWinner();
             }
@@ -167,7 +167,7 @@ public class AttackLogic {
                 Attacker.setWinner();
             }
         }
-        if(PlayerInterface.isSomeoneStuck(board).equals("Red")){
+        if(Player.isSomeoneStuck(board).equals("Red")){
             if(Attacker.getColor().equals("Red")){
                 Defender.setWinner();
             }
@@ -175,7 +175,7 @@ public class AttackLogic {
                 Attacker.setWinner();
             }
         }
-        if(PlayerInterface.isSomeoneStuck(board).equals("Both")){
+        if(Player.isSomeoneStuck(board).equals("Both")){
             System.out.println("Really weird, both are stuck!");
         }
         // if(!Defender.hasPieces()) {
