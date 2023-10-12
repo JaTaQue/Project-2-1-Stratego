@@ -13,9 +13,15 @@ public class AttackLogic {
      * @param positionArray shows all the pices on the board and where they are
      * @returns boolean if the move can be done  
      */
-    public static boolean canAttack(Piece attackerFigure, Piece defenderFigure, Piece[][] positionArray) {
-        if(attackerFigure==null||defenderFigure==null||attackerFigure.getRank()==-1||defenderFigure.getRank()==-1||attackerFigure.getColor()==null||defenderFigure.getColor()==null){
+    public static boolean canAttack(Piece attackerFigure, Piece defenderFigure, Piece[][] positionArray, String currentPlayerColor) {
+        if(attackerFigure==null||defenderFigure==null||attackerFigure.getRank()==-1||defenderFigure.getRank()==-1){
             System.out.println("one of the pieces is null or lake");
+            return false;
+        }
+        if(attackerFigure.getColor()==null||defenderFigure.getColor()==null){
+            return false;
+        }
+        if(!currentPlayerColor.equals(attackerFigure.getColor())){
             return false;
         }
 
@@ -149,7 +155,7 @@ public class AttackLogic {
             Attacker.addDeadPiece(attackerFigure.getRank());
             board[attackerPosition[0]][attackerPosition[1]] = null;
             board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
-            defenderFigure.setPosition(attackerPosition);
+            defenderFigure.setPosition(defenderPosition);
         } else {
             System.out.println("Error sth is wrong in the battle method");
         }

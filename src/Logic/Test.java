@@ -91,7 +91,7 @@ public class Test {
 
             int[] defenderPosition = new int[]{targetPosition[0], targetPosition[1]};
             int[] attackerPosition = new int[]{currX,currY};
-            boolean canAttack = AttackLogic.canAttack(currPiece, game.getBoard()[targetPosition[0]][targetPosition[1]], game.getBoard());
+            boolean canAttack = AttackLogic.canAttack(currPiece, game.getBoard()[targetPosition[0]][targetPosition[1]], game.getBoard(), game.getCurrentPlayer().getColor());
             if(canAttack){
                 System.out.println("can attack");
                 AttackLogic.battle(game.getBoard(), attackerPosition, defenderPosition, game.getCurrentPlayer(), game.getCurrentPlayer().equals(player1) ? player2 : player1);
@@ -114,6 +114,10 @@ public class Test {
             }     
             
         }  
+
+        //when game is done it prints the final board one more time
+        System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
+        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
     }
 
     private static void showAvailablePositions(Game game, Piece currPiece) {

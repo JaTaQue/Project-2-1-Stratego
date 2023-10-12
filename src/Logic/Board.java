@@ -89,22 +89,22 @@ public class Board {
         return Attacker.isEveryPieceAtBeginningOnBoard(board);
     }
 
-    public boolean canMove(int[] currentPosition, int[] targetPosition) {
-        return MoveLogic.canMove(getPiece(currentPosition), targetPosition, board);
-    }
+    // public boolean canMove(int[] currentPosition, int[] targetPosition) {
+    //     return MoveLogic.canMove(getPiece(currentPosition), targetPosition, board, getc );
+    // }
 
-    public void move(int[] currentPosition, int[] targetPosition) {
-        MoveLogic.move(getPiece(currentPosition), targetPosition, board);
-    }
+    // public void move(int[] currentPosition, int[] targetPosition) {
+    //     MoveLogic.move(getPiece(currentPosition), targetPosition, board);
+    // }
 
-    public boolean canAttack(int[] attackerPosition, int[] defenderPosition) {
-        return AttackLogic.canAttack(getPiece(attackerPosition), getPiece(defenderPosition), board);
-        //needs to be fixed
-    }
+    // // public boolean canAttack(int[] attackerPosition, int[] defenderPosition) {
+    // //     return AttackLogic.canAttack(getPiece(attackerPosition), getPiece(defenderPosition), board, PlayerInterface.getCurrentPlayer.getColor);
+    // //     //needs to be fixed
+    // // }
 
-    public void battle(int[] attackerPosition, int[] defenderPosition) {
-        AttackLogic.battle(board, attackerPosition, defenderPosition, Attacker, Defender);
-    }
+    // public void battle(int[] attackerPosition, int[] defenderPosition) {
+    //     AttackLogic.battle(board, attackerPosition, defenderPosition, Attacker, Defender);
+    // }
 
     public int deadPiecesCountAttacker(int rank) {
         return Attacker.getDeadPiece(rank);
