@@ -1,12 +1,8 @@
 import PieceLogic.*;
 import PlayerClasses.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.EventListener;
 import java.util.Scanner;
-import java.util.stream.Collector;
 
 import GameLogic.*;
 
@@ -21,15 +17,10 @@ public class Test {
         Scanner scanner = new Scanner(System.in);
 
         Game game = new Game();
-        game.createBoard();
-        Player player1 = game.createHumanPlayer("Blue");
-        Player player2 = game.createHumanPlayer("Red");
-        game.addPlayers(player1, player2);
-        game.setCurrentPlayer(player1);
 
         System.out.println();
 
-        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
 
         System.out.println();
 
@@ -37,25 +28,18 @@ public class Test {
             System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
             scanner.nextLine();     
             game.placePieces(game.getCurrentPlayer());
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
             
             System.out.println();
             game.switchCurrentPlayer(); 
 
         }
 
-        // game.getBoard()[4][9]=game.getBoard()[6][3];
-        // game.getBoard()[4][9].setPosition(new int[]{4,9});
-
-        // System.out.println( game.getBoard()[4][9].toString());
-        // System.out.println( game.getBoard()[3 ][9].toString());
-
-
         System.out.println("GAME ON\n");
 
         while(!game.isOver()){
             System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
 
             int currY = scanner.nextInt(); 
             int currX = scanner.nextInt();
@@ -67,73 +51,24 @@ public class Test {
             int[] targetPosition = new int[]{targX, targY};
 
             try{
-                System.out.println(Arrays.toString(new int[]{targetPosition[1], targetPosition[0]}) + " " + currPiece.toString());
+                System.out.println(Arrays.toString(new int[]{currY, currX}) + "->" + Arrays.toString(new int[]{targetPosition[1], targetPosition[0]}) + " " + currPiece.toString());
             }catch(NullPointerException npe){
                 System.out.println(Arrays.toString(targetPosition) + " " + "null");
             }
 
-            
+            game.makeAMove(currY, currX, currPiece, targetPosition);
 
-        
-
-            boolean canMove = MoveLogic.canMove(currPiece, targetPosition, game.getBoard(), game.getCurrentPlayer().getColor());
-            if(canMove){
-                MoveLogic.move(currPiece, targetPosition, game.getBoard());
-                game.switchCurrentPlayer(); 
-                System.out.println("can move");
-
-            }else{
-                System.out.println("can't move");
-                System.out.println("options: ");
-                showAvailablePositions(game, currPiece);
-                System.out.println();
-            }
-
-            int[] defenderPosition = new int[]{targetPosition[0], targetPosition[1]};
-            int[] attackerPosition = new int[]{currX,currY};
-            boolean canAttack = AttackLogic.canAttack(currPiece, game.getBoard()[targetPosition[0]][targetPosition[1]], game.getBoard(), game.getCurrentPlayer().getColor());
-            if(canAttack){
-                System.out.println("can attack");
-                AttackLogic.battle(game.getBoard(), attackerPosition, defenderPosition, game.getCurrentPlayer(), game.getCurrentPlayer().equals(player1) ? player2 : player1);
-                game.switchCurrentPlayer();
-            }
-            else{
-                System.out.println("can't attack");
-            }
-
-            //TESTED: canMove, canScoutMove, availablePositions
-
-
-            if(player1.isWinner()){
-                System.out.println(player1.getColor()+" is winner!");
-                game.setOver();
-            }            
-            else if(player2.isWinner()){
-                System.out.println(player2.getColor()+" is winner!");
-                game.setOver();
-            }     
+            game.checkWinner();     
             
         }  
 
         //when game is done it prints the final board one more time
         System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
-        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer(), player2);
+        boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
     }
 
-    private static void showAvailablePositions(Game game, Piece currPiece) {
-        if(currPiece == null || currPiece.getRank() == -1){
-            return;
-        }
-
-        ArrayList<Integer[]> positions = MoveLogic.returnPossiblePositions(currPiece.getPosition(), game.getBoard());
-        
-        for (Integer[] p : positions) {
-            System.out.print(Arrays.toString(new int[]{p[1], p[0]}));
-        }
-    }
-
-    public static void boardToASCIIArt(Piece[][] board, Player currentPlayer, Player player2){
-        if(currentPlayer.getColor().equals(player2.getColor())){
+    public static void boardToASCIIArt(Piece[][] board, Player currentPlayer){
+        if(currentPlayer.getColor().equals("R")){
             for(int i = 0; i < 10; i++){
                 for(int j = 0; j < 10; j++){
                     printTile(board, i, j);
@@ -159,7 +94,7 @@ public class Test {
         try{
             int rank = board[i][j].getRank();
             String symb = checkRank(rank);
-            if(board[i][j].getColor().equals("Red")){
+            if(board[i][j].getColor().equals("R")){
                 System.out.print(ANSI_RED + symb + " " + ANSI_RESET);
             }else{
                 System.out.print(ANSI_BLUE + symb + " " + ANSI_RESET);

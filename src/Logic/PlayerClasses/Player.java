@@ -2,7 +2,6 @@ package PlayerClasses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import GameLogic.MoveLogic;
 import PieceLogic.Piece;
@@ -25,12 +24,8 @@ public abstract class Player {
     public void initializePieces(String color) {
         this.pieces = PiecesCreator.createPieces(color);
         for(int i = 0; i < pieces.length; i++) {
-            // ArrayList<Piece> newRank = new ArrayList<>();
-            // this.piecesToBePlaced.add(newRank);
             for(int j = 0; j < pieces[i].length; j++) {
-                availablePieces.add(pieces[i][j]);
-                // this.piecesToBePlaced.get(i).add(pieces[i][j]);
-                
+                availablePieces.add(pieces[i][j]);                
             }
         }
     }
@@ -38,10 +33,6 @@ public abstract class Player {
     public ArrayList<Piece> getAvailablePieces(){
         return this.availablePieces;
     }
-
-    // public ArrayList<ArrayList<Piece>> getPiecesAtBeginning() {
-    //     return this.pieceAtBeginning;
-    // }
 
     public int getDeadPiece(int rank) {
         return this.deadPiecesAmount[rank - 1];
@@ -70,14 +61,11 @@ public abstract class Player {
     public void addDeadPiece(int rank) {
         this.deadPiecesAmount[rank -1] += 1;
         this.availablePiecesAmount[rank -1] -= 1;
-        System.out.println("available:\t" + this.getAvailablePieces());
-        System.out.println("available:\t" + Arrays.toString(this.availablePiecesAmount));
-        System.out.println("dead:\t" + Arrays.toString(this.deadPiecesAmount));
     }
 
     public void setWinner() {
         this.isWinner = true;
-        System.out.println("We have winner!");
+        System.out.println("We have a winner!");
     }
 
     public boolean hasPieces() {
@@ -123,7 +111,7 @@ public abstract class Player {
             for (int j = 0; j < board[i].length; j++) {
                 if(board[i][j]!=null&&board[i][j].getRank()!=-1){
                     if(!MoveLogic.returnPossiblePositions(new int[]{i,j}, board).isEmpty()){
-                        if(board[i][j].getColor().equals("Blue")){
+                        if(board[i][j].getColor().equals("B")){
                             counterBlue++;
                         }else{
                             counterRed++;

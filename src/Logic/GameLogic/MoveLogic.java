@@ -2,10 +2,7 @@ package GameLogic;
 
 import java.util.ArrayList;
 
-
-
 import PieceLogic.Piece;
-import PlayerClasses.Player;
 
 public class MoveLogic {
 
@@ -120,12 +117,6 @@ public class MoveLogic {
                     nextI_Scout += movement_Scout[0];
                     nextJ_Scout += movement_Scout[1];
                 }
-                // nextI_Scout += movement_Scout[0];
-                // nextJ_Scout += movement_Scout[1];
-                // if((0<=nextI_Scout && 10>nextJ_Scout) && (0<=nextJ_Scout && 10>nextI_Scout) && positionArray[nextI_Scout][nextJ_Scout] != null){
-                //     Integer[] newPositionOfScout = {nextI_Scout, nextJ_Scout};
-                //     possiblePositions.add(newPositionOfScout);
-                // }
             }
         } else if(currentPiece.getRank() != 2) {
             for (int[] movement_Other : movesForPieces) {
