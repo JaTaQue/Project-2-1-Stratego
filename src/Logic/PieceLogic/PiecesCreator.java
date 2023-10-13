@@ -1,7 +1,5 @@
 package PieceLogic;
 
-import java.util.Arrays;
-
 /**
  * Used the Factory design pattern from Software engineering to make this class and to amke the pieces
  */
@@ -52,8 +50,6 @@ public class PiecesCreator {
             lakePeaces[i] = createPiece(-1, null);
             lakePeaces[i].setPosition(lakeCoordinatesTilted[i]);
             board[lakeCoordinatesTilted[i][0]][lakeCoordinatesTilted[i][1]] = lakePeaces[i];
-            //System.out.println(Arrays.deepToString(board) + " THIS" + board);
-
         }
     }
 

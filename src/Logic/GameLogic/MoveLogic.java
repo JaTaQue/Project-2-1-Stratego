@@ -32,6 +32,7 @@ public class MoveLogic {
     private static boolean canScoutMove(Piece piece, int[] targetPosition, Piece[][] positionArray) {
         int currX = piece.getPosition()[0];
         int currY = piece.getPosition()[1];
+        //just for you habibti <3
 
         int targX = targetPosition[0];
         int targY = targetPosition[1];

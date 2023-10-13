@@ -85,8 +85,7 @@ public class Game {
         else this.currentPlayer = player1;
     }
 
-    //TODO: rewrite for gui
-    public void placePiecesBlackBox(Player player){
+    public void placePiecesBlackBox(Player player){ //places in set order
         int counter = 0;
         ArrayList<Piece> availablePiece = player.getAvailablePieces();
     
@@ -110,7 +109,7 @@ public class Game {
         }
     }
 
-     public void placePiecesSimulation(Player player){
+     public void placePiecesSimulation(Player player){  // places randomly
         int counter = 0;
 
         if(player.equals(player1)){
@@ -153,8 +152,6 @@ public class Game {
         }
     }
 
-
-    //TODO: start using
     public void placePiece(Piece piece, int[] targetPosition, Player player) {
         piece.setPosition(targetPosition);
         board[targetPosition[0]][targetPosition[1]] = piece;
@@ -162,7 +159,6 @@ public class Game {
         System.out.println(145);
     }
 
-    //TODO: check & start using
     public static boolean canPlaceAtPosition(int[] targetPosition, Piece[][] board, int[][] placingBorders) {
         System.out.println(Arrays.toString(targetPosition));
         if(board[targetPosition[0]][targetPosition[1]] != null) {
@@ -181,7 +177,6 @@ public class Game {
         return true;
     }
 
-    //TODO: check & start using
     public boolean isEveryPieceAtBeginningOnBoard(Player player) {
         for(int n : player.getPiecesToBePlacedAmount()){
             if(n > 0) return false;

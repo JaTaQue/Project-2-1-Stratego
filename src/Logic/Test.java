@@ -28,10 +28,8 @@ public class Test {
             System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
             scanner.nextLine();     
 
-
-            // game.placePiecesBlackBox(game.getCurrentPlayer());
+            //game.placePiecesBlackBox(game.getCurrentPlayer());
             game.placePiecesSimulation(game.getCurrentPlayer());
-            //game.placePiecesSimulation(game.getCurrentPlayer().equals(game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
 
             boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
             
