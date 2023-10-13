@@ -37,6 +37,14 @@ public class Game {
         return this.board;
     }
 
+    public Player getPlayer1(){
+        return this.player1;
+    }
+
+    public Player getPlayer2(){
+        return this.player2;
+    }
+
     public HumanPlayer createHumanPlayer(){
         HumanPlayer h = new HumanPlayer(availableColors.get(0));
         availableColors.remove(0);
@@ -78,7 +86,7 @@ public class Game {
     }
 
     //TODO: rewrite for gui
-    public void placePieces(Player player){
+    public void placePiecesBlackBox(Player player){
         int counter = 0;
         ArrayList<Piece> availablePiece = player.getAvailablePieces();
     
@@ -87,7 +95,7 @@ public class Game {
                 for (int x = placingBordersPlayer1[0][0]; x <= placingBordersPlayer1[0][1]; x++) {
                     board[y][x]=availablePiece.get(40-1-counter);
                     availablePiece.get(40-1-counter).setPosition(new int[]{y, x});
-                    counter++;
+                    counter++; 
                 }
             }
         }else{
@@ -102,21 +110,81 @@ public class Game {
         }
     }
 
+     public void placePiecesSimulation(Player player){
+        int counter = 0;
+
+        if(player.equals(player1)){
+            System.out.println("p 1");
+            placePiecesForPlayer(player, counter);
+        }else{
+            System.out.println("p 2");
+            System.out.println(player.getColor());
+            placePiecesForPlayer(player, counter);
+            setStarted(); //start game after placing player2's pieces
+        }
+    }
+
+    private void placePiecesForPlayer(Player player, int counter) {
+        while(!isEveryPieceAtBeginningOnBoard(player)){
+            System.out.println(player.getColor());
+
+            int randomX = (int)(Math.random()*10);
+            int randomY = (int)(Math.random()*10);
+            int[] targetPosition = new int[]{randomX,randomY};
+            
+            System.out.println("Targetposition: "+Arrays.toString(targetPosition));
+
+            Piece pieceToBePlaced = player.getAvailablePieces().get(counter);
+
+            Test.boardToASCIIArt(board,player);
+
+            System.out.println(board[4][7].getRank());
+
+            if(canPlaceAtPosition(targetPosition, board, player.equals(player1) ? placingBordersPlayer1 : placingBordersPlayer2)){
+                
+                System.out.println(Arrays.deepToString(player.equals(player1) ? placingBordersPlayer1 : placingBordersPlayer2));
+                System.out.println(player.equals(player1));
+                System.out.println("Can place: "+pieceToBePlaced.getRank() +" at " + Arrays.toString(targetPosition));
+                placePiece(pieceToBePlaced, targetPosition, player);
+                System.out.println("132");
+                counter++;
+
+            }
+        }
+    }
+
+
     //TODO: start using
     public void placePiece(Piece piece, int[] targetPosition, Player player) {
         piece.setPosition(targetPosition);
         board[targetPosition[0]][targetPosition[1]] = piece;
         player.piecePlaced(piece);
+        System.out.println(145);
     }
 
     //TODO: check & start using
     public static boolean canPlaceAtPosition(int[] targetPosition, Piece[][] board, int[][] placingBorders) {
+        System.out.println(Arrays.toString(targetPosition));
         if(board[targetPosition[0]][targetPosition[1]] != null) {
+            System.out.println(1);
             return false;
-        } else if(placingBorders[0][1] < targetPosition[0] || targetPosition[0] < placingBorders[0][0]) {
+        } else 
+        if(targetPosition[1] < placingBorders[0][0] || targetPosition[1] > placingBorders[0][1]) { //x,x
+            System.out.println(2);
+
             return false;
-        } else if(placingBorders[1][1] < targetPosition[1] || targetPosition[1] < placingBorders[1][0]) {
+        } else if(targetPosition[0] < placingBorders[1][0] || targetPosition[0] > placingBorders[1][1]) { //y,y
+            System.out.println(3);
+
             return false;
+        }
+        return true;
+    }
+
+    //TODO: check & start using
+    public boolean isEveryPieceAtBeginningOnBoard(Player player) {
+        for(int n : player.getPiecesToBePlacedAmount()){
+            if(n > 0) return false;
         }
         return true;
     }

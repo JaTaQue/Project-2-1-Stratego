@@ -24,10 +24,15 @@ public class Test {
 
         System.out.println();
 
-        while(!game.hasStarted()){
+        while(!game.hasStarted()){ 
             System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
             scanner.nextLine();     
-            game.placePieces(game.getCurrentPlayer());
+
+
+            // game.placePiecesBlackBox(game.getCurrentPlayer());
+            game.placePiecesSimulation(game.getCurrentPlayer());
+            //game.placePiecesSimulation(game.getCurrentPlayer().equals(game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
+
             boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
             
             System.out.println();
@@ -63,7 +68,6 @@ public class Test {
         }  
 
         //when game is done it prints the final board one more time
-        System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
         boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
     }
 

@@ -45,7 +45,7 @@ public class PiecesCreator {
      * @param board The game board on which lakes need to be created.
      */
     public static void createLakes(Piece[][] board) {
-        //int[][] lakeCoordinates = {{2,4}, {2,5}, {3,4}, {3,5}, {6,4}, {6,5}, {7,4}, {7,5}};
+        // int[][] lakeCoordinates = {{2,4}, {2,5}, {3,4}, {3,5}, {6,4}, {6,5}, {7,4}, {7,5}};
         int[][] lakeCoordinatesTilted = {{4,2}, {5,2}, {4,3}, {5,3}, {4,6}, {5,6}, {4,7}, {5,7}};
         Piece[] lakePeaces = new Piece[8];
         for (int i = 0; i < 8; i++) {

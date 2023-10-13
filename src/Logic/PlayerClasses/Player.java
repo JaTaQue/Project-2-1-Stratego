@@ -13,7 +13,7 @@ public abstract class Player {
     private int[] deadPiecesAmount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private int[] availablePiecesAmount = {1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 1, 6}; 
     private ArrayList<Piece> availablePieces = new ArrayList<Piece>();
-    private int[] piecesToBePlaced = Arrays.copyOf(availablePiecesAmount, availablePiecesAmount.length);
+    private int[] piecesToBePlacedAmount = Arrays.copyOf(availablePiecesAmount, availablePiecesAmount.length);
     private boolean isWinner = false;
 
     public Player(String color){
@@ -88,22 +88,6 @@ public abstract class Player {
         return deadPiecesAmount[rank-1];
     }
 
-    public boolean isEveryPieceAtBeginningOnBoard(Piece[][] board) {
-        int count = 0;
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[i].length; j++) {
-                if(board[i][j] != null) {
-                    count++; 
-                }
-            }
-        }
-        if(count != 48 || count != 88) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public static String isSomeoneStuck(Piece[][] board){
         int counterBlue=0;
         int counterRed=0;
@@ -133,6 +117,10 @@ public abstract class Player {
     }
 
     public void piecePlaced(Piece piece){
-        this.piecesToBePlaced[piece.getRank()]--;
+        this.piecesToBePlacedAmount[piece.getRank()-1]--;
+    }
+
+    public int[] getPiecesToBePlacedAmount() {
+        return this.piecesToBePlacedAmount;
     }
 }
