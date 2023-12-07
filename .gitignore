@@ -24,3 +24,5 @@ gradle-app.setting
 .idea/jarRepositories.xml
 .idea/gradle.xml
 .idea/compiler.xml
+.idea/vcs.xml
+.idea/.name

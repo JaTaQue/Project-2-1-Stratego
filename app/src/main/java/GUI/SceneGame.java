@@ -22,12 +22,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Initializable {
-
-    private static final int GRID_SIZE = 75;
+public class SceneGame implements Initializable {
 
     @FXML
-    public AnchorPane pane;
+    public static AnchorPane pane;
+
+    public static final int GRID_SIZE = (int) (pane.getPrefWidth() / 10);
 
     Game game;
     Component[][] boardGUI = new Component[10][10];
@@ -383,14 +383,13 @@ public class Controller implements Initializable {
     }
 
     private void moveGUI(int[] currentXY, int[] targetXY) {
-        int gridSize = 75;
         int currentX = currentXY[0];
         int currentY = currentXY[1];
         int targetX = targetXY[0];
         int targetY = targetXY[1];
 
-        int diffX = (targetX - currentX) * gridSize;
-        int diffY = (targetY - currentY) * gridSize;
+        int diffX = (targetX - currentX) * GRID_SIZE;
+        int diffY = (targetY - currentY) * GRID_SIZE;
 
         //move the component
         Component currentComponent = boardGUI[currentX][currentY];
@@ -413,17 +412,17 @@ public class Controller implements Initializable {
         Component targetComponent = boardGUI[targetXY[0]][targetXY[1]];
 
         if (diedTarget && diedCurrent) {
-            currentComponent.remove();
-            targetComponent.remove();
+            currentComponent.removeFade();
+            targetComponent.removeFade();
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]] = null;
         } else if (diedTarget) {
-            targetComponent.remove();
+            targetComponent.removeFade();
             boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]].setRevealed(true);
         } else if (diedCurrent) {
-            currentComponent.remove();
+            currentComponent.removeFade();
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]].setRevealed(true);
         }

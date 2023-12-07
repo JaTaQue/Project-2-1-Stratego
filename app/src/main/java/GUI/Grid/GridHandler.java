@@ -16,6 +16,7 @@ public class GridHandler extends GridBase {
     }
 
     public void updateGrid() {
+        getAnchorPane().getChildren().clear();
         for(int i = 0; i < getTileAmount(); i++){
             int x = (i % getTilesAcross());
             int y = (i / getTilesAcross());

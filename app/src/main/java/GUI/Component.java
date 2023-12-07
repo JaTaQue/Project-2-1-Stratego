@@ -17,6 +17,7 @@ public class Component {
     private Boolean clickable = true;
     private String drawing;
     private String skin="default";
+    private Boolean isMoving = false;
 
 
     public Component(int size, int startPositionX, int startPositionY) {
@@ -64,7 +65,7 @@ public class Component {
         return textNode.snapshot(params, null);
     }
 
-    public void remove(){
+    public void removeFade(){
         //fade out animation
         double duration =  2_000_000_000;
         Rectangle node = getRectangle();
@@ -83,6 +84,7 @@ public class Component {
 
                 if (progress >= 1.0) {
                     node.setOpacity(0);
+                    
                     stop();
                 } else {
                     double currentOpacity = 1 - progress;
@@ -96,9 +98,47 @@ public class Component {
         this.getRectangle().setDisable(true);
     }
 
+    public void removeFly() {
+        setClickable(false);
+        int pixelsPerTick = 50;
+        //starting position
+        double startY = getRectangle().getY();
+        double endY = SceneGame.GRID_SIZE * 10;
+        double deltaY = endY - startY;
+        double duration = deltaY / pixelsPerTick * 1_000_000_000;
+        Rectangle node = getRectangle();
+
+        AnimationTimer timer = new AnimationTimer() {
+            private long startTime = -1;
+
+            @Override
+            public void handle(long now) {
+                if (startTime == -1) {
+                    startTime = now;
+                }
+                if(!isMoving){
+                double elapsed = now - startTime;
+                double progress = elapsed / duration;
+
+                if (progress >= 1.0) {
+                    node.setLayoutY(endY);
+                    stop();
+                } else {
+                    double currentY = startY + deltaY * progress;
+                    node.setLayoutY(currentY);
+                }
+            }
+            }
+        };
+        // Start the timer
+        timer.start();
+        this.getRectangle().setDisable(true);
+    }
+
+
     public void move(int x, int y) {
         setClickable(false);
-        int pixelsPerTick = 100;
+        int pixelsPerTick = 150;
         double startX = getRectangle().getLayoutX();
         double startY = getRectangle().getLayoutY();
         double endX = x + getRectangle().getLayoutX(); 
@@ -117,6 +157,7 @@ public class Component {
                 if (startTime == -1) {
                     startTime = now;
                 }
+                isMoving = true;
 
                 double elapsed = now - startTime;
                 double progress = elapsed / duration;
@@ -125,6 +166,7 @@ public class Component {
                     node.setLayoutX(endX);
                     node.setLayoutY(endY);
                     setClickable(true);
+                    isMoving = false;
                     stop();
                 } else {
                     double currentX = startX + deltaX * progress;
