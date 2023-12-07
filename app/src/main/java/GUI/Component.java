@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Component {
 
     private final Rectangle rectangle;
-    private Boolean revealed = false;
+    private Boolean isVisible = false;
     private Boolean clickable = true;
     private String drawing;
     private String skin="default";
@@ -21,7 +21,11 @@ public class Component {
 
 
     public Component(int size, int startPositionX, int startPositionY) {
-        rectangle = new Rectangle(startPositionX, startPositionY, size, size);
+        rectangle = new Rectangle(startPositionX*size, startPositionY*size, size, size);
+    }
+    public Component(int startPositionX, int startPositionY) {
+        int size=SceneGame.GRID_SIZE;
+        rectangle = new Rectangle(startPositionX*size, startPositionY*size, size, size);
     }
     
     public void draw(String imageName){
@@ -42,20 +46,23 @@ public class Component {
         // Fill the Rectangle with the PNG image
         rectangle.setFill(new ImagePattern(img));
         //if the component is not revealed, set opacity to 75%
-        if(!this.revealed)
+        if(!this.isVisible)
             rectangle.setOpacity(0.75);
         if(rank==0)
             rectangle.setOpacity(1);
     }
 
     public void drawNumber(int number){
+        //downscale the rectangle
+        rectangle.setWidth(SceneGame.GRID_SIZE/4);
+        rectangle.setHeight(SceneGame.GRID_SIZE/4);
         //turn the number into a string
-        String text = String.valueOf(number);
+        String string = String.valueOf(number);
         //create an image from the number
-        Image img = createImageFromString(text);
+        Image img = createImageFromString(string);
         rectangle.setFill(new ImagePattern(img));
         rectangle.setStroke(Color.WHITE);
-        this.drawing = text+" coordinate";
+        this.drawing = string+" coordinate";
     }
 
     private Image createImageFromString(String text) {
@@ -201,17 +208,17 @@ public class Component {
         return drawing;
     }
 
-    public Boolean getRevealed() {
-        return revealed;
+    public Boolean getIsVisible() {
+        return isVisible;
     }
 
     public Boolean getClickable() {
         return clickable;
     }
 
-    public void setRevealed(Boolean revealed) {
+    public void setIsVisible(Boolean revealed) {
         rectangle.setOpacity(1);
-        this.revealed = revealed;
+        this.isVisible = revealed;
     }
 
     public void setClickable(Boolean clickable) {

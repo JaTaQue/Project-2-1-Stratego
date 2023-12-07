@@ -72,7 +72,7 @@ public class SceneGame implements Initializable {
             for (int j = 0; j < board[i].length; j++) {
                 Piece piece = board[i][j]; 
                 if (piece != null) {
-                    Component component = new Component(GRID_SIZE, j* GRID_SIZE, i* GRID_SIZE);
+                    Component component = new Component( j, i);
                     //lake
                     if(piece.getRank()==-1)
                         component.draw("lake");
@@ -82,7 +82,7 @@ public class SceneGame implements Initializable {
                 
                 //coordinates
                 if(i==0 || j==0){
-                    Component coordinate = new Component(GRID_SIZE /4, j* GRID_SIZE, i* GRID_SIZE);
+                    Component coordinate = new Component(j, i);
                     coordinate.drawNumber(i+j);
                     pane.getChildren().add(coordinate.getRectangle());
                 }
@@ -122,7 +122,7 @@ public class SceneGame implements Initializable {
         //content
         alertNext.setContentText("Press ENTER to continue");
         //graphic
-        Component blankIcon = new Component(GRID_SIZE, 0, 0);
+        Component blankIcon = new Component( 0, 0);
         blankIcon.draw(0,color);
         alertNext.setGraphic(blankIcon.getRectangle());
         //size
@@ -138,7 +138,7 @@ public class SceneGame implements Initializable {
         ArrayList<int[]> playerTiles = getTiles(player);
         for(int[] tile : playerTiles){
             Component component = boardGUI[tile[0]][tile[1]];
-            if(!component.getRevealed()){
+            if(!component.getIsVisible()){
                 component.draw(0,player.getColor());
             }
         }
@@ -249,7 +249,7 @@ public class SceneGame implements Initializable {
         alert.setHeaderText(winner +" wins!");
         
         //graphic
-        Component FlagComponent = new Component(GRID_SIZE, 0, 0);
+        Component FlagComponent = new Component(0, 0);
         FlagComponent.draw(11,winner);
         alert.setGraphic(FlagComponent.getRectangle());
         showGUI(game.getCurrentPlayer());
@@ -289,7 +289,7 @@ public class SceneGame implements Initializable {
         for(int[] tile : currentTiles){
             //create a component at the move if there is no component there already
             if(game.getBoard()[tile[0]][tile[1]] == null){
-                component = new Component(GRID_SIZE, tile[1]* GRID_SIZE, tile[0]* GRID_SIZE);
+                component = new Component(tile[1], tile[0]);
                 //draw the component
                 component.draw("tile");
                 component.setClickable(false);
@@ -420,11 +420,11 @@ public class SceneGame implements Initializable {
             targetComponent.removeFade();
             boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
             boardGUI[currentXY[0]][currentXY[1]] = null;
-            boardGUI[targetXY[0]][targetXY[1]].setRevealed(true);
+            boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
         } else if (diedCurrent) {
             currentComponent.removeFade();
             boardGUI[currentXY[0]][currentXY[1]] = null;
-            boardGUI[targetXY[0]][targetXY[1]].setRevealed(true);
+            boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
         }
     }
     
