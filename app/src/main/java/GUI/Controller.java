@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    private static final int GRID_SIZE = 50;
+    private static final int GRID_SIZE = 75;
 
     @FXML
     public AnchorPane pane;
@@ -383,7 +383,7 @@ public class Controller implements Initializable {
     }
 
     private void moveGUI(int[] currentXY, int[] targetXY) {
-        int gridSize = 50;
+        int gridSize = 75;
         int currentX = currentXY[0];
         int currentY = currentXY[1];
         int targetX = targetXY[0];
