@@ -25,9 +25,9 @@ import java.util.ResourceBundle;
 public class SceneGame implements Initializable {
 
     @FXML
-    public static AnchorPane pane;
+    public AnchorPane pane;
 
-    public static final int GRID_SIZE = (int) (pane.getPrefWidth() / 10);
+    public static final int GRID_SIZE = 75;
 
     Game game;
     Component[][] boardGUI = new Component[10][10];
