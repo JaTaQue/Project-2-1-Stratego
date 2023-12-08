@@ -412,17 +412,17 @@ public class SceneGame implements Initializable {
         Component targetComponent = boardGUI[targetXY[0]][targetXY[1]];
 
         if (diedTarget && diedCurrent) {
-            currentComponent.removeFade();
-            targetComponent.removeFade();
+            currentComponent.removeFly();
+            targetComponent.removeFly();
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]] = null;
         } else if (diedTarget) {
-            targetComponent.removeFade();
+            targetComponent.removeFly();
             boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
         } else if (diedCurrent) {
-            currentComponent.removeFade();
+            currentComponent.removeFly();
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
         }
@@ -431,15 +431,15 @@ public class SceneGame implements Initializable {
     private void swapGUI(int[] currentXY,int[] targetXY) {
         //check if the current piece is not null and is not an enemy piece
         Piece currentPiece = game.getBoard()[currentXY[0]][currentXY[1]];
-        if(currentPiece == null || !Objects.equals(currentPiece.getColor(), game.getCurrentPlayer().getColor())){
+        if(currentPiece == null || !Objects.equals(currentPiece.getColor(), game.getCurrentPlayer().getColor()))
             return;
-        }
+        
 
         //check if the target is empty or an enemy piece
         Piece tempPiece = game.getBoard()[targetXY[0]][targetXY[1]];
-        if(tempPiece == null || !Objects.equals(tempPiece.getColor(), game.getCurrentPlayer().getColor())){
+        if(tempPiece == null || !Objects.equals(tempPiece.getColor(), game.getCurrentPlayer().getColor()))
             return;
-        }
+        
 
         //swap pieces
         game.getBoard()[targetXY[0]][targetXY[1]] = currentPiece;
@@ -449,15 +449,19 @@ public class SceneGame implements Initializable {
         
         //swap GUI_board
         Component tempComponent = boardGUI[targetXY[0]][targetXY[1]];
-        if (!tempComponent.getClickable()){
+        if (!tempComponent.getClickable())
             return;
-        }
+
         boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
         boardGUI[currentXY[0]][currentXY[1]] = tempComponent;
         
         //swap the components
-        boardGUI[targetXY[0]][targetXY[1]].move((targetXY[1] - currentXY[1]) * GRID_SIZE, (targetXY[0] - currentXY[0]) * GRID_SIZE);
-        boardGUI[currentXY[0]][currentXY[1]].move((currentXY[1] - targetXY[1]) * GRID_SIZE, (currentXY[0] - targetXY[0]) * GRID_SIZE);
+        boardGUI[targetXY[0]][targetXY[1]].move(
+            (targetXY[1] - currentXY[1]) * GRID_SIZE, 
+            (targetXY[0] - currentXY[0]) * GRID_SIZE);
+        boardGUI[currentXY[0]][currentXY[1]].move(
+            (currentXY[1] - targetXY[1]) * GRID_SIZE, 
+            (currentXY[0] - targetXY[0]) * GRID_SIZE);
     }
 
     private Boolean matchGUI(Component[][] GUIboard, Piece[][] board){

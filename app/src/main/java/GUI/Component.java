@@ -107,10 +107,10 @@ public class Component {
 
     public void removeFly() {
         setClickable(false);
-        int pixelsPerTick = 50;
+        int pixelsPerTick = 150;
         //starting position
         double startY = getRectangle().getY();
-        double endY = SceneGame.GRID_SIZE * 10;
+        double endY = -SceneGame.GRID_SIZE * 10;
         double deltaY = endY - startY;
         double duration = deltaY / pixelsPerTick * 1_000_000_000;
         Rectangle node = getRectangle();
@@ -124,17 +124,17 @@ public class Component {
                     startTime = now;
                 }
                 if(!isMoving){
-                double elapsed = now - startTime;
-                double progress = elapsed / duration;
+                    double elapsed = now - startTime;
+                    double progress = elapsed / duration;
 
-                if (progress >= 1.0) {
-                    node.setLayoutY(endY);
-                    stop();
-                } else {
-                    double currentY = startY + deltaY * progress;
-                    node.setLayoutY(currentY);
+                    if (progress >= 1.0) {
+                        node.setLayoutY(endY);
+                        stop();
+                    } else {
+                        double currentY = startY - deltaY * progress;
+                        node.setLayoutY(currentY);
+                    }
                 }
-            }
             }
         };
         // Start the timer
@@ -156,36 +156,41 @@ public class Component {
         double duration = distance / pixelsPerTick * 1_000_000_000;
         Rectangle node = getRectangle();
 
+        do{
         AnimationTimer timer = new AnimationTimer() {
             private long startTime = -1;
 
-            @Override
-            public void handle(long now) {
-                if (startTime == -1) {
-                    startTime = now;
-                }
-                isMoving = true;
+            
+                @Override
+                public void handle(long now) {
+                    if (startTime == -1) {
+                        startTime = now;
+                    }
+                    setMoving(true);
 
-                double elapsed = now - startTime;
-                double progress = elapsed / duration;
+                    double elapsed = now - startTime;
+                    double progress = elapsed / duration;
 
-                if (progress >= 1.0) {
-                    node.setLayoutX(endX);
-                    node.setLayoutY(endY);
-                    setClickable(true);
-                    isMoving = false;
-                    stop();
-                } else {
-                    double currentX = startX + deltaX * progress;
-                    double currentY = startY + deltaY * progress;
-                    node.setLayoutX(currentX);
-                    node.setLayoutY(currentY);
+                    if (progress >= 1.0) {
+                        node.setLayoutX(endX);
+                        node.setLayoutY(endY);
+                        setClickable(true);
+                        isMoving = false;
+                        stop();
+                    } else {
+                        double currentX = startX + deltaX * progress;
+                        double currentY = startY + deltaY * progress;
+                        node.setLayoutX(currentX);
+                        node.setLayoutY(currentY);
+                    }
                 }
-            }
-        };
+            };
+            timer.start();
+        } while (isMoving);
         // Start the timer
-        timer.start();
     }
+
+
 
     public void moveTP(int x, int y) {
     this.getRectangle().setLayoutX(this.getRectangle().getLayoutX() + x);
@@ -223,6 +228,11 @@ public class Component {
 
     public void setClickable(Boolean clickable) {
         this.clickable = clickable;
+    }
+
+    //set isMoving 
+    public void setMoving(Boolean isMoving) {
+        this.isMoving = isMoving;
     }
 
     public void setSkin(String skin) {
