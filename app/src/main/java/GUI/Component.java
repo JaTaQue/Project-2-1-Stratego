@@ -1,13 +1,15 @@
 package GUI;
+import java.util.Objects;
+
 import javafx.animation.AnimationTimer;
+import javafx.animation.Transition;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import java.util.Objects;
+import javafx.util.Duration;
 
 
 public class Component {
@@ -20,9 +22,6 @@ public class Component {
     private Boolean isMoving = false;
 
 
-    public Component(int size, int startPositionX, int startPositionY) {
-        rectangle = new Rectangle(startPositionX*size, startPositionY*size, size, size);
-    }
     public Component(int startPositionX, int startPositionY) {
         int size=SceneGame.GRID_SIZE;
         rectangle = new Rectangle(startPositionX*size, startPositionY*size, size, size);
@@ -54,8 +53,8 @@ public class Component {
 
     public void drawNumber(int number){
         //downscale the rectangle
-        rectangle.setWidth(SceneGame.GRID_SIZE/4);
-        rectangle.setHeight(SceneGame.GRID_SIZE/4);
+        rectangle.setWidth((double) SceneGame.GRID_SIZE /4);
+        rectangle.setHeight((double) SceneGame.GRID_SIZE /4);
         //turn the number into a string
         String string = String.valueOf(number);
         //create an image from the number
@@ -107,7 +106,7 @@ public class Component {
 
     public void removeFly() {
         setClickable(false);
-        int pixelsPerTick = 150;
+        int pixelsPerTick = 500;
         //starting position
         double startY = getRectangle().getY();
         double endY = -SceneGame.GRID_SIZE * 10;
@@ -128,11 +127,11 @@ public class Component {
                     double progress = elapsed / duration;
 
                     if (progress >= 1.0) {
-                        node.setLayoutY(endY);
+                        node.setY(endY);
                         stop();
                     } else {
                         double currentY = startY - deltaY * progress;
-                        node.setLayoutY(currentY);
+                        node.setY(currentY);
                     }
                 }
             }
@@ -143,10 +142,10 @@ public class Component {
     }
 
 
-    public void move(int x, int y) {
-        setClickable(false);
-        int pixelsPerTick = 150;
-        double startX = getRectangle().getLayoutX();
+    public void moveParallel(int x, int y) {
+
+        int pixelsPerTick = 300;
+        double startX = getRectangle().getX();
         double startY = getRectangle().getLayoutY();
         double endX = x + getRectangle().getLayoutX(); 
         double endY = y + getRectangle().getLayoutY();
@@ -155,27 +154,18 @@ public class Component {
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         double duration = distance / pixelsPerTick * 1_000_000_000;
         Rectangle node = getRectangle();
-
-        do{
         AnimationTimer timer = new AnimationTimer() {
-            private long startTime = -1;
-
-            
+                private long startTime = -1;
                 @Override
                 public void handle(long now) {
                     if (startTime == -1) {
                         startTime = now;
                     }
-                    setMoving(true);
 
                     double elapsed = now - startTime;
                     double progress = elapsed / duration;
 
                     if (progress >= 1.0) {
-                        node.setLayoutX(endX);
-                        node.setLayoutY(endY);
-                        setClickable(true);
-                        isMoving = false;
                         stop();
                     } else {
                         double currentX = startX + deltaX * progress;
@@ -184,17 +174,64 @@ public class Component {
                         node.setLayoutY(currentY);
                     }
                 }
+                
+                @Override
+                public void stop() {
+                    super.stop();
+                    setMoving(false);
+                    setClickable(true);
+                    node.setLayoutX(endX);
+                    node.setLayoutY(endY);
+                }
+                @Override
+                public void start() {
+                    super.start();
+                    setClickable(false);
+                    setMoving(true);
+                }
             };
-            timer.start();
-        } while (isMoving);
-        // Start the timer
+
+        
+        timer.start();
+        //do {} while (isMoving);
+        System.out.println("done");
+
     }
 
 
+    public void move(int x, int y) {
+        Rectangle node = getRectangle();
+        double startX = node.getX();
+        double startY = node.getY();
+        double endX = x + startX;
+        double endY = y + startY;
+
+        Transition transition = new Transition() {
+            {setCycleDuration(Duration.seconds(1));}
+
+            @Override
+            protected void interpolate(double frac) {
+                double curX = startX + (endX - startX) * frac;
+                double curY = startY + (endY - startY) * frac;
+                node.setX(curX);
+                node.setY(curY);
+            }
+        };
+
+        transition.setOnFinished(event -> {
+            setMoving(false);
+            setClickable(true);
+        });
+
+        setClickable(false);
+        setMoving(true);
+        transition.play();
+    }
+    
 
     public void moveTP(int x, int y) {
-    this.getRectangle().setLayoutX(this.getRectangle().getLayoutX() + x);
-    this.getRectangle().setLayoutY(this.getRectangle().getLayoutY() + y);
+        this.getRectangle().setLayoutX(this.getRectangle().getLayoutX() + x);
+        this.getRectangle().setLayoutY(this.getRectangle().getLayoutY() + y);
     }
 
     public void highlight(String color) {

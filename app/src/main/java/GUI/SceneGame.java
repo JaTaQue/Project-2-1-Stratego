@@ -1,5 +1,11 @@
 package GUI;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
 import GUI.Grid.GridHandler;
 import GUI.Grid.GridStratego;
 import Logic.PieceLogic.Piece;
@@ -13,13 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 
 public class SceneGame implements Initializable {
@@ -130,7 +131,7 @@ public class SceneGame implements Initializable {
 
         
         //show the alert
-        //alertNext.showAndWait();
+        alertNext.showAndWait();
         
     }
 
@@ -490,11 +491,13 @@ public class SceneGame implements Initializable {
         //invert coordinates for array indexing
         //noinspection SuspiciousNameCombination
         int[] clickCoordinates = draggableMakerGrid.getClickCoordinates(mouseAnchorY, mouseAnchorX);
+        int[] nodeCoordinates = getNodesCoordinates(clickCoordinates);
         String componentID = getComponentID(clickCoordinates);
         String pieceID = getPieceID(clickCoordinates);
         //print a line
-        System.out.println("mouseAnchorX: " + mouseAnchorX);
-        System.out.println("mouseAnchorY: " + mouseAnchorY);
+        System.out.println("mouseAnchorX: " + (mouseAnchorX - mouseAnchorX % GRID_SIZE));
+        System.out.println("mouseAnchorY: " + (mouseAnchorY - mouseAnchorY % GRID_SIZE));
+        System.out.println("nodeCoordinates: " + nodeCoordinates[0] + ", " + nodeCoordinates[1]);
         System.out.println("clickCoordinates: " + clickCoordinates[0] + ", " + clickCoordinates[1]);
         System.out.println("componentID: " + componentID);
         System.out.println("pieceID: " + pieceID);
@@ -502,6 +505,14 @@ public class SceneGame implements Initializable {
         System.out.println("Turn : " + turn);
         //print a line
         System.out.println("--------------------------------------------------");
+    }
+
+    private int[] getNodesCoordinates(int[] clickCoordinates) {
+        Component component = boardGUI[clickCoordinates[0]][clickCoordinates[1]];
+        Rectangle rectangle = component.getRectangle();
+        return new int[]{(int) rectangle.getX(), (int) rectangle.getY()};
+        
+
     }
 
     private String getComponentID(int[] clickCoordinates) {
