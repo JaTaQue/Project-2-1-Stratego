@@ -128,7 +128,7 @@ public class AttackLogic {
             attackerFigure.setPosition(defenderPosition);
         } else if (defenderFigure.getRank() == 12) {
             attackerFigure.setDead();
-            attackerFigure.setVisivle();
+            defenderFigure.setVisivle();
             Attacker.addDeadPiece(attackerFigure.getRank());
             board[attackerPosition[0]][attackerPosition[1]] = null;
             board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
@@ -157,7 +157,7 @@ public class AttackLogic {
             attackerFigure.setPosition(defenderPosition);
         } else if(attackerFigure.getRank() < defenderFigure.getRank()) {
             attackerFigure.setDead();
-            attackerFigure.setVisivle();
+            defenderFigure.setVisivle();
             Attacker.addDeadPiece(attackerFigure.getRank());
             board[attackerPosition[0]][attackerPosition[1]] = null;
             board[defenderPosition[0]][defenderPosition[1]] = defenderFigure;
