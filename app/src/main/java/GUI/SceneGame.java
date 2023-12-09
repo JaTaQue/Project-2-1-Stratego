@@ -57,12 +57,15 @@ public class SceneGame implements Initializable {
 
     private void setGame() {
         game = new Game();
+        //place the pieces on the board
         for (int i = 0; i < 2; i++) {
             game.placePiecesSimulation((game.getCurrentPlayer()));
             //game.placePiecesBlackBox(game.getCurrentPlayer());
             game.switchCurrentPlayer();
         }
+        //place the components on the GUI board
         setGUI();
+        //shohw the pieces of the current player and hide the pieces of the enemy player
         switchGUI();
 
     }

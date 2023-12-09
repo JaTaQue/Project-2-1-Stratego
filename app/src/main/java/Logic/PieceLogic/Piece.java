@@ -10,6 +10,7 @@ public class Piece {
     private int[] position = new int[2];
     private boolean isDead;
     private final String COLOR;
+    private boolean isVisible;
 
     /**
      * Constructor for the Piece
@@ -107,5 +108,9 @@ public class Piece {
     public Piece copyPiece() {
         int[] positionCopy = position.clone();
         return new Piece(this.RANK, this.COLOR, positionCopy, isDead);
+    }
+
+    public void setVisivle() {
+        this.isVisible = true;
     }
 }
