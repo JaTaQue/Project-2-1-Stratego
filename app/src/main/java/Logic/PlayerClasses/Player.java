@@ -158,7 +158,7 @@ public abstract class Player {
      */
     public void setWinner() {
         this.isWinner = true;
-        System.out.println("\nWe have a winner!");
+        // System.out.println("\nWe have a winner!");
     }
 
     /**
@@ -394,6 +394,69 @@ public abstract class Player {
 
     public void setPieces(ArrayList<Piece> pieces){
         this.pieces = pieces;
+    }
+
+    public abstract int[][] getNextMove(Game game);
+
+    /**
+     * places the pieces for a player randomly
+     * @param game current game
+     * @author Group 7
+     * @version 1
+     */ 
+     public void placePiecesSimulation(Game game){  
+        int counter = 0;
+    
+        if(equals(game.player1)){
+            placePiecesForPlayer(game, counter);
+        }else{
+            placePiecesForPlayer(game, counter);
+            game.setStarted(); //start game after placing player2's pieces
+        }
+    }
+
+    /**
+     * private helper-method for placing the pieces for a player randomly
+     * @param game current game
+     * @param counter the number of pieces placed so far
+     * @author Group 7
+     * @version 1
+     */ 
+    public void placePiecesForPlayer(Game game, int counter) {
+        ArrayList<Piece> pieces = new ArrayList<>();
+        while(!game.isEveryPieceAtBeginningOnBoard(this)){
+    
+            int randomX = (int)(Math.random()*10);
+            int randomY = (int)(Math.random()*10);
+            int[] targetPosition = new int[]{randomX,randomY};
+    
+            Piece pieceToBePlaced = getAvailablePieces().get(counter);
+            // System.out.println("piecetobeplaced: " + pieceToBePlaced);
+    
+            if(Game.canPlaceAtPosition(targetPosition, game.board, equals(game.player1) ? game.placingBordersPlayer1 : game.placingBordersPlayer2)){
+                placePiece(pieceToBePlaced, targetPosition, game);
+                // System.out.println("pieces: "+currentPlayer.getPieces());
+                counter++;
+                pieces.add(pieceToBePlaced);
+            }
+            // System.out.println("amt: " +Arrays.toString(player.getPiecesToBePlacedAmount()));
+        }
+        setPieces(pieces);
+        // System.out.println("player pieces count: " + player.getPieces().size());
+    }
+
+    /**
+     * places a piece on the game board at the specified target position
+     * @param piece the piece to be placed
+     * @param targetPosition the position on the board where the piece is to be placed
+     * @param game current game
+     * @author Group 7
+     * @version 1
+     */
+    public void placePiece(Piece piece, int[] targetPosition, Game game) {
+        piece.setPosition(targetPosition);
+        game.board[targetPosition[0]][targetPosition[1]] = piece;
+        piecePlaced(piece);
     }
 
 }

@@ -88,7 +88,7 @@ public class SceneGame implements Initializable {
 
         //place the pieces on the board
         for (int i = 0; i < 2; i++) {
-            game.placePiecesSimulation((game.getCurrentPlayer()));
+            (game.getCurrentPlayer()).placePiecesSimulation(game);
             //game.placePiecesBlackBox(game.getCurrentPlayer());
             game.switchCurrentPlayer();
         }

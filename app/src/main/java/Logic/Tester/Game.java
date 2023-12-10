@@ -20,12 +20,12 @@ import Logic.PlayerClasses.Player;
 public class Game {
     private boolean isOver = false;
     private boolean hasStarted = false;
-    private Piece[][] board;
+    public Piece[][] board;
     public Player player1;
     private Player player2;
     private Player currentPlayer;
-    private final int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
-    private final int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
+    public final int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
+    public final int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
     private static final ArrayList<String> availableColors = new ArrayList<>(List.of("Blue", "Red"));
 
     /**
@@ -208,67 +208,6 @@ public class Game {
             }
             setStarted(); //start game after placing player2's pieces
         }
-    }
-
-    /**
-     * places the pieces for a player randomly
-     * @author Group 7
-     * @version 1
-     * @param player the player for whom pieces are being placed
-     */ 
-     public void placePiecesSimulation(Player player){  
-        int counter = 0;
-
-        if(player.equals(player1)){
-            placePiecesForPlayer(player, counter);
-        }else{
-            placePiecesForPlayer(player, counter);
-            setStarted(); //start game after placing player2's pieces
-        }
-    }
-
-    /**
-     * private helper-method for placing the pieces for a player randomly
-     * @author Group 7
-     * @version 1
-     * @param player the player for whom pieces are being placed
-     * @param counter the number of pieces placed so far
-     */ 
-    private void placePiecesForPlayer(Player player, int counter) {
-        ArrayList<Piece> pieces = new ArrayList<>();
-        while(!isEveryPieceAtBeginningOnBoard(player)){
-
-            int randomX = (int)(Math.random()*10);
-            int randomY = (int)(Math.random()*10);
-            int[] targetPosition = new int[]{randomX,randomY};
-
-            Piece pieceToBePlaced = player.getAvailablePieces().get(counter);
-            // System.out.println("piecetobeplaced: " + pieceToBePlaced);
-
-            if(canPlaceAtPosition(targetPosition, board, player.equals(player1) ? placingBordersPlayer1 : placingBordersPlayer2)){
-                placePiece(pieceToBePlaced, targetPosition, player);
-                // System.out.println("pieces: "+currentPlayer.getPieces());
-                counter++;
-                pieces.add(pieceToBePlaced);
-            }
-            // System.out.println("amt: " +Arrays.toString(player.getPiecesToBePlacedAmount()));
-        }
-        player.setPieces(pieces);
-        // System.out.println("player pieces count: " + player.getPieces().size());
-    }
-
-    /**
-     * places a piece on the game board at the specified target position
-     * @author Group 7
-     * @version 1
-     * @param piece the piece to be placed
-     * @param targetPosition the position on the board where the piece is to be placed
-     * @param player the player who is placing pieces
-     */
-    public void placePiece(Piece piece, int[] targetPosition, Player player) {
-        piece.setPosition(targetPosition);
-        board[targetPosition[0]][targetPosition[1]] = piece;
-        player.piecePlaced(piece);
     }
 
     /**
@@ -501,67 +440,8 @@ public class Game {
         this.player2 = player2;
     }
 
-    private void placePiecesForMCTS(Player player) {
-        int counter = 0; // Counter to iterate through available pieces
-        ArrayList<Piece> pieces = player.getAvailablePieces(); // Get available pieces for the player
-        
-        // Loop until every piece is placed at the beginning on the board
-        while (!isEveryPieceAtBeginningOnBoard(player)) {
-           
-    
-            // Loop until all pieces are placed or a condition is met to exit the loop
-            while (!pieces.isEmpty()) {
-                Piece piece = pieces.get(counter); // Get the piece at the counter position
-    
-                // Generate random positions for different pieces
-                int randomX = (int)(Math.random() * 10);
-                int randomMarshalX = (int)(Math.random() * 6) + 3;
-                int randomMarshalY = (int)(Math.random() * 3) + 7;
-                int randomColonel = (int)(Math.random() * 6) + 3;
-                int randomY = (int)(Math.random()*10);
-                
-    
-                // Create arrays representing various positions on the board
-                int[] positionMarshal = { randomMarshalX, randomMarshalY };
-                int[] positionFlag = { randomX, 9 };
-                double randomNumber = Math.random();
-                int selectedNumber = (randomNumber < 0.5) ? 0 : 9;
-                int[] positionColonel1 = { selectedNumber, randomColonel };
-                int[] targetPosition = new int[]{randomX,randomY};
-    
-                // Break the loop if the counter exceeds the size of the pieces list plus one
-                if (counter == pieces.size() + 1) {
-                    break;
-                }
-    
-                // Conditions for placing different piece ranks at specific positions
-                if (piece.getRank() == 11 && canPlaceAtPosition(positionFlag, board, placingBordersPlayer2)) {
-                    placePiece(piece, positionFlag, player); // Place the piece at positionFlag
-                    pieces.remove(counter); // Remove the placed piece from the list
-                    counter++; // Increment counter to move to the next piece
-                }
-    
-                if (piece.getRank() == 9 && pieces.get(counter).getRank() == 10 &&
-                    canPlaceAtPosition(positionMarshal, board, placingBordersPlayer2)) {
-                    placePiece(piece, positionMarshal, player); // Place the piece at positionMarshal
-                    pieces.remove(counter); // Remove the placed piece from the list
-                    counter++; // Increment counter to move to the next piece
-                }
-    
-                if (piece.getRank() == 8 && (canPlaceAtPosition(positionColonel1, board, placingBordersPlayer2))) {
-                    placePiece(piece, positionColonel1, player); // Place the piece at positionColonel1
-                    pieces.remove(counter); // Remove the placed piece from the list
-                    counter++; // Increment counter to move to the next piece
-                }
-
-                //places all the other pieces
-                if(piece.getRank()!= 8 && piece.getRank()!= 9 && piece.getRank()!=10  && canPlaceAtPosition(targetPosition, board, player.equals(player2) ? placingBordersPlayer1 : placingBordersPlayer2) && targetPosition != positionColonel1 && targetPosition!= positionFlag && targetPosition!= positionMarshal){
-                    placePiece(piece, targetPosition, player);
-                    counter++;
-                }
-
-            }
-        }
+    public void setBoard(Piece[][] currBoard) {
+        this.board = currBoard;
     }
 }
 

@@ -1,5 +1,4 @@
 package Logic.Tester;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import Logic.PieceLogic.Piece;
@@ -41,7 +40,7 @@ public class Test {
                 scanner.nextLine();     
 
                 //game.placePiecesBlackBox(game.getCurrentPlayer());
-                game.placePiecesSimulation(game.getCurrentPlayer());
+                game.getCurrentPlayer().placePiecesSimulation(game);
 
                 boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
                 
@@ -53,53 +52,21 @@ public class Test {
             System.out.println("GAME ON\n");
 
             while(!game.isOver()){
+                System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
+                boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
 
-                if(game.getCurrentPlayer().IsPlayable()){
-                    System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
-                    boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+                int[][] nextMove = game.getCurrentPlayer().getNextMove(game);
+                int[] currentPosition = nextMove[0];
+                int[] targetPosition = nextMove[1];
 
-                    int currY = scanner.nextInt(); 
-                    int currX = scanner.nextInt();
+                game.makeAMove(currentPosition, game.getBoard()[currentPosition[0]][currentPosition[1]], targetPosition);  
 
-                    int targY = scanner.nextInt();  
-                    int targX = scanner.nextInt();  
-
-                    Piece currPiece = game.getBoard()[currX][currY];
-                    int[] currentPosition = new int[]{currX, currY};
-                    int[] targetPosition = new int[]{targX, targY};
-
-                    try{
-                        System.out.println();
-                        System.out.println(Arrays.toString(new int[]{currY, currX}) + " -> " + Arrays.toString(new int[]{targetPosition[1], targetPosition[0]}) + ", " + currPiece.toString());
-                    }catch(NullPointerException npe){
-                        System.out.println(Arrays.toString(targetPosition) + " " + "null");
-                    }
-
-                    game.makeAMove(currentPosition, currPiece, targetPosition);   
-                }
-                
-                if(!game.getCurrentPlayer().IsPlayable()){
-                    System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
-                    boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-
-                    int[] movablePosition = game.getCurrentPlayer().getRandomMovablePosition(game);
-                    int[] move = game.getCurrentPlayer().getRandomMove(game, movablePosition);
-                    Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
-
-                    try{
-                        System.out.println();
-                        System.out.println(Arrays.toString(movablePosition) + " -> " + Arrays.toString(move) + ", " + pieceMovablePosition.toString());
-                    }catch(NullPointerException npe){
-                        System.out.println(Arrays.toString(move) + " " + "null");
-                    }
-
-                    game.makeAMove(movablePosition, pieceMovablePosition, move);
-                }
             }  
 
             //when game is done it prints the final board one more time
             System.out.println();
             boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+            System.out.println("\n\t~ GAME OVER ~");
         }
     }
 

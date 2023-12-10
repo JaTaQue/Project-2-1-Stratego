@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Timer;
 
+import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
@@ -11,58 +12,77 @@ import Logic.Tester.Game;
 import Logic.Tester.Test;
 
 public class MCTS {
-    
-    public int[][] returnNextMove(Piece[][] board, Player currentPlayer, Player oppentPlayer) {
-        //note: do we have reference issues with board?
-        Player copyCurrent = currentPlayer.copyPlayer();
-        Player copyOpponent = oppentPlayer.copyPlayer();
-        int[][] nextMove = new int[2][2];
-        Node s0 = new Node(board, null, null, null, copyCurrent, copyOpponent);
-        Node currentNode = s0;
-        // currentNode.addChildren(s0.getChildren());
-        // System.out.println(s0.expand());
-        currentNode.addChildren(s0.expand());
-        // System.out.println(currentNode.getChildren());
-        long startTime = System.currentTimeMillis();
-        long elapsedTime = 0;
-        while (elapsedTime < 10000) {
-            currentNode = treeTraversal(currentNode);
-            if(currentNode.getVisitQuantity() == 0) {
-                //rollout method needs to be placed here
-                currentNode.incrementVisit_AddScore(rollout(currentNode, currentPlayer, oppentPlayer));
-            } else {
-                currentNode.addChildren(s0.getChildren());
+
+    private static final int ROLLOUT_TIME_MILLIS = 500;
+    final int SIMULATION_COUNT = 50;
+
+    public int[][] findBestMove(Game game){
+        Player copyCurrent = game.getCurrentPlayer().copyPlayer();
+        Player copyOpponent = game.getEnemyPlayer().copyPlayer();
+        Node root = new Node(game.getBoard(), null, null, null, copyCurrent, copyOpponent);
+        root.addChildren(root.expand());
+
+        for(int i = 0; i < SIMULATION_COUNT; i++){
+            Node currentNode = treeTraversal(root);
+            if (currentNode.getVisitQuantity() == 0){
+                currentNode.incrementVisit_AddScore(rollout(currentNode));
+            }else{
+                currentNode.addChildren(currentNode.expand());
                 currentNode = currentNode.getChild(0);
-                //rollout needs to be implemented here
-                currentNode.incrementVisit_AddScore(rollout(currentNode, currentPlayer, oppentPlayer));
-            }
-            currentNode = s0;
-            elapsedTime = System.currentTimeMillis() - startTime;
-        }
-        int posBestMove = -1;
-        double bestValue = Integer.MIN_VALUE;
-        for(int i = 0; i < s0.getChildren().size(); i++) {
-            double currentValue = s0.getChild(i).getScore() / s0.getChild(i).getVisitQuantity();
-            if(currentValue > bestValue) {
-                posBestMove = i;
-                bestValue = currentValue;
+                currentNode.incrementVisit_AddScore(rollout(currentNode));
             }
         }
-        Node bestMove = s0.getChild(posBestMove);
-        nextMove[0] = bestMove.getCurrentPosition();
-        nextMove[1] = bestMove.getNextPosition();
-        return nextMove;
+// init: expand root
+// 1) traverse: leaf w highest ucb1 (if not visited inf)
+// 2) rollout if visit 0 and backprop, 
+//     else expand and rollout first
+
+        Node bestChild = root.getChild(0);
+        double bestScore = -1;
+
+        for (int i = 0; i < root.getChildren().size(); i++){
+            Node currChild = root.getChild(i);
+            double avgScore = currChild.score / currChild.visitQuantity;
+            if (avgScore > bestScore){
+                bestChild = currChild;
+                bestScore = avgScore;
+            }
+        }        
+
+        int[][] bestMove = new int[2][2];
+        bestMove[0] = bestChild.getCurrentPosition();
+        bestMove[1] = bestChild.getNextPosition();
+        return bestMove;
+
     }
 
-    private double rollout(Node currentNode, Player currentPlayer, Player opponentPlayer) {
-        while((!currentPlayer.isWinner()) && !opponentPlayer.isWinner()) {
-            LinkedList<Node> children = currentNode.getChildren();
-            int child_amount = children.size();
-            int rand = (int) (child_amount*Math.random());
-            currentNode = currentNode.getChild(rand);
-            currentNode.setParent(null); //parent field is set null in order to save memory
+    private double rollout(Node currentNode) {
+        Player copyCurrent = currentNode.player.copyPlayer();
+        Player copyOpponent = currentNode.enemyPlayer.copyPlayer();
+        Piece[][] currBoard = Node.copyBoard(currentNode.board);
+        Game currGame = new Game(copyCurrent, copyOpponent);
+        currGame.setBoard(currBoard);
+        currGame.setStarted();
+        System.out.print("rollout: ");
+        long startTime = System.currentTimeMillis();
+        while(!currGame.isOver() && System.currentTimeMillis()-startTime < ROLLOUT_TIME_MILLIS) {
+            int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
+            int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
+            currGame.makeAMove(movablePosition, currBoard[movablePosition[0]][movablePosition[1]], nextMove);
+            // System.out.println("p1: " + currGame.getPlayer1().isWinner());
+            // System.out.println("p2: " + currGame.getPlayer2().isWinner());
+
+            // LinkedList<Node> children = currentNode.getChildren();
+            // int child_amount = children.size();
+            // int rand = (int) (child_amount*Math.random());
+            // currentNode = currentNode.getChild(rand);
+            // currentNode.setParent(null); //parent field is set null in order to save memory
+
+            // 
         }
-        double evaluation_value = evalFunction(currentNode,currentPlayer.getColor(), currentPlayer);
+        // Test.boardToASCIIArt(currBoard, currentPlayer);
+        
+        double evaluation_value = evalFunction(currBoard, copyCurrent.getColor(), copyCurrent);
         return evaluation_value;
     }
 
@@ -93,7 +113,7 @@ public class MCTS {
         }
     }
 
-    private double evalFunction(Node node, String color, Player AIplayer)
+    private double evalFunction(Piece[][] board, String color, Player AIplayer)
     {
         double evalScore = 0;
         int TakenByAI = 0;
@@ -102,23 +122,26 @@ public class MCTS {
         int TotRankPlayer = 0;
         int rankDifference = 0;
         
-        for (int i = 0; i < node.getBoard().length; i++) 
+        for (int i = 0; i < board.length; i++) 
         {
-            for (int j = 0; j < node.getBoard().length; j++) 
+            for (int j = 0; j < board.length; j++) 
             {
-                // this goes through the Pieces the AI took from the player 
-                if((node.getBoard()[i][j].getColor()!= color) && node.getBoard()[i][j].isDead())
-                {
-                    TakenByAI++;
-                    TotRankPlayer += node.getBoard()[i][j].getRank(); // records the score of the Pieces that was taken 
+                if (board[i][j] != null) {
+                    // this goes through the Pieces the AI took from the player 
+                    if((board[i][j].getColor()!= color) && board[i][j].isDead())
+                    {
+                        TakenByAI++;
+                        TotRankPlayer += board[i][j].getRank(); // records the score of the Pieces that was taken 
+                    }
+                    
+                    // this goes through the Pieces the Player took from the AI 
+                    if((board[i][j].getColor()== color) && board[i][j].isDead())
+                    {
+                        TakenByPlayer++;
+                        TotRankAI += board[i][j].getRank(); // records the score of the Pieces that was taken 
+                    }
                 }
                 
-                // this goes through the Pieces the Player took from the AI 
-                if((node.getBoard()[i][j].getColor()== color) && node.getBoard()[i][j].isDead())
-                {
-                    TakenByPlayer++;
-                    TotRankAI += node.getBoard()[i][j].getRank(); // records the score of the Pieces that was taken 
-                }
             }
         }
 
@@ -143,28 +166,30 @@ public class MCTS {
 
         // this llop looks at if there are any enemy pieces nect to the AI flag and removes point from the 
         // evalScore if there are any 
-        for (int i = 0; i < node.getBoard().length; i++) 
+        for (int i = 0; i < board.length; i++) 
         {
-            for (int j = 0; j < node.getBoard().length; j++) 
+            for (int j = 0; j < board.length; j++) 
             {
-                // rank 11 is the flag and the colour of the AI == colour
-                if(node.getBoard()[i][j].getRank() == 11 && node.getBoard()[i][j].getColor()== color) 
-                {
-
-                    // Check all 8 directions around the flag
-                    for (int dx = -1; dx <= 1; dx++) 
+                if (board[i][j] != null) {
+                    // rank 11 is the flag and the colour of the AI == colour
+                    if(board[i][j].getRank() == 11 && board[i][j].getColor()== color) 
                     {
-                        for (int dy = -1; dy <= 1; dy++) 
+
+                        // Check all 8 directions around the flag
+                        for (int dx = -1; dx <= 1; dx++) 
                         {
-                            // Skip the flag
-                            if (dx == 0 && dy == 0) continue;
-                            // this checks if the possition are within the board
-                            if (i+dx >= 0 && i+dx < node.getBoard().length && j+dy >= 0 && j+dy < node.getBoard().length) 
+                            for (int dy = -1; dy <= 1; dy++) 
                             {
-                                // If there's an enemy piece next to the flag
-                                if (node.getBoard()[i+dx][j+dy].getColor() != color) 
+                                // Skip the flag
+                                if (dx == 0 && dy == 0) continue;
+                                // this checks if the possition are within the board
+                                if (i+dx >= 0 && i+dx < board.length && j+dy >= 0 && j+dy < board.length) 
                                 {
-                                    evalScore -= 100;
+                                    // If there's an enemy piece next to the flag
+                                    if (board[i+dx][j+dy] != null && board[i+dx][j+dy].getColor() != color) 
+                                    {
+                                        evalScore -= 100;
+                                    }
                                 }
                             }
                         }
@@ -173,57 +198,9 @@ public class MCTS {
             }
         }
 
-            return evalScore;
+        return evalScore;
     }
     
-    public static void main(String[] args) {
-        // Game game = new Game();
-        // while(!game.hasStarted()){ 
-        //     System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");   
-
-        //     //game.placePiecesBlackBox(game.getCurrentPlayer());
-        //     game.placePiecesSimulation(game.getCurrentPlayer());
-            
-        //     System.out.println();
-        //     game.switchCurrentPlayer(); 
-
-        // }
-        // generateNextStates(game);
-
-        Game game = Game.PlayerVsPlayer();
-        while(!game.hasStarted()){ 
-            System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");   
-
-            //game.placePiecesBlackBox(game.getCurrentPlayer());
-            game.placePiecesSimulation(game.getCurrentPlayer());
-            
-            System.out.println();
-            game.switchCurrentPlayer(); 
-
-        }
-
-        Test.boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-
-        // Piece[][] board = game.getBoard();
-        // Piece[][] boardCopy = copyBoard(board);
-
-        // System.out.println(game.getBoard());
-        // System.out.println(board);
-        // System.out.println(boardCopy);
-
-        Node start = new Node(game.getBoard(), null, null, null, game.getCurrentPlayer(),game.getEnemyPlayer());
-
-        start.expand();
-
-        int count=0;
-        for(Node n : start.children){
-            Piece[][] board = n.board;
-            System.out.println(count);
-            System.out.println(n.player.getColor());
-            Test.boardToASCIIArt(board, n.player);
-            count++;
-            System.out.println();
-        }
-    }
+    
 }
 

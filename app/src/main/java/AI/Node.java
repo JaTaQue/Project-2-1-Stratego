@@ -33,7 +33,7 @@ public class Node{
     public void incrementVisit_AddScore(double addedScore){
         this.visitQuantity++;
         this.score += addedScore;
-        if(!(getParent() != null)) {
+        if(getParent() != null) {
             getParent().incrementVisit_AddScore(addedScore);
         }
     }
@@ -111,7 +111,7 @@ public class Node{
     }
 
     // helper for node expansion
-    private static Piece[][] copyBoard(Piece[][] board){
+    public static Piece[][] copyBoard(Piece[][] board){
         Piece[][] boardCopy = new Piece[10][10];
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -133,22 +133,4 @@ public class Node{
         //players need copies
     }
 
-    // // helper for node expansion - make all moves for piece
-    // private static LinkedList<Piece[][]> generateNextStates(Piece[][] board, Player player, Piece piece, ArrayList<int[]> moves){
-
-    //     LinkedList<Piece[][]> nextStates = new LinkedList<>();
-    
-        
-    //     for (Piece piece : pieces){
-            
-            
-    //         for (int i = 0; i < moves.size(); i++) {
-    //             Piece[][] nextBoard = copyBoard(board);
-    //             MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], moves.get(i), nextBoard);
-
-    //             nextStates.add(nextBoard);
-    //         }
-    //     }
-    //     return nextStates;
-    // }
 }
