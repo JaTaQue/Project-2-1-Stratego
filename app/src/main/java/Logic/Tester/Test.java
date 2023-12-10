@@ -21,7 +21,7 @@ public class Test {
     
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            Game game = Game.PlayerVsPlayer();
+            Game game = new Game();
             
             AIPlayer aiPlayer = new AIPlayer("Blue");
             game.setPlayer1(aiPlayer);
@@ -54,7 +54,7 @@ public class Test {
 
             while(!game.isOver()){
 
-                if(game.getCurrentPlayer().IsPlayable()){
+                if(game.getCurrentPlayer().getIsPlayable()){
                     System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
                     boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
 
@@ -78,7 +78,7 @@ public class Test {
                     game.makeAMove(currentPosition, currPiece, targetPosition);   
                 }
                 
-                if(!game.getCurrentPlayer().IsPlayable()){
+                if(!game.getCurrentPlayer().getIsPlayable()){
                     System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
                     boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
 

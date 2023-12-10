@@ -18,7 +18,7 @@ public class BaselinePlayer extends Player {
     }
 
     @Override
-    public boolean IsPlayable(){
+    public boolean getIsPlayable(){
         return false;
     }
 
