@@ -27,7 +27,7 @@ public class AIPlayer extends Player{
     }
 
     @Override
-    public boolean getIsPlayable() {
+    public boolean IsPlayable() {
         return false;
     }
 
