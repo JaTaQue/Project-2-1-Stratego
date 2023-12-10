@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +29,22 @@ public class SceneGame implements Initializable {
     @FXML
     public AnchorPane pane;
 
+    @FXML
+<<<<<<< HEAD
+    public Label laber;
+=======
+    public String gameMode;
+>>>>>>> 0b27329ae4f209cc566813e866b7e3c84a0117f3
+
     public static final int GRID_SIZE = 75;
+    private String mode;
+    public void setmode(String ar){
+        mode = ar;
+    }
+
+    public void setName(String name) {
+        laber.setText(name);
+    }
 
     Game game;
     Component[][] boardGUI = new Component[10][10];
@@ -47,27 +63,41 @@ public class SceneGame implements Initializable {
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
         
-        setGame();
+        setGame("Player vs Player");
         
         //playerTurnDisplay.setText(game.getCurrentPlayer().getColor() + " TURN");
-        
+
+        //if(game.getCurrentPlayer().IsPlayable())
+
         //listen for mouse clicks
         pane.setOnMouseClicked(this::playHuman);
     }
 
-    private void setGame() {
-        game = new Game();
+    private void setGame(String gameMode) {
+        //create a new game based on the game mode
+        switch (gameMode) {
+            case "Player vs Player":
+                game = Game.PlayerVsPlayer();
+                break;
+            case "Player vs AI":
+                game = Game.PlayerVsAI();
+                break;
+            case "AI vs AI":
+                game = Game.AIVsAI();
+                break;
+        }
+
         //place the pieces on the board
         for (int i = 0; i < 2; i++) {
             game.placePiecesSimulation((game.getCurrentPlayer()));
             //game.placePiecesBlackBox(game.getCurrentPlayer());
             game.switchCurrentPlayer();
         }
+
         //place the components on the GUI board
         setGUI();
         //shohw the pieces of the current player and hide the pieces of the enemy player
         switchGUI();
-
     }
 
     private void setGUI() {
@@ -163,7 +193,7 @@ public class SceneGame implements Initializable {
         // selected is false: player turn ended
         if(!selected && started){
             //check if player is AI
-            if(!game.getCurrentPlayer().getIsPlayable()){
+            if(!game.getCurrentPlayer().IsPlayable()){
                 
                 int[] movablePosition = game.getCurrentPlayer().getRandomMovablePosition(game);
                 int[] move = game.getCurrentPlayer().getRandomMove(game, movablePosition);
@@ -383,7 +413,6 @@ public class SceneGame implements Initializable {
             game.switchCurrentPlayer();
             switchGUI();
         }
-        
     }
 
     private void moveGUI(int[] currentXY, int[] targetXY) {
@@ -498,6 +527,7 @@ public class SceneGame implements Initializable {
         String componentID = getComponentID(clickCoordinates);
         String pieceID = getPieceID(clickCoordinates);
         //print a line
+        System.out.println("mode: " + mode);
         System.out.println("mouseAnchorX: " + (mouseAnchorX - mouseAnchorX % GRID_SIZE));
         System.out.println("mouseAnchorY: " + (mouseAnchorY - mouseAnchorY % GRID_SIZE));
         System.out.println("nodeCoordinates: " + nodeCoordinates[0] + ", " + nodeCoordinates[1]);
