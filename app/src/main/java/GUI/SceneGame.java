@@ -34,10 +34,11 @@ public class SceneGame implements Initializable {
 
 
     public static final int GRID_SIZE = 75;
-    private String mode;
+
+    /*private String mode;
     public void setmode(String ar){
         mode = ar;
-    }
+    }*/
 
     public void setName(String name) {
         laber.setText(name);
@@ -60,6 +61,7 @@ public class SceneGame implements Initializable {
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
         
+        String gameMode = laber.getText(); //TODO: get the game mode from the start screen
         setGame("Player vs Player");
         
         //playerTurnDisplay.setText(game.getCurrentPlayer().getColor() + " TURN");
@@ -523,8 +525,6 @@ public class SceneGame implements Initializable {
         int[] nodeCoordinates = getNodesCoordinates(clickCoordinates);
         String componentID = getComponentID(clickCoordinates);
         String pieceID = getPieceID(clickCoordinates);
-        //print a line
-        System.out.println("mode: " + mode);
         System.out.println("mouseAnchorX: " + (mouseAnchorX - mouseAnchorX % GRID_SIZE));
         System.out.println("mouseAnchorY: " + (mouseAnchorY - mouseAnchorY % GRID_SIZE));
         System.out.println("nodeCoordinates: " + nodeCoordinates[0] + ", " + nodeCoordinates[1]);
