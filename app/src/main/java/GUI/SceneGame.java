@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
@@ -29,9 +30,18 @@ public class SceneGame implements Initializable {
     public AnchorPane pane;
 
     @FXML
-    public String gameMode;
+    public Label laber;
+
 
     public static final int GRID_SIZE = 75;
+    private String mode;
+    public void setmode(String ar){
+        mode = ar;
+    }
+
+    public void setName(String name) {
+        laber.setText(name);
+    }
 
     Game game;
     Component[][] boardGUI = new Component[10][10];
@@ -514,6 +524,7 @@ public class SceneGame implements Initializable {
         String componentID = getComponentID(clickCoordinates);
         String pieceID = getPieceID(clickCoordinates);
         //print a line
+        System.out.println("mode: " + mode);
         System.out.println("mouseAnchorX: " + (mouseAnchorX - mouseAnchorX % GRID_SIZE));
         System.out.println("mouseAnchorY: " + (mouseAnchorY - mouseAnchorY % GRID_SIZE));
         System.out.println("nodeCoordinates: " + nodeCoordinates[0] + ", " + nodeCoordinates[1]);
