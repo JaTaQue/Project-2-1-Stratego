@@ -45,6 +45,12 @@ public class Game {
         this.setCurrentPlayer(player1);
     }
 
+    public Game(Player player1, Player player2){
+        this.createBoard();
+        this.addPlayers(player1, player2);
+        this.setCurrentPlayer(player1);
+    }
+
     /**
      * initializes the game board with a 10 by 10 grid, 
      * creates and places the lake pieces on it
@@ -324,11 +330,11 @@ public class Game {
      */
     public void checkWinner() {
         if(player1.isWinner()){
-            System.out.println(player1.getColor()+" is the winner!");
+            // System.out.println(player1.getColor()+" is the winner!");
             this.setOver();
         }            
         else if(player2.isWinner()){
-            System.out.println(player2.getColor()+" is the winner!");
+            // System.out.println(player2.getColor()+" is the winner!");
             this.setOver();
         }
     }
