@@ -24,42 +24,38 @@ public class Game {
     public Player player1;
     private Player player2;
     private Player currentPlayer;
-    private final int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
-    private final int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
-    private static final ArrayList<String> availableColors = new ArrayList<>(List.of("Blue", "Red"));
+    private int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
+    private int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
+    private ArrayList<String> availableColors = new ArrayList<>(List.of("Blue", "Red"));
 
     /**
      * constructs a Game object, creating and initializing the game board and player instances
      * @author Group 7
+     * @version 1
      */
+    public Game(){
+        this.createBoard();
+
+        Player player1 = this.createHumanPlayer();
+        Player player2 = this.createHumanPlayer();
+        // Player player1 = this.createBaselinePlayer();
+        // Player player2 = this.createBaselinePlayer();
+
+        this.addPlayers(player1, player2);
+        this.setCurrentPlayer(player1);
+    }
+
     public Game(Player player1, Player player2){
         this.createBoard();
         this.addPlayers(player1, player2);
         this.setCurrentPlayer(player1);
     }
 
-    public static Game PlayerVsPlayer(){
-        Player player1 = createHumanPlayer();
-        Player player2 = createHumanPlayer();
-        return new Game(player1, player2);
-    }
-
-    public static Game PlayerVsAI(){
-        Player player1 = createHumanPlayer();
-        Player player2 = createBaselinePlayer();
-        return new Game(player1, player2);
-    }
-
-    public static Game AIVsAI(){
-        Player player1 = createBaselinePlayer();
-        Player player2 = createBaselinePlayer();
-        return new Game(player1, player2);
-    }
-
     /**
      * initializes the game board with a 10 by 10 grid, 
      * creates and places the lake pieces on it
      * @author Group 7
+     * @version 1
      */
     public void createBoard(){
         this.board = new Piece[10][10];
@@ -76,6 +72,26 @@ public class Game {
         return this.board;
     }
 
+     /**
+     * returns the first player (player1)
+     * @author Group 7
+     * @version 1
+     * @return player1 object
+     */
+    public Player getPlayer1(){
+        return this.player1;
+    }
+
+     /**
+     * returns the second player (player2)
+     * @author Group 7
+     * @version 1
+     * @return player2 object
+     */
+    public Player getPlayer2(){
+        return this.player2;
+    }
+
     /**
      * creates a new HumanPlayer object with a fixed available color: 
      * "B" or Blue for player1, "R" or Red for player2
@@ -83,7 +99,7 @@ public class Game {
      * @version 1
      * @return a new HumanPlayer
      */
-    public static HumanPlayer createHumanPlayer(){
+    public HumanPlayer createHumanPlayer(){
         HumanPlayer h = new HumanPlayer(availableColors.remove(0));
         return h;
     }
@@ -95,7 +111,7 @@ public class Game {
      * @version 1
      * @return a new BaselinePlayer
      */
-    public static BaselinePlayer createBaselinePlayer(){
+    public BaselinePlayer createBaselinePlayer(){
         BaselinePlayer b = new BaselinePlayer(availableColors.remove(0));
         return b;
     }
@@ -382,7 +398,8 @@ public class Game {
      * @return true if the move is possible, false otherwise
      */
     public boolean getCanMove(Piece currPiece, int[] targetPosition) {
-        return MoveLogic.canMove(currPiece, targetPosition, board, currentPlayer.getColor());
+        boolean canMove = MoveLogic.canMove(currPiece, targetPosition, board, currentPlayer.getColor());
+        return canMove;
     }
 
     /**
@@ -408,21 +425,22 @@ public class Game {
      * retrieves available moves for a piece
      * @author Group 7
      * @version 1
+     * @param game the game object
      * @param piece the piece for which available positions are to be retrieved
      * @return a list of available positions as integer arrays
      */
 
     
     public ArrayList<int[]> getAvailablePositions(Piece piece) {
-        ArrayList<int[]> positions = new ArrayList<>();
-        if(piece.getColor().equals(getCurrentPlayer().getColor()))
+        ArrayList<int[]> positions = new ArrayList<int[]>();
+        if(piece.getColor() == getCurrentPlayer().getColor())
             positions = MoveLogic.returnPossiblePositions(piece.getPosition(), board);
         return positions;
     }
 
 
     public ArrayList<int[]> getBuildupPositions(Player currentPlayer) {
-        ArrayList<int[]> tiles = new ArrayList<>();
+        ArrayList<int[]> tiles = new ArrayList<int[]>();
         //loop through the board
         
         for(int i = 0; i < board.length; i++){
@@ -430,7 +448,7 @@ public class Game {
                 //if the piece is not null
                 if(board[i][j] != null){
                     //if the piece is of the current player
-                        if(board[i][j].getColor().equals(currentPlayer.getColor())){
+                        if(board[i][j].getColor() == currentPlayer.getColor()){
                             //add to Integer[] arraylist
                             tiles.add(new int[]{i,j});
                         }
@@ -457,25 +475,25 @@ public class Game {
         //left
         if(x > 0 && board[x-1][y] != null) {
             left = board[x-1][y];
-            if(left.getRank() != -1 && left.getColor().equals(currentPlayer.getColor()))
+            if(left.getRank() != -1 && left.getColor()==currentPlayer.getColor())
                 surroundingPieces.add(left);}
         //right
         if(x < 9 && board[x+1][y] != null) {
             right = board[x+1][y];
-            if(right.getRank() != -1 && right.getColor().equals(currentPlayer.getColor()))
+            if(right.getRank() != -1 && right.getColor()==currentPlayer.getColor()) 
                 surroundingPieces.add(right);}
         //up
         if(y > 0 && board[x][y-1] != null){
             up = board[x][y-1];
-            if(up.getRank() != -1 && up.getColor().equals(currentPlayer.getColor()))
+            if(up.getRank() != -1 && up.getColor()==currentPlayer.getColor()) 
                 surroundingPieces.add(up);}
         //down
         if(y < 9 && board[x][y+1] != null){
             down = board[x][y+1];
-            if(down.getRank() != -1 && down.getColor().equals(currentPlayer.getColor()))
+            if(down.getRank() != -1 && down.getColor()==currentPlayer.getColor()) 
                 surroundingPieces.add(down);}
         //current
-        if(!surroundingPieces.isEmpty())
+        if(surroundingPieces.size() != 0) 
             surroundingPieces.add(current);
         
         return surroundingPieces;
@@ -491,6 +509,10 @@ public class Game {
         if(this.currentPlayer.equals(player1)) return player2;
         else if(this.currentPlayer.equals(player2)) return player1;
         else return null;
+    }
+
+    public void setBoard(Piece[][] board) {
+        this.board = board;
     }
 
     public void setPlayer1(Player player1) {
