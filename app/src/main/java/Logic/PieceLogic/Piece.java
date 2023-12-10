@@ -2,8 +2,6 @@ package Logic.PieceLogic;
 
 import java.util.Arrays;
 
-import AI.Node; //fix this 
-
 public class Piece {
 
     private final int RANK;
@@ -110,7 +108,7 @@ public class Piece {
         return new Piece(this.RANK, this.COLOR, positionCopy, isDead);
     }
 
-    public void setVisivle() {
+    public void setVisible() {
         this.isVisible = true;
     }
 }
