@@ -277,14 +277,14 @@ public abstract class Player {
         return this.piecesToBePlacedAmount;
     }
 
-    public abstract boolean getIsPlayable();
+    public abstract boolean IsPlayable();
 
 
     //THE FOLLOWING METHODS ARE IN THIS CLASS, BUT
     //MAYBE IT NEEDS ANOTHER PLACE
 
     public int[] getRandomMovablePosition(Game game){
-        if(this.getIsPlayable()){
+        if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of baselineplayer");
             return null;
         }
@@ -303,7 +303,7 @@ public abstract class Player {
     }
 
     public int[] getRandomMove(Game game, int[] currentPosition){
-        if(this.getIsPlayable()){
+        if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of baselineplayer");
             return null;
         }

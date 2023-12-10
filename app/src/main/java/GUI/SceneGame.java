@@ -30,12 +30,8 @@ public class SceneGame implements Initializable {
     public AnchorPane pane;
 
     @FXML
-<<<<<<< HEAD
-    public Label laber;
-=======
     public Label laber;
 
->>>>>>> 0b27329ae4f209cc566813e866b7e3c84a0117f3
 
     public static final int GRID_SIZE = 75;
     private String mode;

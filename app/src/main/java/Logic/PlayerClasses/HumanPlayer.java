@@ -26,7 +26,7 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public boolean getIsPlayable(){
+    public boolean IsPlayable(){
         return true;
     }
 

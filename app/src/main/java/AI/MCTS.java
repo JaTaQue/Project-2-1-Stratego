@@ -190,7 +190,7 @@ public class MCTS {
         // }
         // generateNextStates(game);
 
-        Game game = new Game();
+        Game game = Game.PlayerVsPlayer();
         while(!game.hasStarted()){ 
             System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");   
 
