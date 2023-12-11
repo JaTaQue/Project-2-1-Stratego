@@ -84,7 +84,7 @@ public class BaselinePlayer extends Player {
                     
                     int[] Pos = MoveLogic.returnPossiblePositions(piece.getPosition(), board).get(i);
 
-                    if(board[Pos[0]][Pos[1]].getRank() == 10 && board[Pos[0]][Pos[1]].isVisible()){
+                    if(board[Pos[0]][Pos[1]] != null && board[Pos[0]][Pos[1]].getRank() == 10 && board[Pos[0]][Pos[1]].isVisible()){
                         return new int[][]{piece.getPosition(),board[Pos[0]][Pos[1]].getPosition()};
                     }    
                         

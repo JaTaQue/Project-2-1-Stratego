@@ -35,7 +35,7 @@ public class MCTS {
 
     public int[][] findBestMove(Game game){
         //added type cast
-        RandomPlayer copyCurrent = (RandomPlayer)game.getCurrentPlayer().copyPlayer();
+        AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
         RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
         Node root = new Node(game.getBoard(), null, null, null, copyCurrent, copyOpponent);
         root.addChildren(root.expand());
@@ -79,8 +79,8 @@ public class MCTS {
     }
 
     private double rollout(Node currentNode) {
-        RandomPlayer copyCurrent = currentNode.player.copyPlayer();
-        RandomPlayer copyOpponent = currentNode.enemyPlayer.copyPlayer();
+        AIPlayer copyCurrent = currentNode.player.copyPlayer();
+        RandomPlayer copyOpponent = (RandomPlayer) currentNode.enemyPlayer.copyPlayer();
         Piece[][] currBoard = Node.copyBoard(currentNode.board);
         Game currGame = new Game(copyCurrent, copyOpponent);
         currGame.setBoard(currBoard);
@@ -140,7 +140,6 @@ public class MCTS {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] != null && board[i][j].getRank() != -1) {
                     int pieceRank = board[i][j].getRank();
-                    if(board[i][j].isDead()) System.out.println("DEAD!!!!!!");
     
                     if (board[i][j].getColor() != color) {
                         evalScore -= SCORES_PER_RANK[pieceRank]; // Deduct points for not capturing opponent pieces

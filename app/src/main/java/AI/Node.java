@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
+import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;
 
@@ -14,13 +15,13 @@ public class Node{
     double score;
     LinkedList<Node> children = new LinkedList<Node>();
     Node parent;
-    RandomPlayer player;
-    RandomPlayer enemyPlayer;
+    AIPlayer player;
+    Player enemyPlayer;
     Piece[][] board;
     int[] currentFigurePos;
     int[] nextFigurePos;
 
-    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, RandomPlayer player, RandomPlayer enemyPlayer){
+    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, AIPlayer player, Player enemyPlayer){
         visitQuantity = 0;
         score = 0;
         this.parent = parent;
@@ -102,7 +103,7 @@ public class Node{
                         else{
                             AttackLogic.battle(nextBoard, piecePos, moves.get(i), player, enemyPlayer);
                         }
-                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), enemyPlayer, player));
+                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), player, enemyPlayer));
                     }
                 }
                 
