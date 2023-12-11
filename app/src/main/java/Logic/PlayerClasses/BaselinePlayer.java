@@ -44,14 +44,15 @@ public class BaselinePlayer extends Player {
 
 
     /*
-     * "1. Use Spy: If the spy is next to the enemy marshal, capture it. ---> done
-        2. Defend against Spy: If the marshal is next to the enemy spy, capture it. If it
+     * "done 1. Use Spy: If the spy is next to the enemy marshal, capture it. ---> done
+        done but not move away 2. Defend against Spy: If the marshal is next to the enemy spy, capture it. If it
         is next to unknown pieces, evaluate if it should be captured or if the marshal
         should move away.
-        3. Attack weaker: If a known piece is next to a weaker known piece, capture it
+        done but does not know if new pos is dnagerous 3. Attack weaker: If a known piece is next to a weaker known piece, capture it
         unless the new position is dangerous.
-        4. Explore attack: If a scout, sergeant, lieutenant or captain is next to an unknown
+        done 4. Explore attack: If a scout, sergeant, lieutenant or captain is next to an unknown
         piece, capture it.
+        --------------------------------------------------------------------------------------------------------------------------------
         5. Retreat: If a known piece is next to a stronger enemy piece, run away.
         6. Scout: Try advancing scouts forward rapidly.
         7. Attack distant: If a known piece is distant but a path exists that moves a stronger
@@ -64,7 +65,7 @@ public class BaselinePlayer extends Player {
         12. Resign: No moves can be made at all, so the agent should resign"
      */
     @Override    
-    public int[] getNextMove(Game game){
+    public int[][] getNextMove(Game game){
         if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of Inhanced baselineplayer");
             return null;
@@ -84,7 +85,7 @@ public class BaselinePlayer extends Player {
                     int[] Pos = MoveLogic.returnPossiblePositions(piece.getPosition(), board).get(i);
 
                     if(board[Pos[0]][Pos[1]].getRank() == 10 && board[Pos[0]][Pos[1]].isVisible()){
-                        return Pos; 
+                        return new int[][]{piece.getPosition(),board[Pos[0]][Pos[1]].getPosition()};
                     }    
                         
                 }
@@ -99,11 +100,9 @@ public class BaselinePlayer extends Player {
                     int[] Pos = MoveLogic.returnPossiblePositions(piece.getPosition(), board).get(i);
 
                     if(board[Pos[0]][Pos[1]].getRank() == 1 && board[Pos[0]][Pos[1]].isVisible()){
-                        return Pos; 
+                        return new int[][]{piece.getPosition(),board[Pos[0]][Pos[1]].getPosition()}; 
                     }
-                    else{
-                        // marshal should go back
-                    }    
+                    //marshal should retreat   
                 }
             }
             //Third condition
@@ -115,7 +114,7 @@ public class BaselinePlayer extends Player {
                     int[] Pos = MoveLogic.returnPossiblePositions(piece.getPosition(), board).get(i);
                     //add a way to chack if the now pos is dangerous, maybe another fori inside
                     if(board[Pos[0]][Pos[1]] != null && board[Pos[0]][Pos[1]].getRank() < piece.getRank() && board[Pos[0]][Pos[1]].isVisible()){
-                        return Pos;
+                        return new int[][]{piece.getPosition(),board[Pos[0]][Pos[1]].getPosition()};
                     }
                     
                 }
@@ -129,16 +128,34 @@ public class BaselinePlayer extends Player {
 
                     int[] Pos = MoveLogic.returnPossiblePositions(piece.getPosition(), board).get(i);
                     if(board[Pos[0]][Pos[1]] != null && !board[Pos[0]][Pos[1]].isVisible()){
-                        return Pos;
+                        
+                        return new int[][]{piece.getPosition(),board[Pos[0]][Pos[1]].getPosition()}; 
                     }   
                 }
             }
-            //Fifth condition retreat if know piece is next to stronger piece
+            //Fifth condition retreat if known piece is next to stronger piece
+            else{
+                int[] movablePosition = getRandomMovablePosition(game);
+                int[] move = game.getCurrentPlayer().getRandomMove(game, movablePosition);
+                Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
 
+                try{
+                    System.out.println();
+                    System.out.println(Arrays.toString(movablePosition) + " -> " + Arrays.toString(move) + ", " + pieceMovablePosition.toString());
+                }catch(NullPointerException npe){
+                    System.out.println(Arrays.toString(move) + " " + "null");
+                }
+
+                return new int[][]{movablePosition, move};
+            }
+
+           
 
         }
 
         return null;
+
+        
 
     }
 
