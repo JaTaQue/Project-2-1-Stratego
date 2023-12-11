@@ -20,7 +20,7 @@ public class Test {
     
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            Game game = Game.PlayerVsPlayer();
+            Game game = Game.PlayerVsAI();
             
             AIPlayer aiPlayer = new AIPlayer("Blue");
             game.setPlayer1(aiPlayer);

@@ -181,8 +181,9 @@ public class SceneGame implements Initializable {
             //check if player is AI
             if(!game.getCurrentPlayer().IsPlayable()){
                 
-                int[] movablePosition = game.getCurrentPlayer().getRandomMovablePosition(game);
-                int[] move = game.getCurrentPlayer().getRandomMove(game, movablePosition);
+                int[][] movablePositions = game.getCurrentPlayer().getNextMove(game);
+                int[] movablePosition = movablePositions[0];
+                int[] move = movablePositions[1];
                 Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
                 
                 turnGUI(movablePosition, pieceMovablePosition, move);

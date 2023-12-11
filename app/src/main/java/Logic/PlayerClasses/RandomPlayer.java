@@ -33,8 +33,8 @@ public class RandomPlayer extends Player {
         return false;
     }
 
-    
-    public Player copyPlayer() {
+    @Override
+    public RandomPlayer copyPlayer() {
         int[] deadCopy = deadPiecesAmount.clone();
         int[] availablePiecesAmountCopy = availablePiecesAmount.clone();
         ArrayList<Piece> piecesCopy = super.copyPieces();

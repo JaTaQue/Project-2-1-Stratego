@@ -46,13 +46,13 @@ public class Game {
 
     public static Game PlayerVsAI(){
         Player player1 = createHumanPlayer();
-        Player player2 = createBaselinePlayer();
+        Player player2 = createRandomPlayer();
         return new Game(player1, player2);
     }
 
     public static Game AIVsAI(){
-        Player player1 = createBaselinePlayer();
-        Player player2 = createBaselinePlayer();
+        Player player1 = createRandomPlayer();
+        Player player2 = createRandomPlayer();
         return new Game(player1, player2);
     }
 
@@ -95,7 +95,7 @@ public class Game {
      * @version 1
      * @return a new BaselinePlayer
      */
-    public static RandomPlayer createBaselinePlayer(){
+    public static RandomPlayer createRandomPlayer(){
         RandomPlayer b = new RandomPlayer(availableColors.remove(0));
         return b;
     }

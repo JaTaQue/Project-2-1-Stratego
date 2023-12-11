@@ -7,19 +7,20 @@ import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
+import Logic.PlayerClasses.RandomPlayer;
 
 public class Node{
     int visitQuantity;
     double score;
     LinkedList<Node> children = new LinkedList<Node>();
     Node parent;
-    Player player;
-    Player enemyPlayer;
+    RandomPlayer player;
+    RandomPlayer enemyPlayer;
     Piece[][] board;
     int[] currentFigurePos;
     int[] nextFigurePos;
 
-    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, Player player, Player enemyPlayer){
+    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, RandomPlayer player, RandomPlayer enemyPlayer){
         visitQuantity = 0;
         score = 0;
         this.parent = parent;

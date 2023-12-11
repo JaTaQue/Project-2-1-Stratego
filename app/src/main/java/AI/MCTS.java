@@ -8,8 +8,8 @@ import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
+import Logic.PlayerClasses.RandomPlayer;
 import Logic.Tester.Game;
-import Logic.Tester.Test;
 
 public class MCTS {
 
@@ -17,8 +17,9 @@ public class MCTS {
     final int SIMULATION_COUNT = 50;
 
     public int[][] findBestMove(Game game){
-        Player copyCurrent = game.getCurrentPlayer().copyPlayer();
-        Player copyOpponent = game.getEnemyPlayer().copyPlayer();
+        //added type cast
+        RandomPlayer copyCurrent = (RandomPlayer)game.getCurrentPlayer().copyPlayer();
+        RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
         Node root = new Node(game.getBoard(), null, null, null, copyCurrent, copyOpponent);
         root.addChildren(root.expand());
 
@@ -57,8 +58,8 @@ public class MCTS {
     }
 
     private double rollout(Node currentNode) {
-        Player copyCurrent = currentNode.player.copyPlayer();
-        Player copyOpponent = currentNode.enemyPlayer.copyPlayer();
+        RandomPlayer copyCurrent = currentNode.player.copyPlayer();
+        RandomPlayer copyOpponent = currentNode.enemyPlayer.copyPlayer();
         Piece[][] currBoard = Node.copyBoard(currentNode.board);
         Game currGame = new Game(copyCurrent, copyOpponent);
         currGame.setBoard(currBoard);
@@ -66,11 +67,13 @@ public class MCTS {
         System.out.print("rollout: ");
         long startTime = System.currentTimeMillis();
         while(!currGame.isOver() && System.currentTimeMillis()-startTime < ROLLOUT_TIME_MILLIS) {
-            int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
-            int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
+            // int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
+            // int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
+            int[] movablePosition = copyCurrent.getRandomMovablePosition(currGame);
+            int[] nextMove = copyOpponent.getRandomMove(currGame, movablePosition);
             currGame.makeAMove(movablePosition, currBoard[movablePosition[0]][movablePosition[1]], nextMove);
             // System.out.println("p1: " + currGame.getPlayer1().isWinner());
-            // System.out.println("p2: " + currGame.getPlayer2().isWinner());
+            // System.out.println("p2: " + curgetRandomMovablePositionrGame.getPlayer2().isWinner());
 
             // LinkedList<Node> children = currentNode.getChildren();
             // int child_amount = children.size();
