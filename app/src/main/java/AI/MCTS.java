@@ -1,11 +1,5 @@
 package AI;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Timer;
-
-import Logic.GameLogic.AttackLogic;
-import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;

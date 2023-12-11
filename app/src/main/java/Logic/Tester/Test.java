@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
+import Logic.PlayerClasses.BaselinePlayer;
 import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.Player;
 
@@ -22,11 +23,11 @@ public class Test {
         try (Scanner scanner = new Scanner(System.in)) {
             Game game = Game.PlayerVsAI();
             
-            AIPlayer aiPlayer = new AIPlayer("Blue");
+            Player aiPlayer = new BaselinePlayer("Blue");
             game.setPlayer1(aiPlayer);
             game.setCurrentPlayer(aiPlayer);
 
-            RandomPlayer blPlayer = new RandomPlayer("Red");
+            Player blPlayer = new RandomPlayer("Red");
             game.setPlayer2(blPlayer);
 
             System.out.println();

@@ -135,8 +135,9 @@ public class BaselinePlayer extends Player {
             }
             //Fifth condition retreat if known piece is next to stronger piece
             else{
-                int[] movablePosition = getRandomMovablePosition(game);
-                int[] move = game.getCurrentPlayer().getRandomMove(game, movablePosition);
+                RandomPlayer rp = new RandomPlayer(this.color);
+                int[] movablePosition = rp.getRandomMovablePosition(game);
+                int[] move = rp.getRandomMove(game, movablePosition);
                 Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
 
                 try{
