@@ -74,6 +74,14 @@ public class Piece {
     }
 
     /**
+     * A method that can set a piece to visible or not
+     * @return boolean if a piece is visible or not
+     */
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    /**
      * 
      * @param integers sets the position to the new position of the piece  
      */
