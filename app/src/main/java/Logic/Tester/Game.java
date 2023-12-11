@@ -260,6 +260,9 @@ public class Game {
             // System.out.println(player2.getColor()+" is the winner!");
             this.setOver();
         }
+        else if(Player.isSomeoneStuck(board).equals("Both")){
+            this.setOver();
+        }
     }
 
     /**

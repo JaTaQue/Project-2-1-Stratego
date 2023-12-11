@@ -90,7 +90,7 @@ public class MCTS {
         Node maxiNode = null;
         double maxUCB1 = Integer.MIN_VALUE; //variable got lowest value possible so that it changes for sure
         int parentVisits = node.getVisitQuantity();
-        if(!(node.getChildren() == null)) {
+        if(node.getChildren() == null||node.getChildren().isEmpty()) {
             return node; //break condition if we have a leaf node
         } 
         else {
