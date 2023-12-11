@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
-import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;
 
@@ -15,13 +14,13 @@ public class Node{
     double score;
     LinkedList<Node> children = new LinkedList<Node>();
     Node parent;
-    AIPlayer player;
-    AIPlayer enemyPlayer;
+    RandomPlayer player;
+    RandomPlayer enemyPlayer;
     Piece[][] board;
     int[] currentFigurePos;
     int[] nextFigurePos;
 
-    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, AIPlayer player, AIPlayer enemyPlayer){
+    public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, RandomPlayer player, RandomPlayer enemyPlayer){
         visitQuantity = 0;
         score = 0;
         this.parent = parent;
