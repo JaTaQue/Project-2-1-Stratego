@@ -44,7 +44,7 @@ dependencies {
 }
 
 
-mainClassName = 'Logic.Tester.Test'
+mainClassName = 'App'
 
 
 test {

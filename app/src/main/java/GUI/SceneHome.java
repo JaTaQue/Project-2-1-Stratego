@@ -56,8 +56,7 @@ public class SceneHome implements Initializable{
 
 
     private void HomeToGame(ActionEvent event) throws IOException{
-        URL url = getClass().getResource("/ScreenGame.fxml");
-        Parent root = FXMLLoader.load(url);
+        Parent root = FXMLLoader.load(getClass().getResource("/ScreenGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -65,17 +64,17 @@ public class SceneHome implements Initializable{
         stage.show();
     }
 
-    private void HomeToPVP(ActionEvent event) throws IOException{
+    public void HomeToPVP(ActionEvent event) throws IOException{
         gameModeLabel.setText("PvP");
         HomeToGame(event);
     }
 
-    private void HomeToPVE(ActionEvent event) throws IOException{
+    public void HomeToPVE(ActionEvent event) throws IOException{
         gameModeLabel.setText("PvE");
         HomeToGame(event);
     }
 
-    private void HomeToEVE(ActionEvent event) throws IOException{
+    public void HomeToEVE(ActionEvent event) throws IOException{
         gameModeLabel.setText("EvE");
         HomeToGame(event);
     }
