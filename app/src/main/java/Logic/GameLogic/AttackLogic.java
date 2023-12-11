@@ -140,7 +140,7 @@ public class AttackLogic {
             board[defenderPosition[0]][defenderPosition[1]] = attackerFigure;
             board[attackerPosition[0]][attackerPosition[1]] = null;
             Attacker.setWinner();
-            System.out.println(Attacker.getColor()+" wins by capturing the flag!");
+            // System.out.println(Attacker.getColor()+" wins by capturing the flag!");   //print for mcts rollout
         } else if(attackerFigure.getRank() == defenderFigure.getRank()) {
             attackerFigure.setDead();
             Attacker.addDeadPiece(attackerFigure.getRank());
@@ -166,7 +166,7 @@ public class AttackLogic {
             System.out.println("Error, something is wrong in the battle method");
         }
         if(Player.isSomeoneStuck(board).equals("Blue")){
-            System.out.println("\nBlue is stuck");
+            // System.out.println("\nBlue is stuck");    //print for mcts rollout
             if(Attacker.getColor().equals("Blue")){
                 Defender.setWinner();
             }
@@ -178,7 +178,7 @@ public class AttackLogic {
             }
         }
         if(Player.isSomeoneStuck(board).equals("Red")){
-            System.out.println("\nRed is stuck");
+            // System.out.println("\nRed is stuck");     //print for mcts rollout
             if(Attacker.getColor().equals("Red")){
                 Defender.setWinner();
             }
@@ -190,7 +190,7 @@ public class AttackLogic {
             }
         }
         if(Player.isSomeoneStuck(board).equals("Both")){
-            System.out.println("\nReally weird, both are stuck!");
+            System.out.println("\nReally weird, both are stuck!");  //print for mcts rollout
         }
     }
 }
