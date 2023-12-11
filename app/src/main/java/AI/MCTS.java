@@ -33,7 +33,7 @@ public class MCTS {
 //     else expand and rollout first
 
         Node bestChild = root.getChild(0);
-        double bestScore = -1;
+        double bestScore = Integer.MIN_VALUE;
 
         for (int i = 0; i < root.getChildren().size(); i++){
             Node currChild = root.getChild(i);
