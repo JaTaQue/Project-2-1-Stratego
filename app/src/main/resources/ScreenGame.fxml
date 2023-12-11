@@ -9,6 +9,6 @@
       <AnchorPane fx:id="pane" prefHeight="750.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
    </center>
    <top>
-      <Label fx:id="laber" text="Label" BorderPane.alignment="CENTER" />
+      <Label fx:id="gameMode" text="Label" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>

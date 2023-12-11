@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
@@ -29,20 +28,8 @@ public class SceneGame implements Initializable {
     @FXML
     public AnchorPane pane;
 
-    @FXML
-    public Label laber;
-
-
     public static final int GRID_SIZE = 75;
 
-    /*private String mode;
-    public void setmode(String ar){
-        mode = ar;
-    }*/
-
-    public void setName(String name) {
-        laber.setText(name);
-    }
 
     Game game;
     Component[][] boardGUI = new Component[10][10];
@@ -61,8 +48,8 @@ public class SceneGame implements Initializable {
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
         
-        String gameMode = laber.getText(); //TODO: get the game mode from the start screen
-        setGame("Player vs Player");
+        //TODO: get the game mode from the start screen;
+        setGame(new SceneHome().gameMode);
         
         //playerTurnDisplay.setText(game.getCurrentPlayer().getColor() + " TURN");
 
@@ -75,13 +62,13 @@ public class SceneGame implements Initializable {
     private void setGame(String gameMode) {
         //create a new game based on the game mode
         switch (gameMode) {
-            case "Player vs Player":
+            case "PvP":
                 game = Game.PlayerVsPlayer();
                 break;
-            case "Player vs AI":
+            case "PvE":
                 game = Game.PlayerVsAI();
                 break;
-            case "AI vs AI":
+            case "EvE":
                 game = Game.AIVsAI();
                 break;
         }
@@ -280,7 +267,7 @@ public class SceneGame implements Initializable {
         //header
         String winner = game.getEnemyPlayer().getColor();
         alert.setHeaderText(winner +" wins!");
-        
+
         //graphic
         Component FlagComponent = new Component(0, 0);
         FlagComponent.draw(11,winner);
@@ -291,13 +278,9 @@ public class SceneGame implements Initializable {
         alert.setContentText("Turns: "+turn);
         
         //show the alert
-        //alert.showAndWait();
+        alert.showAndWait();
         //switch to start screen
         switchToStartScreen();
-
-        //exit the program
-        //System.exit(0);
-        
     }
 
     private ArrayList<int[]> getTiles(Player currentPlayer) {

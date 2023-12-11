@@ -9,14 +9,16 @@
 
 <AnchorPane fx:id="painer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneHome">
    <Button fx:id="pvp" layoutX="228.0" layoutY="290.0" mnemonicParsing="false" onAction="#HomeToPVP" prefHeight="68.0" prefWidth="144.0" text="Player versus Player" AnchorPane.leftAnchor="228.0" AnchorPane.topAnchor="290.0" />
-   <ImageView fitHeight="147.0" fitWidth="469.0" layoutX="53.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="511.99000549316406" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="52.0">
-      <image>
-         <Image url="@title.png" />
-      </image></ImageView>
+   <ImageView fitHeight="147.0" fitWidth="469.0" layoutX="53.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true"
+              AnchorPane.bottomAnchor="511.99000549316406" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="78.0"
+              AnchorPane.topAnchor="52.0">
+      <Image url="@title.png"/>
+   </ImageView>
    <Label layoutX="208.0" layoutY="188.0" prefHeight="92.0" prefWidth="184.0" text="Group 7">
       <font>
          <Font name="Blackadder ITC" size="61.0" />
       </font>
+      <Label fx:id="gameModeLabel" visible="false" text="" />
    </Label>
    <Button fx:id="help" layoutX="228.0" layoutY="551.0" mnemonicParsing="false" onAction="#HomeToHelp" prefHeight="68.0" prefWidth="144.0" text="Help" />
    <Button fx:id="exit" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="33.0" prefWidth="46.0" text="Exit" />

@@ -1,5 +1,10 @@
 package GUI;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,16 +13,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
-
 public class SceneHome implements Initializable{
-    
+
+    public Button exit;
+    public Button help;
     @FXML
     private AnchorPane painer;
 
@@ -29,6 +32,11 @@ public class SceneHome implements Initializable{
 
     @FXML
     private Button eve;
+
+    @FXML
+    private Label gameModeLabel;
+
+    public String gameMode;
 
 
 
@@ -46,56 +54,31 @@ public class SceneHome implements Initializable{
         
     }
 
-    /*
-    public void HomeToGame(ActionEvent event) throws IOException{
-        /*
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ScreenGame.fxml")));
+
+    private void HomeToGame(ActionEvent event) throws IOException{
+        URL url = getClass().getResource("/ScreenGame.fxml");
+        Parent root = FXMLLoader.load(url);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-        */
-        /*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Person.fxml"));
-        Parent root = loader.load();
-        SceneGame personController = loader.getController();
-        personController.setName("pvp");
-        pvp.getScene().setRoot(root);
-        
-        
-
-        Stage confirmation_stage;
-        Parent confirmation;
-        confirmation_stage=new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
-        confirmation = loader.load();
-        SceneGame controller = (SceneGame)loader.getController();
-        controller.setName("Your Text");
-        confirmation_stage.setScene(new Scene(confirmation));
-        confirmation_stage.show();
-        
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
-        Parent root = loader.load();
-        SceneGame game = loader.getController();
-        game.setName("pvp");
-        //game.setGame("no");
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-
     }
-    */
-        
 
-    public void HomeToPVP(ActionEvent event) throws IOException{}
+    private void HomeToPVP(ActionEvent event) throws IOException{
+        gameModeLabel.setText("PvP");
+        HomeToGame(event);
+    }
 
-    public void HomeToPVE(ActionEvent event) throws IOException{}
+    private void HomeToPVE(ActionEvent event) throws IOException{
+        gameModeLabel.setText("PvE");
+        HomeToGame(event);
+    }
 
-    public void HomeToEVE(ActionEvent event) throws IOException{}
+    private void HomeToEVE(ActionEvent event) throws IOException{
+        gameModeLabel.setText("EvE");
+        HomeToGame(event);
+    }
 
     public static Stage getStage() {
         return stage;
@@ -110,7 +93,7 @@ public class SceneHome implements Initializable{
         stage.setResizable(false);
         stage.show();
     }
-    
+
 
 
     public void exitGame() {
@@ -125,4 +108,7 @@ public class SceneHome implements Initializable{
         SceneHelp.Stop(painer);
     }
 
+    public void etGameModeLabel() {
+        gameMode = gameModeLabel.getText();
+    }
 }
