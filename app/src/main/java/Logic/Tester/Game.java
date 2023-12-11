@@ -7,7 +7,7 @@ import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PieceLogic.PiecesCreator;
-import Logic.PlayerClasses.BaselinePlayer;
+import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.HumanPlayer;
 import Logic.PlayerClasses.Player;
 
@@ -95,8 +95,8 @@ public class Game {
      * @version 1
      * @return a new BaselinePlayer
      */
-    public static BaselinePlayer createBaselinePlayer(){
-        BaselinePlayer b = new BaselinePlayer(availableColors.remove(0));
+    public static RandomPlayer createBaselinePlayer(){
+        RandomPlayer b = new RandomPlayer(availableColors.remove(0));
         return b;
     }
 
