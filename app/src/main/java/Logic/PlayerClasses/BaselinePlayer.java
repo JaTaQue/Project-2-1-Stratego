@@ -64,7 +64,7 @@ public class BaselinePlayer extends Player {
         12. Resign: No moves can be made at all, so the agent should resign"
      */
     @Override    
-     public int[] getNextMove(Game game){
+    public int[] getNextMove(Game game){
         if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of Inhanced baselineplayer");
             return null;
