@@ -46,7 +46,7 @@ public class SceneHome implements Initializable{
         
     }
 
-    
+    /*
     public void HomeToGame(ActionEvent event) throws IOException{
         /*
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ScreenGame.fxml")));
@@ -62,7 +62,7 @@ public class SceneHome implements Initializable{
         SceneGame personController = loader.getController();
         personController.setName("pvp");
         pvp.getScene().setRoot(root);
-        */
+        
         
 
         Stage confirmation_stage;
@@ -75,10 +75,28 @@ public class SceneHome implements Initializable{
         confirmation_stage.setScene(new Scene(confirmation));
         confirmation_stage.show();
         
-        
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
+        Parent root = loader.load();
+        SceneGame game = loader.getController();
+        game.setName("pvp");
+        //game.setGame("no");
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+
     }
-    
+    */
         
+
+    public void HomeToPVP(ActionEvent event) throws IOException{}
+
+    public void HomeToPVE(ActionEvent event) throws IOException{}
+
+    public void HomeToEVE(ActionEvent event) throws IOException{}
+
     public static Stage getStage() {
         return stage;
     }
