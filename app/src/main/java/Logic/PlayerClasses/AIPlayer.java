@@ -49,7 +49,7 @@ public class AIPlayer extends Player{
     @Override
     public int[][] getNextMove(Game game) {
         // int[][] nextMove = mcts.returnNextMove(game.getBoard(), game.getCurrentPlayer(), game.getEnemyPlayer());
-        int[][] nextMove = mcts.findBestMove(game);
+        int[][] nextMove = mcts.findBestMove2(game);
 
         try{
             System.out.println();

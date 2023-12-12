@@ -43,27 +43,6 @@ public class BaselinePlayer extends Player {
     }
 
 
-    /*
-     * "done 1. Use Spy: If the spy is next to the enemy marshal, capture it. ---> done
-        done but not move away 2. Defend against Spy: If the marshal is next to the enemy spy, capture it. If it
-        is next to unknown pieces, evaluate if it should be captured or if the marshal
-        should move away.
-        done but does not know if new pos is dnagerous 3. Attack weaker: If a known piece is next to a weaker known piece, capture it
-        unless the new position is dangerous.
-        done 4. Explore attack: If a scout, sergeant, lieutenant or captain is next to an unknown
-        piece, capture it.
-        --------------------------------------------------------------------------------------------------------------------------------
-        5. Retreat: If a known piece is next to a stronger enemy piece, run away.
-        6. Scout: Try advancing scouts forward rapidly.
-        7. Attack distant: If a known piece is distant but a path exists that moves a stronger
-        piece towards it, advance the stronger piece over the path.
-        8. Explore distant: Advance lower-ranked pieces towards unknown pieces.
-        9. Attack known with same distant: If a known piece can be attacked by a known
-        identical piece, advance towards it and capture it.
-        10. Move forward: Move any piece we can forward.
-        11. Move: Move any piece we can.
-        12. Resign: No moves can be made at all, so the agent should resign"
-     */
     @Override    
     public int[][] getNextMove(Game game){
         if(this.IsPlayable()){

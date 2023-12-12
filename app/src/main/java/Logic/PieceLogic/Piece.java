@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Piece {
 
-    private final int RANK;
+    private int RANK;
     private int[] position = new int[2];
     private boolean isDead;
     private final String COLOR;
@@ -58,6 +58,10 @@ public class Piece {
      */
     public int getRank() {
         return RANK;
+    }
+
+    public void setRank(int rank) {
+        this.RANK = rank;
     }
 
     /**

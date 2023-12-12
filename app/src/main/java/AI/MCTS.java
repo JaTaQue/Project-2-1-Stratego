@@ -79,6 +79,51 @@ public class MCTS {
 
     }
 
+    public int[][] findBestMove2 (Game game) {
+        AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
+        RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
+        Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), game.getEnemyPlayer()), null, null, null, copyCurrent, copyOpponent);
+        root.addChildren(root.expand());
+        long startTime = System.currentTimeMillis();
+        long duration = 2000;
+
+        while ((System.currentTimeMillis() - startTime) < duration) {
+            Node currentNode = treeTraversal(root);
+            if (currentNode.getVisitQuantity() == 0){
+                currentNode.incrementVisit_AddScore(rollout(currentNode));
+            }else{
+                currentNode.addChildren(currentNode.expand());
+                currentNode = currentNode.getChild(0);
+                currentNode.incrementVisit_AddScore(rollout(currentNode));
+            }
+        }
+// init: expand root
+// 1) traverse: leaf w highest ucb1 (if not visited inf)
+// 2) rollout if visit 0 and backprop, 
+//     else expand and rollout first
+
+        Node bestChild = root.getChild(0);
+        double bestScore = - (Integer.MAX_VALUE);
+
+        for (int i = 0; i < root.getChildren().size(); i++){
+            Node currChild = root.getChild(i);
+            double avgScore = currChild.score / currChild.visitQuantity;
+            if (avgScore > bestScore){
+                bestChild = currChild;
+                bestScore = avgScore;
+            }
+        }        
+
+        int[][] bestMove = new int[2][2];
+        bestMove[0] = bestChild.getCurrentPosition();
+        bestMove[1] = bestChild.getNextPosition();
+
+        lastMove = bestMove;
+
+        return bestMove;
+
+    }
+
     private double rollout(Node currentNode) {
         AIPlayer copyCurrent = currentNode.player.copyPlayer();
         RandomPlayer copyOpponent = (RandomPlayer) currentNode.enemyPlayer.copyPlayer();
@@ -89,7 +134,8 @@ public class MCTS {
         // System.out.print("rollout: ");   //print for mcts rollout
         long startTime = System.currentTimeMillis();
         int moveCounter = 0;
-        while((!currGame.isOver() && (System.currentTimeMillis()-startTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=2) {
+        int lookahead = 4;
+        while((!currGame.isOver() && (System.currentTimeMillis()-startTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=lookahead) {
             // int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
             // int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
             int[] movablePosition = copyCurrent.getRandomMovablePosition(currGame);
@@ -102,6 +148,8 @@ public class MCTS {
         double evaluation_value = evalFunction(currGame, copyCurrent, copyOpponent, currentNode);
         return evaluation_value;
     }
+
+
 
     private Node treeTraversal(Node node) {
         Node maxiNode = null;

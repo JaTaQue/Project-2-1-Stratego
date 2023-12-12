@@ -2,6 +2,8 @@ package AI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
@@ -135,4 +137,93 @@ public class Node{
         //players need copies
     }
 
+    public static Piece[][] getRandoBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
+        board = copyBoard(board);
+        List<Integer> availablePiecesAmount = new ArrayList<>(Arrays.asList(1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 1, 6));
+        for (int i = 1; i < 13; i++) {
+            int amount = opponenPlayer.howManyDeadOfRank(i);
+            int currentValue = availablePiecesAmount.get(i-1);
+            availablePiecesAmount.set(i-1, currentValue-amount);
+        }
+
+        ArrayList<int[]> notMovedYet = new ArrayList<int[]>();
+        ArrayList<int[]> Moved = new ArrayList<int[]>();
+
+        int VisibleScoutCount = 0;
+        Piece[][] newBoard = new Piece[10][10];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){//Color().equals(null))){
+                    if(board[i][j].getColor().equals(opponentColor)){
+                        if(board[i][j].isScout()) {
+                            newBoard[i][j] = board[i][j].copyPiece();
+                            VisibleScoutCount++;
+                        }
+                        else if(board[i][j].hasMoved()){
+                            Moved.add(board[i][j].getPosition());
+                        }
+                        else{
+                            notMovedYet.add(board[i][j].getPosition());
+                        }
+                    } else if(!board[i][j].getColor().equals(opponentColor) || board[i][j].isVisible()) {
+                        newBoard[i][j] = board[i][j].copyPiece();
+                        if(board[i][j].getColor().equals(opponentColor) && board[i][j].isVisible()) {
+                            int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
+                            availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
+                        }
+                    }
+                }
+            }
+        }
+        int shifter = 0;
+        if(availablePiecesAmount.get(11) > 0) {
+            shifter += 1;
+        }
+
+
+        int currentValue = availablePiecesAmount.get(1);
+        availablePiecesAmount.set(1, currentValue - VisibleScoutCount);
+
+        int non_zero_count = Integer.MAX_VALUE;
+        while(non_zero_count > 0) {
+            if(Moved.size() > 0) {
+                int randRank = (int) ((availablePiecesAmount.size() - shifter)*Math.random() + 1);
+                if(availablePiecesAmount.get(randRank - 1) > 0) {
+                    Piece copiedPiece = board[Moved.get(0)[0]][Moved.get(0)[1]].copyPiece();
+                    copiedPiece.setRank(randRank);
+                    
+                    newBoard[Moved.get(0)[0]][Moved.get(0)[1]] = copiedPiece;
+                    Moved.remove(0);
+                    availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
+                }
+            }  else if (notMovedYet.size() > 0) {
+                int randRank = (int) (availablePiecesAmount.size()*Math.random() + 1);
+                if(availablePiecesAmount.get(randRank - 1) > 0) {
+                    Piece copiedPiece = board[notMovedYet.get(0)[0]][notMovedYet.get(0)[1]].copyPiece();
+                    copiedPiece.setRank(randRank);
+                    
+                    newBoard[notMovedYet.get(0)[0]][notMovedYet.get(0)[1]] = copiedPiece;
+                    notMovedYet.remove(0);
+                    availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
+                }
+            } else {
+                System.out.println("Colonizer");
+                for (int i = 0; i < availablePiecesAmount.size(); i++) {
+                    System.out.print(availablePiecesAmount.get(i));
+                }
+            }
+
+            non_zero_count = 0;
+            for (int i = 0; i < availablePiecesAmount.size(); i++) {
+                if(availablePiecesAmount.get(i) > 0) {
+                    non_zero_count += 1;
+
+                }
+            }
+        }
+        return newBoard;
+    } 
+
 }
+
+
