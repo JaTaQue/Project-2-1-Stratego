@@ -11,9 +11,12 @@ To run the project, use the following command in the terminal:
 bash
 ./gradlew run
 
+This command will start the Gradle run task, which will compile the project, install necessary dependencies including JavaFX, and start the application. If it doesn't work, run the build command first.
 
-This command will start the Gradle run task, which will compile the project, install necessary dependencies including JavaFX, and start the application. if it doesn't work run the build command first
+Alternatively, you can run the `Test.java` file to perform a faster simulation in the terminal.
+
 
 ## Game Rules
 
 Stratego is a strategy board game for two players. The objective of the game is to find and capture the opponent's Flag, or to capture so many enemy pieces that the opponent cannot make any further moves.
+
