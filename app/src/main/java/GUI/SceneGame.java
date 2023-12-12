@@ -32,6 +32,8 @@ public class SceneGame implements Initializable {
 
 
     Game game;
+
+    String gameMode = "";
     Component[][] boardGUI = new Component[10][10];
     private int [] currentXY;
     Boolean selected = false;
@@ -42,24 +44,16 @@ public class SceneGame implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         draggableMakerGrid = new GridStratego(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
-
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
-        
-        //TODO: get the game mode from the start screen;
-        setGame(new SceneHome().gameMode);
-        
-        //playerTurnDisplay.setText(game.getCurrentPlayer().getColor() + " TURN");
-
-        //if(game.getCurrentPlayer().IsPlayable())
 
         //listen for mouse clicks
         pane.setOnMouseClicked(this::playHuman);
     }
 
-    private void setGame(String gameMode) {
+
+    void setGame(String gameMode) {
         //create a new game based on the game mode
         switch (gameMode) {
             case "PvP":
@@ -544,5 +538,9 @@ public class SceneGame implements Initializable {
             ID = selPiece.getRank() + selPiece.getColor();
         }
         return ID;
+    }
+
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
     }
 }

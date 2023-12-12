@@ -372,7 +372,7 @@ public class Game {
                 //if the piece is not null
                 if(board[i][j] != null){
                     //if the piece is of the current player
-                        if(board[i][j].getColor().equals(currentPlayer.getColor())){
+                        if(board[i][j].getColor() == currentPlayer.getColor()){
                             //add to Integer[] arraylist
                             tiles.add(new int[]{i,j});
                         }

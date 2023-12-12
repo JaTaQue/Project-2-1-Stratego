@@ -25,57 +25,49 @@ public class SceneHome implements Initializable{
     private AnchorPane painer;
 
     @FXML
-    private Button pvp;
-
-    @FXML
-    private Button pve;
-
-    @FXML
-    private Button eve;
-
-    @FXML
     private Label gameModeLabel;
 
     public String gameMode;
 
-
-
     private static Stage stage;
+
     private Scene scene;
 
     public void GameToHome(ActionEvent event) throws IOException{
-    
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ScreenHome.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        
-        
     }
 
 
     private void HomeToGame(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("/ScreenGame.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
+        Parent root = loader.load();
+        SceneGame controller = loader.getController();
+        controller.setGame(gameMode);
+        stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
     }
 
     public void HomeToPVP(ActionEvent event) throws IOException{
         gameModeLabel.setText("PvP");
+        gameMode = "PvP";
         HomeToGame(event);
     }
 
     public void HomeToPVE(ActionEvent event) throws IOException{
         gameModeLabel.setText("PvE");
+        gameMode = "PvE";
         HomeToGame(event);
     }
 
     public void HomeToEVE(ActionEvent event) throws IOException{
         gameModeLabel.setText("EvE");
+        gameMode = "EvE";
         HomeToGame(event);
     }
 
@@ -107,7 +99,4 @@ public class SceneHome implements Initializable{
         SceneHelp.Stop(painer);
     }
 
-    public void etGameModeLabel() {
-        gameMode = gameModeLabel.getText();
-    }
 }
