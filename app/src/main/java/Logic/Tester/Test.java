@@ -23,7 +23,7 @@ public class Test {
         try (Scanner scanner = new Scanner(System.in)) {
             Game game = Game.PlayerVsAI();
             
-            Player aiPlayer = new BaselinePlayer("Blue");
+            Player aiPlayer = new AIPlayer("Blue");
             game.setPlayer1(aiPlayer);
             game.setCurrentPlayer(aiPlayer);
 
@@ -67,7 +67,7 @@ public class Test {
             //when game is done it prints the final board one more time
             System.out.println();
             boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-            System.out.println("\n\t~ GAME OVER ~");
+            System.out.println("\n  ~ GAME OVER ~");
         }
     }
 
