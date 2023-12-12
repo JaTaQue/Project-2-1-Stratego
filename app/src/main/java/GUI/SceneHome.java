@@ -47,10 +47,10 @@ public class SceneHome implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
         Parent root = loader.load();
         SceneGame controller = loader.getController();
-        controller.setGame(gameMode);
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
+        controller.setGame(gameMode);
     }
 
     public void HomeToPVP(ActionEvent event) throws IOException{

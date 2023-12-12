@@ -7,6 +7,7 @@ import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PieceLogic.PiecesCreator;
+import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.BaselinePlayer;
 import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.HumanPlayer;
@@ -23,7 +24,7 @@ public class Game {
     private boolean hasStarted = false;
     public Piece[][] board;
     public Player player1;
-    private Player player2;
+    public Player player2;
     private Player currentPlayer;
     public final int[][] placingBordersPlayer1 = {{0, 9}, {0, 3}}; //{start x, end x}, {start y, end y}
     public final int[][] placingBordersPlayer2 = {{0, 9}, {6, 9}}; //{start x, end x}, {start y, end y}
@@ -46,9 +47,14 @@ public class Game {
     }
 
     public static Game PlayerVsAI(){
-        Player player1 = createHumanPlayer();
-        Player player2 = createBaselinePlayer();
+        Player player1 = createAIPlayer();
+        Player player2 = createHumanPlayer();
         return new Game(player1, player2);
+    }
+
+    private static AIPlayer createAIPlayer() {
+        AIPlayer h = new AIPlayer(availableColors.remove(0));
+        return h;
     }
 
     public static Game AIVsAI(){

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="750.0" maxWidth="750.0" minHeight="750.0" minWidth="750.0" prefHeight="750.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneGame">
+<BorderPane maxHeight="750.0" maxWidth="750.0" minHeight="750.0" minWidth="750.0" prefHeight="750.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneGame">
    <center>
-      <AnchorPane fx:id="pane" prefHeight="750.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="pane" prefHeight="754.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
    </center>
-   <top>
-      <Label fx:id="gameMode" text="Label" BorderPane.alignment="CENTER" />
-   </top>
 </BorderPane>

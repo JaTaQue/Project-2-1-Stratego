@@ -2,8 +2,10 @@ package GUI;
 
 import java.io.IOException;
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import GUI.Grid.GridHandler;
@@ -11,6 +13,9 @@ import GUI.Grid.GridStratego;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
 import Logic.Tester.Game;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,6 +44,8 @@ public class SceneGame implements Initializable {
     Boolean selected = false;
     Boolean started = false;
     int turn=1;
+    SimpleIntegerProperty turnCount;
+    ChangeListener<Number> turnProperty;
 
     private GridStratego draggableMakerGrid;
 
@@ -76,14 +83,27 @@ public class SceneGame implements Initializable {
         //show the pieces of the current player and hide the pieces of the enemy player
         switchGUI();
 
-        //control the turns
-        playersGUI();
-    }
+        turnCount = new SimpleIntegerProperty();
+        turnProperty = (observable, oldValue, newValue) -> {
+            playersGUI();
+        };
+
+        // Add turnProperty as a listener to turnCount
+        turnCount.addListener(turnProperty);
+
+        // trigger listener
+        turnCount.set(++turn);
+    };
+    
+
 
     private void playersGUI() {
+        System.out.println("Turn: "+turn);
         //listen for mouse clicks
-        if(game.getCurrentPlayer().IsPlayable())
+        if(game.getCurrentPlayer().IsPlayable()){
+            System.out.println("Human");
             pane.setOnMouseClicked(this::playHuman);
+        }
         //AI
         else if(started){
             int[][] movablePositions = game.getCurrentPlayer().getNextMove(game);
@@ -92,10 +112,12 @@ public class SceneGame implements Initializable {
             Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
 
             turnGUI(movablePosition, pieceMovablePosition, move);
+            System.out.println("AI Turn");        
         }
         else{
             //TODO: swapGUI with the preset position
             startGUI();
+            System.out.println("AI Placement");
         }
     }
 
@@ -122,27 +144,40 @@ public class SceneGame implements Initializable {
             }
         }
     }
-
+    
     private void switchGUI(){
         //get the current player
         Player currentPlayer = game.getCurrentPlayer();
         Player enemyPlayer = game.getEnemyPlayer();
         
         //hide the pieces of the enemy player
-        hideGUI(enemyPlayer);
+        showGUI(enemyPlayer);
         
         //display an alert to confirm the move
+        //sleep for 0.5 seconds
         nextGUI();
-        
-        //show the pieces of the current player
+
+        /*
+        PauseTransition pause = new PauseTransition(Duration.millis(5000));
+        pause.setOnFinished(event -> {
+            System.out.println("Next");
+        });
+        pause.play();
+        */  
+
         showGUI(currentPlayer);
+
+        //show the pieces of the current player
+
     }
+
 
     private void nextGUI() {
         String phase = started ? "turn" : "placement";
         String color = game.getCurrentPlayer().getColor();
-        //create an alert
-        //alertBlankIcon(phase, color);
+        //create an alert 
+        alertBlankIcon(phase, color);
+            
     }
 
     private void alertBlankIcon(String phase, String color) {
@@ -190,17 +225,14 @@ public class SceneGame implements Initializable {
         selected = !selected;
         // selected is true: player turn ongoing
         // selected is false: player turn ended
-        if(!selected){
-            playersGUI();
-        }
+        
+        //if(!selected){playersGUI();}
     }
-
     private void playHuman(MouseEvent mouseEvent) {
         double mouseAnchorX = mouseEvent.getX();
         double mouseAnchorY = mouseEvent.getY();
 
-        mouseDebug(mouseAnchorX, mouseAnchorY);
-
+        //mouseDebug(mouseAnchorX, mouseAnchorY);
 
         //first click
         if(!selected){
@@ -387,7 +419,7 @@ public class SceneGame implements Initializable {
         
         if(isConfirm){
             switchGUI();
-            turn++;
+            turnCount.set(++turn);
         }
 
     }
@@ -402,11 +434,12 @@ public class SceneGame implements Initializable {
     }
 
     private void startGUI() {
-        turn++;
         if(turn>2)
             started = true;
+        System.out.println("Started: "+started);
         game.switchCurrentPlayer();
         switchGUI();
+        turnCount.set(++turn);
     }
 
     private void moveGUI(int[] currentXY, int[] targetXY) {
