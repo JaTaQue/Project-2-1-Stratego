@@ -497,7 +497,7 @@ public class SceneGame implements Initializable {
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]] = null;
         } else if (diedTarget) {
-            targetComponent.removeFade();
+            targetComponent.removeFly();
             boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
             boardGUI[currentXY[0]][currentXY[1]] = null;
             boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
