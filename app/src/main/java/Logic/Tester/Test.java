@@ -4,6 +4,7 @@ import java.util.Scanner;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.BaselinePlayer;
+import Logic.PlayerClasses.HumanPlayer;
 import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.Player;
 
@@ -27,7 +28,7 @@ public class Test {
             game.setPlayer1(aiPlayer);
             game.setCurrentPlayer(aiPlayer);
 
-            Player blPlayer = new RandomPlayer("Red");
+            Player blPlayer = new BaselinePlayer("Red");   // don't put human !!
             game.setPlayer2(blPlayer);
 
             System.out.println();

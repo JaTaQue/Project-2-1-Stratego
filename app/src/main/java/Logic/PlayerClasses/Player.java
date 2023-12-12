@@ -414,6 +414,8 @@ public abstract class Player {
         piecePlaced(piece);
     }
 
+    public abstract int[] getRandomMove(Game currGame, int[] movablePosition);
+
 }
 
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.Tester.Game;
 
@@ -64,6 +65,47 @@ public class HumanPlayer extends Player {
         scanner.close();
 
         return new int[][]{currentPosition, targetPosition};
+    }
+
+    public int[] getRandomMovablePosition(Game game){
+        if(!this.IsPlayable()){
+            System.out.println("Something went wrong, playable player uses method of baselineplayer");
+            return null;
+        }
+        ArrayList<int[]> movablePieces = getMovablePieces(game);
+
+        if(!movablePieces.isEmpty()){
+            int movablePiecesSize = movablePieces.size();
+            int randomInteger = (int) (Math.random()*(movablePiecesSize-1));
+            return movablePieces.get(randomInteger);
+        }
+        else{
+            System.out.println("Something went wrong or player does not have movable pieces");
+            return null;
+        }
+        
+    }
+
+    public int[] getRandomMove(Game game, int[] currentPosition){
+        if(!this.IsPlayable()){
+            System.out.println("Something went wrong, playable player uses method of baselineplayer");
+            return null;
+        }
+        
+        Piece[][] board = game.getBoard();
+
+        if(!MoveLogic.returnPossiblePositions(currentPosition, board).isEmpty()){
+            int possiblePositionsSize = MoveLogic.returnPossiblePositions(currentPosition, board).size();
+            int randomInteger = (int) (Math.random()*(possiblePositionsSize-1));
+
+            int X = MoveLogic.returnPossiblePositions(currentPosition, board).get(randomInteger)[0];
+            int Y = MoveLogic.returnPossiblePositions(currentPosition, board).get(randomInteger)[1];
+            return new int[]{X,Y};
+        }
+        else{
+            System.out.println("Something went wrong or piece does not have possible positions");
+            return null;
+        }
     }
 
 }
