@@ -360,13 +360,12 @@ public abstract class Player {
      * @author Group 7
      * @version 1
      */ 
-     public void placePiecesSimulation(Game game){  
-        int counter = 0;
-    
+     public void placePiecesSimulation  (Game game){
+
         if(equals(game.player1)){
-            placePiecesForPlayer(game, counter);
+            placePiecesForPlayer(game);
         }else{
-            placePiecesForPlayer(game, counter);
+            placePiecesForPlayer(game);
             game.setStarted(); //start game after placing player2's pieces
         }
     }
@@ -374,11 +373,11 @@ public abstract class Player {
     /**
      * private helper-method for placing the pieces for a player randomly
      * @param game current game
-     * @param counter the number of pieces placed so far
      * @author Group 7
      * @version 1
      */ 
-    public void placePiecesForPlayer(Game game, int counter) {
+    public void placePiecesForPlayer(Game game) {
+        int counter = 0;
         ArrayList<Piece> pieces = new ArrayList<>();
         while(!game.isEveryPieceAtBeginningOnBoard(this)){
     

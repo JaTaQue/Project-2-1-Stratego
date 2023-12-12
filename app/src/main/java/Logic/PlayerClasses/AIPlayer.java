@@ -62,8 +62,8 @@ public class AIPlayer extends Player{
     }
 
     @Override 
-    public void placePiecesForPlayer(Game game, int counter) {
-    
+    public void placePiecesForPlayer(Game game) {
+        int counter = 0;
         ArrayList<Piece> pieces = new ArrayList<>();
         int [] positionFlagPlayer1 = new int [] {0,0}; 
         int [] positionMarshalPlayer1 = new int [] {2,2};

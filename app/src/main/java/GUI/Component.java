@@ -254,7 +254,7 @@ public class Component {
         return isVisible;
     }
 
-    public Boolean getClickable() {
+    public Boolean isClickable() {
         return clickable;
     }
 

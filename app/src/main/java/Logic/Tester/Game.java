@@ -7,6 +7,7 @@ import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PieceLogic.PiecesCreator;
+import Logic.PlayerClasses.BaselinePlayer;
 import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.HumanPlayer;
 import Logic.PlayerClasses.Player;
@@ -46,7 +47,7 @@ public class Game {
 
     public static Game PlayerVsAI(){
         Player player1 = createHumanPlayer();
-        Player player2 = createRandomPlayer();
+        Player player2 = createBaselinePlayer();
         return new Game(player1, player2);
     }
 
@@ -86,6 +87,18 @@ public class Game {
     public static HumanPlayer createHumanPlayer(){
         HumanPlayer h = new HumanPlayer(availableColors.remove(0));
         return h;
+    }
+
+    /**
+     * creates a new BaselinePlayer object with a fixed available color:
+     * "B" or Blue for player1, "R" or Red for player2
+     * @author Group 7
+     * @version 1
+     * @return a new BaselinePlayer
+     */
+    public static BaselinePlayer createBaselinePlayer(){
+        BaselinePlayer b = new BaselinePlayer(availableColors.remove(0));
+        return b;
     }
 
      /**

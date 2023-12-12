@@ -47,9 +47,6 @@ public class SceneGame implements Initializable {
         draggableMakerGrid = new GridStratego(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
-
-        //listen for mouse clicks
-        pane.setOnMouseClicked(this::playHuman);
     }
 
 
@@ -76,8 +73,30 @@ public class SceneGame implements Initializable {
 
         //place the components on the GUI board
         setGUI();
-        //shohw the pieces of the current player and hide the pieces of the enemy player
+        //show the pieces of the current player and hide the pieces of the enemy player
         switchGUI();
+
+        //control the turns
+        playersGUI();
+    }
+
+    private void playersGUI() {
+        //listen for mouse clicks
+        if(game.getCurrentPlayer().IsPlayable())
+            pane.setOnMouseClicked(this::playHuman);
+        //AI
+        else if(started){
+            int[][] movablePositions = game.getCurrentPlayer().getNextMove(game);
+            int[] movablePosition = movablePositions[0];
+            int[] move = movablePositions[1];
+            Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
+
+            turnGUI(movablePosition, pieceMovablePosition, move);
+        }
+        else{
+            //TODO: swapGUI with the preset position
+            startGUI();
+        }
     }
 
     private void setGUI() {
@@ -123,8 +142,11 @@ public class SceneGame implements Initializable {
         String phase = started ? "turn" : "placement";
         String color = game.getCurrentPlayer().getColor();
         //create an alert
-        Alert alertNext = new Alert(Alert.AlertType.INFORMATION);
+        //alertBlankIcon(phase, color);
+    }
 
+    private void alertBlankIcon(String phase, String color) {
+        Alert alertNext = new Alert(Alert.AlertType.INFORMATION);
         Object scene = pane.getScene();
         if(scene!=null){
             alertNext.initOwner(pane.getScene().getWindow());
@@ -141,11 +163,8 @@ public class SceneGame implements Initializable {
         alertNext.setGraphic(blankIcon.getRectangle());
         //size
         alertNext.getDialogPane().setPrefSize(200, 100);
-
-        
         //show the alert
         alertNext.showAndWait();
-        
     }
 
     private void hideGUI(Player player){
@@ -171,18 +190,8 @@ public class SceneGame implements Initializable {
         selected = !selected;
         // selected is true: player turn ongoing
         // selected is false: player turn ended
-        if(!selected && started){
-            //check if player is AI
-            if(!game.getCurrentPlayer().IsPlayable()){
-                
-                int[][] movablePositions = game.getCurrentPlayer().getNextMove(game);
-                int[] movablePosition = movablePositions[0];
-                int[] move = movablePositions[1];
-                Piece pieceMovablePosition = game.getBoard()[movablePosition[0]][movablePosition[1]];
-                
-                turnGUI(movablePosition, pieceMovablePosition, move);
-                selected = !selected;
-            }
+        if(!selected){
+            playersGUI();
         }
     }
 
@@ -221,7 +230,7 @@ public class SceneGame implements Initializable {
         currentTiles = getTiles(game.getCurrentPlayer());
         
         //check if tile is not empty, component is clickable
-        if(currentPiece != null && currentComponent.getClickable() ){
+        if(currentPiece != null && currentComponent.isClickable() ){
             //current player's piece
             if(currentPiece.getColor().equals(game.getCurrentPlayer().getColor())){
                 targetTiles = getTiles(currentPiece);
@@ -242,15 +251,19 @@ public class SceneGame implements Initializable {
         dehighlightTiles(targetTiles);
         
         if(started)
+            //game continuing
             turnGUI(currentXY, currentPiece, targetXY);
-        else{
+        else {
+            //game starting
             ArrayList<int[]> currentTiles = getTiles(game.getCurrentPlayer());
             dehighlightTiles(currentTiles);
             swapGUI(currentXY,targetXY);
             confirmGUI(currentPiece, targetXY);
         }
-        
+
+
         click();
+
     }
 
     private void stop() {
@@ -384,12 +397,16 @@ public class SceneGame implements Initializable {
         boolean isAttack = game.getCanAttack(currentPiece, targetXY);
         boolean isConfirm = isAttack || isMove;
         if (isConfirm) {
-            turn++;
-            if(turn>2)
-                started = true;
-            game.switchCurrentPlayer();
-            switchGUI();
+            startGUI();
         }
+    }
+
+    private void startGUI() {
+        turn++;
+        if(turn>2)
+            started = true;
+        game.switchCurrentPlayer();
+        switchGUI();
     }
 
     private void moveGUI(int[] currentXY, int[] targetXY) {
@@ -459,7 +476,7 @@ public class SceneGame implements Initializable {
         
         //swap GUI_board
         Component tempComponent = boardGUI[targetXY[0]][targetXY[1]];
-        if (!tempComponent.getClickable())
+        if (!tempComponent.isClickable())
             return;
 
         boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
@@ -540,7 +557,4 @@ public class SceneGame implements Initializable {
         return ID;
     }
 
-    public void setGameMode(String gameMode) {
-        this.gameMode = gameMode;
-    }
 }
