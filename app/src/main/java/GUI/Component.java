@@ -2,6 +2,7 @@ package GUI;
 import java.util.Objects;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.animation.Transition;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
@@ -34,6 +35,17 @@ public class Component {
         // Fill the Rectangle with the PNG image
         rectangle.setFill(new ImagePattern(img));
         this.drawing = imageName;
+    }
+
+    public void drawLayer(String imageName){
+        String path1 = Objects.requireNonNull(getClass().getResource("/" + this.drawing + ".png")).toExternalForm();
+        Image img = new Image(path1);
+        // Load the PNG image from the resources folder
+        String path2 = Objects.requireNonNull(getClass().getResource("/" + imageName + ".png")).toExternalForm();
+        Image img2 = new Image(path2);
+        // Fill the Rectangle with the PNG image
+        rectangle.setFill(new ImagePattern(img));
+        rectangle.setFill(new ImagePattern(img2));
     }
 
     public void draw(int rank, String color){
@@ -227,11 +239,19 @@ public class Component {
         setMoving(true);
         transition.play();
     }
+
+    public void pause (int seconds) {
+        PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
+        pause.setOnFinished(event -> {
+            System.out.println("Next");
+        });
+        pause.play();
+    }
     
 
     public void moveTP(int x, int y) {
-        this.getRectangle().setLayoutX(this.getRectangle().getLayoutX() + x);
-        this.getRectangle().setLayoutY(this.getRectangle().getLayoutY() + y);
+        this.getRectangle().setX(this.getRectangle().getX() + x);
+        this.getRectangle().setY(this.getRectangle().getY() + y);
     }
 
     public void highlight(String color) {

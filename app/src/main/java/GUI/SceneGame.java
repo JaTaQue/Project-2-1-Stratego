@@ -46,6 +46,8 @@ public class SceneGame implements Initializable {
     int turn=1;
     SimpleIntegerProperty turnCount;
     ChangeListener<Number> turnProperty;
+    Component swapComponent = new Component(0,0);
+
 
     private GridStratego draggableMakerGrid;
 
@@ -54,8 +56,31 @@ public class SceneGame implements Initializable {
         draggableMakerGrid = new GridStratego(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
+        //swapComponent.draw("swap");
+        //pane.getChildren().add(swapComponent.getRectangle());
+        //pane.setOnMouseMoved(this::icondrawer);
     }
 
+    private void icondrawer(MouseEvent mouseEvent) {
+        if(selected && !started){
+            double mouseAnchorX = mouseEvent.getX();
+            double mouseAnchorY = mouseEvent.getY();
+            //invert coordinates for array indexing
+            //noinspection SuspiciousNameCombination
+            int[] mouseCoordinates = draggableMakerGrid.getClickCoordinates(mouseAnchorY, mouseAnchorX);
+
+
+            //get the target piece and component
+            Piece currentPiece = game.getBoard()[currentXY[0]][currentXY[1]];
+            Piece targetPiece = game.getBoard()[mouseCoordinates[0]][mouseCoordinates[1]];
+            
+
+            //check if the target is not empty and an ally piece
+            if(targetPiece != null && targetPiece.getColor().equals(currentPiece.getColor())){
+                swapComponent.moveTP(mouseCoordinates[1]*GRID_SIZE, mouseCoordinates[0]*GRID_SIZE);
+            }
+        }
+        }
 
     void setGame(String gameMode) {
         //create a new game based on the game mode
@@ -131,6 +156,8 @@ public class SceneGame implements Initializable {
                     //lake
                     if(piece.getRank()==-1)
                         component.draw("lake");
+                    else if(piece.getRank()!=0)
+                        component.draw(0,piece.getColor());
                     boardGUI[i][j] = component;
                     pane.getChildren().add(component.getRectangle());
                 }
@@ -151,19 +178,12 @@ public class SceneGame implements Initializable {
         Player enemyPlayer = game.getEnemyPlayer();
         
         //hide the pieces of the enemy player
-        showGUI(enemyPlayer);
+        hideGUI(enemyPlayer);
         
         //display an alert to confirm the move
         //sleep for 0.5 seconds
         nextGUI();
 
-        /*
-        PauseTransition pause = new PauseTransition(Duration.millis(5000));
-        pause.setOnFinished(event -> {
-            System.out.println("Next");
-        });
-        pause.play();
-        */  
 
         showGUI(currentPlayer);
 

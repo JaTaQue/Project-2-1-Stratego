@@ -58,8 +58,8 @@ public class Game {
     }
 
     public static Game AIVsAI(){
-        Player player1 = createRandomPlayer();
-        Player player2 = createRandomPlayer();
+        Player player1 = createAIPlayer();
+        Player player2 = createAIPlayer();
         return new Game(player1, player2);
     }
 
