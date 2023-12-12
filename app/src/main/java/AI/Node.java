@@ -67,6 +67,9 @@ public class Node{
     }
 
     public Node getChild(int i){
+        if(this.children.isEmpty()){
+            return null;
+        }
         return this.children.get(i);
     }
 
@@ -91,11 +94,16 @@ public class Node{
         for (Piece piece : pieces){
 
                 // System.out.println("piece"+piece);
-                if(piece != null && !piece.isDead()){
+                if(piece != null && !piece.isDead() && piece.getRank()!=-1){
                     int[] piecePos = piece.getPosition().clone();
                     // System.out.println(Arrays.toString(piecePos));
                     ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
-                    
+                    // if(piece.getRank()==2 && !moves.isEmpty()){
+                    //     for (int i = 0; i < moves.size(); i++) {
+                    //         System.out.println(moves.get(i)[0]+" "+moves.get(i)[1]);
+                    //     }
+                     
+                    // }
                     for (int i = 0; i < moves.size(); i++) {
                         Piece[][] nextBoard = copyBoard(board);
 
@@ -153,6 +161,14 @@ public class Node{
         Piece[][] newBoard = new Piece[10][10];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
+
+                if(board[i][j]!=null){
+                    if(board[i][j].getRank()==-1){
+                        newBoard[i][j]=board[i][j].copyPiece();
+                    }
+                }
+
+
                 if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){//Color().equals(null))){
                     if(board[i][j].getColor().equals(opponentColor)){
                         if(board[i][j].isScout()) {

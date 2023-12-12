@@ -89,9 +89,14 @@ public class MCTS {
             if (currentNode.getVisitQuantity() == 0){
                 currentNode.incrementVisit_AddScore(rollout(currentNode));
             }else{
-                currentNode.addChildren(currentNode.expand());
-                currentNode = currentNode.getChild(0);
-                currentNode.incrementVisit_AddScore(rollout(currentNode));
+                if(currentNode.expand()!=null){
+                    currentNode.addChildren(currentNode.expand());
+                    Node childOfCurrent = currentNode.getChild(0);
+                    if(childOfCurrent!=null){
+                        currentNode = currentNode.getChild(0);
+                        currentNode.incrementVisit_AddScore(rollout(currentNode));
+                    }
+                }
             }
         }
 
