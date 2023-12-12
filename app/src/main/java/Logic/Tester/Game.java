@@ -290,11 +290,19 @@ public class Game {
         int currX = currentPosition[0];
         int currY = currentPosition[1];
         boolean canMove = getCanMove(currPiece, targetPosition);
+
+        
+
         if(canMove){
             MoveLogic.move(currPiece, targetPosition, this.getBoard());
             this.switchCurrentPlayer(); 
             // System.out.println("can move");
-    
+
+            currPiece.setMoved();
+            if((Math.abs(currentPosition[0]-targetPosition[0])>1) || (Math.abs(currentPosition[1]-targetPosition[1])>1)){
+                currPiece.setScout();
+            }
+
         }else{
             //System.out.println("can't move");
             //System.out.println("options: ");
@@ -308,6 +316,12 @@ public class Game {
             //System.out.println("can attack");
             AttackLogic.battle(board, attackerPosition, defenderPosition, currentPlayer, currentPlayer.equals(player1) ? player2 : player1);
             this.switchCurrentPlayer();
+
+            currPiece.setMoved();
+            if((Math.abs(currentPosition[0]-targetPosition[0])>1) || (Math.abs(currentPosition[1]-targetPosition[1])>1)){
+                currPiece.setScout();
+            }
+
         }
         else{
             //System.out.println("can't attack");

@@ -9,6 +9,9 @@ public class Piece {
     private boolean isDead;
     private final String COLOR;
     private boolean isVisible;
+    private boolean isScout;
+    private boolean hasMoved;
+    private boolean isVisibleScout;
 
     /**
      * Constructor for the Piece
@@ -119,4 +122,23 @@ public class Piece {
     public void setVisible() {
         this.isVisible = true;
     }
+
+    public void setScout() {
+        this.isScout = true;
+    }
+
+    public void setMoved() {
+        this.hasMoved = true;
+    }
+
+    public boolean isScout() {
+        return this.isScout;
+    }
+
+    public boolean hasMoved() {
+        return this.hasMoved;
+    }
+
+   
+
 }

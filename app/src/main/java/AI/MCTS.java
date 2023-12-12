@@ -18,7 +18,8 @@ public class MCTS {
     private static final int ROLLOUT_TIME_MILLIS = 500;
     final int SIMULATION_COUNT = 20;
     private int[][] lastMove;
-    private final int[] SCORES_PER_RANK = new int[]{0, 100, 2, 50, 5, 10, 20, 50, 100, 250, 500, 1000, 750}; // piece ranks go from 1 to 12, id 0 = 0 forconvenience in eval
+    private final int[] SCORES_PER_RANK_ALIVE = new int[]{0, 100, 2, 50, 5, 10, 20, 50, 100, 250, 500, 1000, 750}; // piece ranks go from 1 to 12, id 0 = 0 forconvenience in eval
+    private final int[] SCORES_PER_RANK_VISIBLE = new int[]{0, 0, 0, 20, 5, 10, 15, 20, 25, 50, 100, 0, 200};
     // Rank -1 = Lake
     // Rank 1 = Spy
     // Rank 2 = Scout
@@ -87,12 +88,14 @@ public class MCTS {
         currGame.setStarted();
         // System.out.print("rollout: ");   //print for mcts rollout
         long startTime = System.currentTimeMillis();
-        while(!currGame.isOver() && System.currentTimeMillis()-startTime < ROLLOUT_TIME_MILLIS) {
+        int moveCounter = 0;
+        while((!currGame.isOver() && (System.currentTimeMillis()-startTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=2) {
             // int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
             // int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
             int[] movablePosition = copyCurrent.getRandomMovablePosition(currGame);
             int[] nextMove = copyOpponent.getRandomMove(currGame, movablePosition);
             currGame.makeAMove(movablePosition, currBoard[movablePosition[0]][movablePosition[1]], nextMove);
+            moveCounter++;
         }
         // Test.boardToASCIIArt(currBoard, currentPlayer);
         
@@ -142,10 +145,13 @@ public class MCTS {
                     int pieceRank = board[i][j].getRank();
     
                     if (board[i][j].getColor() != color) {
-                        evalScore -= SCORES_PER_RANK[pieceRank]; // Deduct points for not capturing opponent pieces
+                        evalScore -= SCORES_PER_RANK_ALIVE[pieceRank]; // Deduct points for not capturing opponent pieces
+                        if(board[i][j].isVisible()){
+                            evalScore += SCORES_PER_RANK_VISIBLE[pieceRank];
+                        }
                         if (pieceRank == 11) capturedFlag = false;
                     } else if (board[i][j].getColor() == color) {     
-                        evalScore += SCORES_PER_RANK[pieceRank]; // Award points for saving own pieces
+                        evalScore += SCORES_PER_RANK_ALIVE[pieceRank]; // Award points for saving own pieces
                     }
 
                     double repetitionPenalty = computeRepetitionPenalty(currNode);
