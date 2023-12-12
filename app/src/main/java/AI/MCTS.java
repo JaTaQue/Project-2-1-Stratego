@@ -137,9 +137,14 @@ public class MCTS {
         while((!currGame.isOver() && (System.currentTimeMillis()-startTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=lookahead) {
             // int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
             // int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
+
             int[] movablePosition = copyCurrent.getRandomMovablePosition(currGame);
-            int[] nextMove = copyOpponent.getRandomMove(currGame, movablePosition);
-            currGame.makeAMove(movablePosition, currBoard[movablePosition[0]][movablePosition[1]], nextMove);
+            if(movablePosition!=null){
+                int[] nextMove = copyOpponent.getRandomMove(currGame, movablePosition);
+                currGame.makeAMove(movablePosition, currBoard[movablePosition[0]][movablePosition[1]], nextMove);
+            }
+            
+
             moveCounter++;
         }
         // Test.boardToASCIIArt(currBoard, currentPlayer);
