@@ -239,19 +239,11 @@ public class Component {
         setMoving(true);
         transition.play();
     }
-
-    public void pause (int seconds) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
-        pause.setOnFinished(event -> {
-            System.out.println("Next");
-        });
-        pause.play();
-    }
     
 
     public void moveTP(int x, int y) {
-        this.getRectangle().setX(this.getRectangle().getX() + x);
-        this.getRectangle().setY(this.getRectangle().getY() + y);
+        this.getRectangle().setX(x);
+        this.getRectangle().setY(y);
     }
 
     public void highlight(String color) {
@@ -278,8 +270,8 @@ public class Component {
         return clickable;
     }
 
-    public void setIsVisible(Boolean revealed) {
-        rectangle.setOpacity(1);
+    public void setVisible(Boolean revealed) {
+        rectangle.setOpacity(revealed ? 1 : 0);
         this.isVisible = revealed;
     }
 
@@ -294,5 +286,9 @@ public class Component {
 
     public void setSkin(String skin) {
         this.skin = skin;
+    }
+
+    public void bringToFront() {
+        this.getRectangle().toFront();
     }
 }

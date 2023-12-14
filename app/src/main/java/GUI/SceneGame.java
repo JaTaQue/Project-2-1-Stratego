@@ -56,11 +56,17 @@ public class SceneGame implements Initializable {
         draggableMakerGrid = new GridStratego(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
-        //swapComponent.draw("swap");
-        //pane.getChildren().add(swapComponent.getRectangle());
-        //pane.setOnMouseMoved(this::icondrawer);
+        swapComponent.draw("swap");
+        pane.getChildren().add(swapComponent.getRectangle());
+        pane.setOnMouseMoved(this::icondrawer);
     }
 
+
+    /*
+    * This method is called when the user clicks on the "Start" button
+    * fran i love you suck my cock you are a great developer and i respect you
+    * @Author: by fran's worst enemy
+     */
     private void icondrawer(MouseEvent mouseEvent) {
         if(selected && !started){
             double mouseAnchorX = mouseEvent.getX();
@@ -73,14 +79,17 @@ public class SceneGame implements Initializable {
             //get the target piece and component
             Piece currentPiece = game.getBoard()[currentXY[0]][currentXY[1]];
             Piece targetPiece = game.getBoard()[mouseCoordinates[0]][mouseCoordinates[1]];
-            
+            swapComponent.bringToFront();
 
             //check if the target is not empty and an ally piece
             if(targetPiece != null && targetPiece.getColor().equals(currentPiece.getColor())){
+                swapComponent.setVisible(true);
                 swapComponent.moveTP(mouseCoordinates[1]*GRID_SIZE, mouseCoordinates[0]*GRID_SIZE);
             }
         }
-        }
+        else
+            swapComponent.setVisible(false);
+    }
 
     void setGame(String gameMode) {
         //create a new game based on the game mode
@@ -500,11 +509,11 @@ public class SceneGame implements Initializable {
             targetComponent.removeFly();
             boardGUI[targetXY[0]][targetXY[1]] = boardGUI[currentXY[0]][currentXY[1]];
             boardGUI[currentXY[0]][currentXY[1]] = null;
-            boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
+            boardGUI[targetXY[0]][targetXY[1]].setVisible(true);
         } else if (diedCurrent) {
             currentComponent.removeFade();
             boardGUI[currentXY[0]][currentXY[1]] = null;
-            boardGUI[targetXY[0]][targetXY[1]].setIsVisible(true);
+            boardGUI[targetXY[0]][targetXY[1]].setVisible(true);
         }
     }
     
