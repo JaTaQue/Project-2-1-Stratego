@@ -33,13 +33,6 @@ public class SceneHome implements Initializable{
 
     private Scene scene;
 
-    public void GameToHome(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ScreenHome.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
 
 
     private void HomeToGame(ActionEvent event) throws IOException{

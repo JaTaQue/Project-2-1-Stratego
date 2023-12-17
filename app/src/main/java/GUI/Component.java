@@ -242,8 +242,12 @@ public class Component {
     
 
     public void moveTP(int x, int y) {
-        this.getRectangle().setX(x);
-        this.getRectangle().setY(y);
+        this.getRectangle().setX(x*SceneGame.GRID_SIZE);
+        this.getRectangle().setY(y*SceneGame.GRID_SIZE);
+    }
+    public void moveTP(int[] yx) {
+        this.getRectangle().setY(yx[0]*SceneGame.GRID_SIZE);
+        this.getRectangle().setX(yx[1]*SceneGame.GRID_SIZE);
     }
 
     public void highlight(String color) {

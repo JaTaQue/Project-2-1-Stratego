@@ -2,10 +2,8 @@ package GUI;
 
 import java.io.IOException;
 import java.net.URL;
-import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import GUI.Grid.GridHandler;
@@ -13,7 +11,6 @@ import GUI.Grid.GridStratego;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
 import Logic.Tester.Game;
-import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -26,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import java.util.Arrays;
+
 
 
 public class SceneGame implements Initializable {
@@ -38,7 +37,6 @@ public class SceneGame implements Initializable {
 
     Game game;
 
-    String gameMode = "";
     Component[][] boardGUI = new Component[10][10];
     private int [] currentXY;
     Boolean selected = false;
@@ -47,6 +45,7 @@ public class SceneGame implements Initializable {
     SimpleIntegerProperty turnCount;
     ChangeListener<Number> turnProperty;
     Component swapComponent = new Component(0,0);
+    Component fightComponent = new Component(0,0);
 
 
     private GridStratego draggableMakerGrid;
@@ -57,18 +56,22 @@ public class SceneGame implements Initializable {
         GridHandler backgroundGridHandler = new GridHandler(pane.getPrefWidth(), pane.getPrefHeight(), GRID_SIZE, pane);
         backgroundGridHandler.updateGrid();
         swapComponent.draw("swap");
+        swapComponent.setVisible(false);
+        fightComponent.draw("fight");
+        fightComponent.setVisible(false);
+
         pane.getChildren().add(swapComponent.getRectangle());
+        pane.getChildren().add(fightComponent.getRectangle());
         pane.setOnMouseMoved(this::icondrawer);
     }
 
 
     /*
-    * This method is called when the user clicks on the "Start" button
-    * fran i love you suck my cock you are a great developer and i respect you
-    * @Author: by fran's worst enemy
+    * fran I love you suck my cock you are a great developer and I respect you
+    * @Author: fran's worst enemy
      */
     private void icondrawer(MouseEvent mouseEvent) {
-        if(selected && !started){
+        if(selected){
             double mouseAnchorX = mouseEvent.getX();
             double mouseAnchorY = mouseEvent.getY();
             //invert coordinates for array indexing
@@ -79,16 +82,44 @@ public class SceneGame implements Initializable {
             //get the target piece and component
             Piece currentPiece = game.getBoard()[currentXY[0]][currentXY[1]];
             Piece targetPiece = game.getBoard()[mouseCoordinates[0]][mouseCoordinates[1]];
+            int[] targetTile = new int[2];
             swapComponent.bringToFront();
+            fightComponent.bringToFront();
 
-            //check if the target is not empty and an ally piece
-            if(targetPiece != null && targetPiece.getColor().equals(currentPiece.getColor())){
-                swapComponent.setVisible(true);
-                swapComponent.moveTP(mouseCoordinates[1]*GRID_SIZE, mouseCoordinates[0]*GRID_SIZE);
+            if(!started){
+                //swap icon if the target is not empty and an allied piece
+                if(targetPiece != null && targetPiece.getColor().equals(currentPiece.getColor())){
+                    swapComponent.setVisible(true);
+                    swapComponent.moveTP(mouseCoordinates);
+                }
+                else
+                    swapComponent.setVisible(false);
             }
+            else{
+                //fight icon if the target is not empty and an enemy piece
+                if(targetPiece != null && !targetPiece.getColor().equals(currentPiece.getColor())){
+                    //if the target has the same x or y as the current piece
+                    if(mouseCoordinates[0] == currentXY[0] || mouseCoordinates[1] == currentXY[1]){
+
+                        //check if the target is in the available moves
+                        for(int[] tile : getTiles(currentPiece)){
+                            if(Arrays.equals(mouseCoordinates,tile)){
+                                targetTile = tile;
+                                fightComponent.setVisible(true);
+                                fightComponent.moveTP(mouseCoordinates);
+                            }
+                        }
+                    }
+                }
+            }
+            if(!Arrays.equals(mouseCoordinates,targetTile))
+                fightComponent.setVisible(false);
+
         }
-        else
+        else{
             swapComponent.setVisible(false);
+            fightComponent.setVisible(false);
+        }
     }
 
     void setGame(String gameMode) {
@@ -118,17 +149,14 @@ public class SceneGame implements Initializable {
         switchGUI();
 
         turnCount = new SimpleIntegerProperty();
-        turnProperty = (observable, oldValue, newValue) -> {
-            playersGUI();
-        };
+        turnProperty = (observable, oldValue, newValue) -> playersGUI();
 
         // Add turnProperty as a listener to turnCount
         turnCount.addListener(turnProperty);
 
         // trigger listener
         turnCount.set(++turn);
-    };
-    
+    }
 
 
     private void playersGUI() {
@@ -149,7 +177,6 @@ public class SceneGame implements Initializable {
             System.out.println("AI Turn");        
         }
         else{
-            //TODO: swapGUI with the preset position
             startGUI();
             System.out.println("AI Placement");
         }
@@ -165,6 +192,7 @@ public class SceneGame implements Initializable {
                     //lake
                     if(piece.getRank()==-1)
                         component.draw("lake");
+                    //piece
                     else if(piece.getRank()!=0)
                         component.draw(0,piece.getColor());
                     boardGUI[i][j] = component;
@@ -261,7 +289,9 @@ public class SceneGame implements Initializable {
         double mouseAnchorX = mouseEvent.getX();
         double mouseAnchorY = mouseEvent.getY();
 
-        //mouseDebug(mouseAnchorX, mouseAnchorY);
+        boolean debug = false;
+        if (debug)
+            mouseDebug(mouseAnchorX, mouseAnchorY);
 
         //first click
         if(!selected){
@@ -349,21 +379,17 @@ public class SceneGame implements Initializable {
         //show the alert
         alert.showAndWait();
         //switch to start screen
-        switchToStartScreen();
+        GameToHome();
     }
 
     private ArrayList<int[]> getTiles(Player currentPlayer) {
-        ArrayList<int[]> tiles = game.getBuildupPositions(currentPlayer);
-        //remove the currentXY Integer[] from tiles
-        return tiles;
+        return game.getBuildupPositions(currentPlayer);
     }
 
     private ArrayList<int[]> getTiles(Piece piece) {
         ArrayList<int[]> tiles = game.getAvailablePositions(piece);
-        if (piece != null){
-            int[] currentTile = piece.getTile();
-            tiles.add(currentTile);
-            }
+        int[] currentTile = piece.getTile();
+        tiles.add(currentTile);
         return tiles;
         }
 
@@ -409,7 +435,7 @@ public class SceneGame implements Initializable {
         }
     }
 
-    private void switchToStartScreen()  {
+    private void GameToHome(/*ActionEvent event*/)  {
         Stage stage;
         Scene scene;
         Parent root;

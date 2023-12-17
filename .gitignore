@@ -26,3 +26,5 @@ gradle-app.setting
 .idea/compiler.xml
 .idea/vcs.xml
 .idea/.name
+.fleet/run.json
+.fleet/settings.json
