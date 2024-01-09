@@ -12,35 +12,17 @@ public class Piece {
     private boolean isScout;
     private boolean hasMoved;
     
-
-    /**
-     * Constructor for the Piece
-     * @param rank
-     * @param color
-     */
-    public Piece(int rank, String color) {
-        this.RANK = rank;
-        this.COLOR = color;
-    }
-
     /**
      * Constructor for the Piece
      * @param rank
      * @param color
      * @param position
+     * @param isDead
+     * @param isVisible
+     * @param isScout
+     * @param hasMoved
      */
-    public Piece(int rank, String color, int[] position) {
-        this.RANK = rank;
-        this.COLOR = color;
-        this.position = position;
-    }
 
-    public Piece(int rank, String color, int[] position, boolean isDead) {
-        this.RANK = rank;
-        this.COLOR = color;
-        this.position = position;
-        this.isDead = isDead;
-    }
 
     public Piece(int rank, String color, int[] position, boolean isDead, boolean isVisible, boolean isScout, boolean hasMoved) {
         this.RANK = rank;
@@ -130,7 +112,7 @@ public class Piece {
 
     public Piece copyPiece() {
         int[] positionCopy = position.clone();
-        return new Piece(this.RANK, this.COLOR, positionCopy, isDead, isVisible, isScout, hasMoved);
+        return new Piece(this.RANK, this.COLOR, positionCopy, this.isDead, this.isVisible, isScout, hasMoved);
     }
 
     public void setVisible() {
