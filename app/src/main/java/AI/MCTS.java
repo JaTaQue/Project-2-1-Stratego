@@ -18,8 +18,8 @@ public class MCTS {
     private static final int ROLLOUT_TIME_MILLIS = 500;
     final int SIMULATION_COUNT = 20;
     private int[][] lastMove;
-    private final int[] SCORES_PER_RANK_ALIVE = new int[]{0, 100, 2, 50, 5, 10, 20, 50, 100, 250, 500, 1000, 750}; // piece ranks go from 1 to 12, id 0 = 0 forconvenience in eval
-    private final int[] SCORES_PER_RANK_VISIBLE = new int[]{0, 0, 0, 20, 5, 10, 15, 20, 25, 50, 100, 0, 200};
+    private final int[] SCORES_PER_RANK_KILLED = new int[]{0, 100, 2, 50, 5, 10, 20, 50, 100, 250, 500, 1000, 750}; // piece ranks go from 1 to 12, id 0 = 0 forconvenience in eval
+    private final int[] SCORES_PER_RANK_VISIBLE = new int[]{2, 2, 2, 20, 5, 10, 15, 20, 25, 50, 100, 2, 200};//{0, 0, 0, 20, 5, 10, 15, 20, 25, 50, 100, 0, 200};
     // Rank -1 = Lake
     // Rank 1 = Spy
     // Rank 2 = Scout
@@ -82,7 +82,7 @@ public class MCTS {
         Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), game.getEnemyPlayer()), null, null, null, copyCurrent, copyOpponent);
         root.addChildren(root.expand());
         long startTime = System.currentTimeMillis();
-        long duration = 2000;
+        long duration = 500;
 
         while ((System.currentTimeMillis() - startTime) < duration) {
             Node currentNode = treeTraversal(root);
@@ -131,10 +131,10 @@ public class MCTS {
         currGame.setBoard(currBoard);
         currGame.setStarted();
         // System.out.print("rollout: ");   //print for mcts rollout
-        long startTime = System.currentTimeMillis();
+        long staxrtTime = System.currentTimeMillis();
         int moveCounter = 0;
-        int lookahead = 4;
-        while((!currGame.isOver() && (System.currentTimeMillis()-startTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=lookahead) {
+        int lookahead = 2;
+        while((!currGame.isOver() && (System.currentTimeMillis()-staxrtTime) < ROLLOUT_TIME_MILLIS ) || moveCounter<=lookahead) {
             // int[] movablePosition = currGame.getCurrentPlayer().getRandomMovablePosition(currGame);
             // int[] nextMove = currGame.getCurrentPlayer().getRandomMove(currGame, movablePosition);
 
@@ -190,27 +190,29 @@ public class MCTS {
         double evalScore = 0;
         boolean capturedFlag = true;
 
-    
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != null && board[i][j].getRank() != -1) {
-                    int pieceRank = board[i][j].getRank();
-    
-                    if (board[i][j].getColor() != color) {
-                        evalScore -= SCORES_PER_RANK_ALIVE[pieceRank]; // Deduct points for not capturing opponent pieces
-                        if(board[i][j].isVisible()){
-                            evalScore += SCORES_PER_RANK_VISIBLE[pieceRank];
-                        }
-                        if (pieceRank == 11) capturedFlag = false;
-                    } else if (board[i][j].getColor() == color) {     
-                        evalScore += SCORES_PER_RANK_ALIVE[pieceRank]; // Award points for saving own pieces
-                    }
+        double repetitionPenalty = computeRepetitionPenalty(currNode);
+        evalScore += repetitionPenalty;
 
-                    double repetitionPenalty = computeRepetitionPenalty(currNode);
-                    evalScore += repetitionPenalty;
-                }
-            }
+        // + points for killing opponent's pieces
+        for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
+            evalScore += SCORES_PER_RANK_KILLED[i] * oppPlayer.getDeadPieceAmount()[i];
         }
+
+        // - points for losing own pieces
+        for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
+            evalScore -= SCORES_PER_RANK_KILLED[i] * aiPlayer.getDeadPieceAmount()[i];
+        }
+
+        // - points for not killing visible opponent's pieces
+        for(Piece p : oppPlayer.getAvailablePieces()){
+            if(p.isVisible()) evalScore -= 20*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+        }
+
+        // - points for revealing own pieces
+        for(Piece p : aiPlayer.getAvailablePieces()){
+            if(p.isVisible()) evalScore -= 20*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+        }
+
 
         // win / lose
         if (aiPlayer.isWinner()) {
@@ -225,7 +227,7 @@ public class MCTS {
 
     private double computeRepetitionPenalty(Node currentNode) {
         if (lastMove != null && lastMove[0].equals(currentNode.nextFigurePos) && lastMove[1].equals(currentNode.currentFigurePos)) {
-            return -300; 
+            return -1500; 
         } else {
             return 0; 
         }

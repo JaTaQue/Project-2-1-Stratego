@@ -69,6 +69,8 @@ public class Test {
             System.out.println();
             boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
             System.out.println("\n  ~ GAME OVER ~");
+            if (game.getPlayer1().isWinner()){System.out.println("BLUE WON");} else if (game.getPlayer2().isWinner()){System.out.println("RED WON");}
+            System.out.println();
         }
     }
 

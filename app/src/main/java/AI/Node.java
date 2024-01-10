@@ -11,6 +11,7 @@ import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;
+import Logic.Tester.Test;
 
 public class Node{
     int visitQuantity;
@@ -191,7 +192,7 @@ public class Node{
                 }
             }
         }
-        int shifter = 0;
+        int shifter = 1;
         if(availablePiecesAmount.get(11) > 0) {
             shifter += 1;
         }
@@ -237,6 +238,11 @@ public class Node{
                 }
             }
         }
+
+        // System.out.println("-----RANDO BOARD----");
+        // Test.boardToASCIIArt(newBoard, opponenPlayer);
+        // System.out.println("-----------------------");
+
         return newBoard;
     } 
 

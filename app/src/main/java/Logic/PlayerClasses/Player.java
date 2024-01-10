@@ -330,7 +330,7 @@ public abstract class Player {
         ArrayList<Piece> pieces = this.getAvailablePieces();
 
         for (Piece p : pieces){
-            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved()));
+            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition().clone(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved()));
         }
 
         return availablePiecesCopy;
@@ -415,7 +415,12 @@ public abstract class Player {
     }
 
     public abstract int[] getRandomMove(Game currGame, int[] movablePosition);
-
+    
+    public int[] getDeadPieceAmount(){
+        return this.deadPiecesAmount;
+    }
 }
+
+
 
 
