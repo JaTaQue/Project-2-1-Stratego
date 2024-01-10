@@ -170,9 +170,15 @@ public class Node{
                 }
 
 
-                if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){//Color().equals(null))){
+                if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){
                     if(board[i][j].getColor().equals(opponentColor)){
-                        if(board[i][j].isScout()) {
+                        if(board[i][j].isVisible()){
+                            System.out.println(board[i][j].toString());
+                            int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
+                            availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
+                            newBoard[i][j] = board[i][j].copyPiece();
+                        }
+                        else if(board[i][j].isScout()) {
                             newBoard[i][j] = board[i][j].copyPiece();
                             VisibleScoutCount++;
                         }
@@ -182,12 +188,8 @@ public class Node{
                         else{
                             notMovedYet.add(board[i][j].getPosition());
                         }
-                    } else if(!board[i][j].getColor().equals(opponentColor) || board[i][j].isVisible()) {
+                    } else if(!board[i][j].getColor().equals(opponentColor)) {
                         newBoard[i][j] = board[i][j].copyPiece();
-                        if(board[i][j].getColor().equals(opponentColor) && board[i][j].isVisible()) {
-                            int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
-                            availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
-                        }
                     }
                 }
             }
@@ -239,9 +241,9 @@ public class Node{
             }
         }
 
-        // System.out.println("-----RANDO BOARD----");
-        // Test.boardToASCIIArt(newBoard, opponenPlayer);
-        // System.out.println("-----------------------");
+        System.out.println("-----RANDO BOARD----");
+        Test.boardToASCIIArt(newBoard, opponenPlayer);
+        System.out.println("-----------------------");
 
         return newBoard;
     } 

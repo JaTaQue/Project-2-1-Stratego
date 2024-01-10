@@ -188,7 +188,6 @@ public class MCTS {
         String color = aiPlayer.getColor();
     
         double evalScore = 0;
-        boolean capturedFlag = true;
 
         double repetitionPenalty = computeRepetitionPenalty(currNode);
         evalScore += repetitionPenalty;
@@ -205,19 +204,18 @@ public class MCTS {
 
         // - points for not killing visible opponent's pieces
         for(Piece p : oppPlayer.getAvailablePieces()){
-            if(p.isVisible()) evalScore -= 20*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+            if(p.isVisible()) evalScore -= 10*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
         }
 
         // - points for revealing own pieces
         for(Piece p : aiPlayer.getAvailablePieces()){
-            if(p.isVisible()) evalScore -= 20*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+            if(p.isVisible()) evalScore -= 5*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
         }
 
 
         // win / lose
         if (aiPlayer.isWinner()) {
             evalScore += 2000; 
-            if(capturedFlag) evalScore += 1000;
         }else if (oppPlayer.isWinner()) {
             evalScore -= 2000; 
         }
@@ -227,11 +225,11 @@ public class MCTS {
 
     private double computeRepetitionPenalty(Node currentNode) {
         if (lastMove != null && lastMove[0].equals(currentNode.nextFigurePos) && lastMove[1].equals(currentNode.currentFigurePos)) {
-            return -1500; 
+            return -1500;  
         } else {
             return 0; 
         }
     }
     
-}
+} 
 
