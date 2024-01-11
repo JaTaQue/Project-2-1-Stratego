@@ -251,11 +251,18 @@ public class Component {
     }
 
     public void highlight(String color) {
-        this.getRectangle().setStyle("-fx-stroke: "+color+"; -fx-stroke-width: 5;");
+        this.getRectangle().setStyle("-fx-stroke: "+color+"; -fx-stroke-width: 3;");
+        if(drawing =="tile"){
+            this.getRectangle().setStyle("-fx-stroke: white; -fx-stroke-width: 3; -fx-fill: "+color+";");
+            //set opacity to 75%
+            this.getRectangle().setOpacity(0.75);
+        }
+
     }
 
     public void unhighlight() {
         this.getRectangle().setStyle("-fx-stroke: none;");
+
     }
     
     public Rectangle getRectangle() {

@@ -246,7 +246,9 @@ public class SceneGame implements Initializable {
         //title
         alertNext.setTitle("Next");
         //header
-        alertNext.setHeaderText(color + "'s "+ phase);
+        //alertNext.setHeaderText(color + "'s "+ phase);
+        //remove header
+        alertNext.setHeaderText(null);
         //content
         alertNext.setContentText("Press ENTER to continue");
         //graphic
@@ -255,6 +257,8 @@ public class SceneGame implements Initializable {
         alertNext.setGraphic(blankIcon.getRectangle());
         //size
         alertNext.getDialogPane().setPrefSize(200, 100);
+        //color
+        alertNext.getDialogPane().setStyle("-fx-text-fill: "+color+"; -fx-background-radius: 2px;");
         //show the alert
         alertNext.showAndWait();
     }
