@@ -13,15 +13,20 @@ import Logic.PlayerClasses.Player;
 import Logic.Tester.Game;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.Arrays;
 
@@ -232,17 +237,57 @@ public class SceneGame implements Initializable {
     private void nextGUI() {
         String phase = started ? "turn" : "placement";
         String color = game.getCurrentPlayer().getColor();
-        //create an alert 
+        //use alerts 
         alertBlankIcon(phase, color);
-            
+        //use buttons
+        //buttonBlankIcon(phase, color);
     }
+
+    private void buttonBlankIcon(String phase, String color) {
+        // Create a new Button
+        Button nextButton = new Button("Next");
+
+        // Set the button's onAction event
+        nextButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Create a new Stage
+                Stage dialog = new Stage();
+                dialog.initModality(Modality.APPLICATION_MODAL);
+
+                // Create a Label
+                Label label = new Label("Press ENTER to continue");
+
+                // Create a Scene
+                Scene dialogScene = new Scene(label, 200, 100);
+
+                // Set the Scene's style
+                dialogScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+                dialogScene.getRoot().setStyle("-fx-text-fill: "+color+"; -fx-background-radius: 2px;");
+
+                // Set the Stage's properties
+                dialog.setScene(dialogScene);
+                dialog.setTitle("Next");
+                dialog.setX(0);
+
+                // Show the Stage
+                dialog.showAndWait();
+            }
+        });
+
+        // Add the button to the scene
+        pane.getChildren().add(nextButton);
+    }
+
 
     private void alertBlankIcon(String phase, String color) {
         Alert alertNext = new Alert(Alert.AlertType.INFORMATION);
         Object scene = pane.getScene();
         if(scene!=null){
-            alertNext.initOwner(pane.getScene().getWindow());
+            //alertNext.initOwner(pane.getScene().getWindow());
+            
         }
+        alertNext.getDialogPane().getScene().getWindow().setX(00);
         //title
         alertNext.setTitle("Next");
         //header
@@ -259,8 +304,9 @@ public class SceneGame implements Initializable {
         alertNext.getDialogPane().setPrefSize(200, 100);
         //color
         alertNext.getDialogPane().setStyle("-fx-text-fill: "+color+"; -fx-background-radius: 2px;");
-        //show the alert
+        //show the alert at a certain position
         alertNext.showAndWait();
+
     }
 
     private void hideGUI(Player player){
