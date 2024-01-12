@@ -114,7 +114,7 @@ public class Node{
                         else{
                             AttackLogic.battle(nextBoard, piecePos, moves.get(i), player, enemyPlayer);
                         }
-                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), player, enemyPlayer));
+                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), player.copyPlayer(), enemyPlayer.copyPlayer()));
                     }
                 }
                 

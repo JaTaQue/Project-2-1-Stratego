@@ -34,55 +34,55 @@ public class MCTS {
     // Rank 11 = Flag
     // Rank 12 = Bomb
 
-    public int[][] findBestMove(Game game){
-        //added type cast
-        AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
-        RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
-        Node root = new Node(game.getBoard(), null, null, null, copyCurrent, copyOpponent);
-        root.addChildren(root.expand());
+    // public int[][] findBestMove(Game game){
+    //     //added type cast
+    //     AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
+    //     RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
+    //     Node root = new Node(game.getBoard(), null, null, null, copyCurrent, copyOpponent);
+    //     root.addChildren(root.expand());
 
-        for(int i = 0; i < SIMULATION_COUNT; i++){
-            Node currentNode = treeTraversal(root);
-            if (currentNode.getVisitQuantity() == 0){
-                currentNode.incrementVisit_AddScore(rollout(currentNode));
-            }else{
-                currentNode.addChildren(currentNode.expand());
-                currentNode = currentNode.getChild(0);
-                currentNode.incrementVisit_AddScore(rollout(currentNode));
-            }
-            // printTree(root, 0);
-        }
+    //     for(int i = 0; i < SIMULATION_COUNT; i++){
+    //         Node currentNode = treeTraversal(root);
+    //         if (currentNode.getVisitQuantity() == 0){
+    //             currentNode.incrementVisit_AddScore(rollout(currentNode));
+    //         }else{
+    //             currentNode.addChildren(currentNode.expand());
+    //             currentNode = currentNode.getChild(0);
+    //             currentNode.incrementVisit_AddScore(rollout(currentNode));
+    //         }
+    //         // printTree(root, 0);
+    //     }
 
-        Node bestChild = root.getChild(0);
-        double bestScore = - (Integer.MAX_VALUE);
+    //     Node bestChild = root.getChild(0);
+    //     double bestScore = - (Integer.MAX_VALUE);
 
-        for (int i = 0; i < root.getChildren().size(); i++){
-            Node currChild = root.getChild(i);
-            double avgScore = currChild.score / currChild.visitQuantity;
-            if (avgScore > bestScore){
-                bestChild = currChild;
-                bestScore = avgScore;
-            }
-        }        
+    //     for (int i = 0; i < root.getChildren().size(); i++){
+    //         Node currChild = root.getChild(i);
+    //         double avgScore = currChild.score / currChild.visitQuantity;
+    //         if (avgScore > bestScore){
+    //             bestChild = currChild;
+    //             bestScore = avgScore;
+    //         }
+    //     }        
 
-        int[][] bestMove = new int[2][2];
-        bestMove[0] = bestChild.getCurrentPosition();
-        bestMove[1] = bestChild.getNextPosition();
+    //     int[][] bestMove = new int[2][2];
+    //     bestMove[0] = bestChild.getCurrentPosition();
+    //     bestMove[1] = bestChild.getNextPosition();
 
-        lastMove = bestMove;
+    //     lastMove = bestMove;
 
-        return bestMove;
+    //     return bestMove;
 
-    }
+    // }
 
     public int[][] findBestMove2 (Game game) {
         AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
         // RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
         Player copyOpponent = game.getEnemyPlayer().copyPlayer();
-        Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), game.getEnemyPlayer()), null, null, null, copyCurrent, copyOpponent);
+        Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), copyOpponent), null, null, null, copyCurrent, copyOpponent);
         root.addChildren(root.expand());
         long startTime = System.currentTimeMillis();
-        long duration = 500;
+        long duration = 200;
 
         while ((System.currentTimeMillis() - startTime) < duration) {
             Node currentNode = treeTraversal(root);
@@ -171,7 +171,7 @@ public class MCTS {
                 } else {
                     double score = currentNode.getScore();
                     //formula is vi + c*(np/ni)^0.5, where c = 0.6
-                    double uCB1 = score + 0.6*Math.pow((Math.log(parentVisits)/visits),0.5);
+                    double uCB1 = score + 0.15*Math.pow((Math.log(parentVisits)/(double)visits),0.5);
                     if(uCB1 > maxUCB1) {
                         maxUCB1 = uCB1;
                         maxiNode = currentNode;
@@ -184,48 +184,59 @@ public class MCTS {
     
     private double evalFunction(Game game, Player aiPlayer, Player oppPlayer, Node currNode) {
 
-        Piece[][] board = game.getBoard();
-        String color = aiPlayer.getColor();
-    
-        double evalScore = 0;
+        // Piece[][] board = game.getBoard();
+        // String color = aiPlayer.getColor();
 
+        int friendlies = 0;
+        int enemies = 0;
+
+        for(int i = 1; i < 12; i++){
+            friendlies += aiPlayer.getAvailablePieceAmount(i);
+        }
+
+        for(int i = 1; i < 12; i++){
+            enemies += oppPlayer.getAvailablePieceAmount(i);
+        }
+    
+        double evalScore = 1 - Math.pow(1 - ((double)friendlies / enemies / 40.0), 8);
+        
         double repetitionPenalty = computeRepetitionPenalty(currNode);
         evalScore += repetitionPenalty;
 
-        // + points for killing opponent's pieces
-        for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
-            evalScore += SCORES_PER_RANK_KILLED[i] * oppPlayer.getDeadPieceAmount()[i];
-        }
+        // // + points for killing opponent's pieces
+        // for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
+        //     evalScore += SCORES_PER_RANK_KILLED[i] * oppPlayer.getDeadPieceAmount()[i];
+        // }
 
-        // - points for losing own pieces
-        for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
-            evalScore -= SCORES_PER_RANK_KILLED[i] * aiPlayer.getDeadPieceAmount()[i];
-        }
+        // // - points for losing own pieces
+        // for(int i = 0; i < oppPlayer.getDeadPieceAmount().length; i++){
+        //     evalScore -= SCORES_PER_RANK_KILLED[i] * aiPlayer.getDeadPieceAmount()[i];
+        // }
 
-        // - points for not killing visible opponent's pieces
-        for(Piece p : oppPlayer.getAvailablePieces()){
-            if(p.isVisible()) evalScore -= 10*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
-        }
+        // // - points for not killing visible opponent's pieces
+        // for(Piece p : oppPlayer.getAvailablePieces()){
+        //     if(p.isVisible()) evalScore -= 10*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+        // }
 
-        // - points for revealing own pieces
-        for(Piece p : aiPlayer.getAvailablePieces()){
-            if(p.isVisible()) evalScore -= 5*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
-        }
+        // // - points for revealing own pieces
+        // for(Piece p : aiPlayer.getAvailablePieces()){
+        //     if(p.isVisible()) evalScore -= 5*SCORES_PER_RANK_VISIBLE[p.getRank()-1];
+        // }
 
 
-        // win / lose
-        if (aiPlayer.isWinner()) {
-            evalScore += 2000; 
-        }else if (oppPlayer.isWinner()) {
-            evalScore -= 2000; 
-        }
+        // // win / lose
+        // if (aiPlayer.isWinner()) {
+        // evalScore += 2000; 
+        // }else if (oppPlayer.isWinner()) {
+        // evalScore -= 2000; 
+        // }
         
         return evalScore;
     }    
 
     private double computeRepetitionPenalty(Node currentNode) {
         if (lastMove != null && lastMove[0].equals(currentNode.nextFigurePos) && lastMove[1].equals(currentNode.currentFigurePos)) {
-            return -1500;  
+            return -0.7;  
         } else {
             return 0; 
         }
