@@ -11,6 +11,7 @@ public class Piece {
     private boolean isVisible;
     private boolean isScout;
     private boolean hasMoved;
+    private int[] innitPos = new int[2];
     
     /**
      * Constructor for the Piece
@@ -32,6 +33,13 @@ public class Piece {
         this.isVisible = isVisible;
         this.isScout = isScout;
         this.hasMoved = hasMoved;
+    }
+
+    public int[] getInnitPos(){
+        return innitPos;
+    }
+    public void setInnitPos(int[] pos){
+        innitPos = pos;
     }
 
     /**
@@ -86,6 +94,8 @@ public class Piece {
      */
     public void setPosition(int[] integers) {
         this.position = integers;
+        
+
     }
 
 

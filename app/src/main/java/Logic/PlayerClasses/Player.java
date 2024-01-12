@@ -411,6 +411,7 @@ public abstract class Player {
     public void placePiece(Piece piece, int[] targetPosition, Game game) {
         piece.setPosition(targetPosition);
         game.board[targetPosition[0]][targetPosition[1]] = piece;
+        piece.setInnitPos(targetPosition.clone());
         piecePlaced(piece);
     }
 
