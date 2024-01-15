@@ -41,15 +41,21 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
+
+    // Use Jython for python integration
+    implementation 'org.python:jython-standalone:2.7.2'
+
+    // use tensorflow
+    //implementation 'org.tensorflow:tensorflow:2.15.0'
 }
 
 
-mainClassName = 'App'
+mainClassName = 'Logic.Tester.pytest'//'App'
 
 
 test {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
-
+ 
 //applicationDefaultJvmArgs = ["-Djava.library.path=opencv/build/java/x64"]

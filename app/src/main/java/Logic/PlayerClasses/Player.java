@@ -2,6 +2,7 @@ package Logic.PlayerClasses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
@@ -413,6 +414,24 @@ public abstract class Player {
         game.board[targetPosition[0]][targetPosition[1]] = piece;
         piece.setInnitPos(targetPosition.clone());
         piecePlaced(piece);
+    }
+
+    public void swapPieces(int[] currentXY, int[] targetXY, Game game) {
+        //check if the current piece is not null and is not an enemy piece
+        Piece currentPiece = game.getBoard()[currentXY[0]][currentXY[1]];
+        if(currentPiece == null || !Objects.equals(currentPiece.getColor(), game.getCurrentPlayer().getColor()))
+            return;
+
+        //check if the target is empty or an enemy piece
+        Piece tempPiece = game.getBoard()[targetXY[0]][targetXY[1]];
+        if(tempPiece == null || !Objects.equals(tempPiece.getColor(), game.getCurrentPlayer().getColor()))
+            return;
+
+        //swap pieces
+        game.getBoard()[targetXY[0]][targetXY[1]] = currentPiece;
+        game.getBoard()[currentXY[0]][currentXY[1]] = tempPiece;
+        tempPiece.setPosition(currentXY);
+        currentPiece.setPosition(targetXY);
     }
 
     public abstract int[] getRandomMove(Game currGame, int[] movablePosition);

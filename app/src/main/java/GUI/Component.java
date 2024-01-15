@@ -2,7 +2,6 @@ package GUI;
 import java.util.Objects;
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
 import javafx.animation.Transition;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
@@ -22,7 +21,7 @@ public class Component {
     private String skin="default";
     private Boolean isMoving = false;
 
-
+    
     public Component(int startPositionX, int startPositionY) {
         int size=SceneGame.GRID_SIZE;
         rectangle = new Rectangle(startPositionX*size, startPositionY*size, size, size);
