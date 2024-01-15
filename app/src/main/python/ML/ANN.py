@@ -1,8 +1,15 @@
 import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-# Load the CSV data into a pandas DataFrame
-data = pd.read_csv('trainingDataKonnie.csv')
+import os
+# Get the absolute path of the script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Build the full path to the CSV file
+data_file = os.path.join(script_dir, 'trainingDataKonnie.csv')
+
+# Now read the CSV file
+data = pd.read_csv(data_file)
 
 # Separate the features and target variables
 X = data.drop('Class', axis=1)
@@ -12,7 +19,7 @@ y = data['Class']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.34, random_state=42)
 
 # Define the number of nodes in each layer
-input_nodes = X_train.shape[1]
+input_nodes = 480 
 hidden_nodes = 150
 output_nodes = 2
 
