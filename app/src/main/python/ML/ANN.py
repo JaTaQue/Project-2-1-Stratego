@@ -6,7 +6,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Build the full path to the CSV file
-data_file = os.path.join(script_dir, 'trainingDataKonnie.csv')
+data_file = os.path.join(script_dir, 'trainingDataKonnie2.csv')
 
 # Now read the CSV file
 data = pd.read_csv(data_file)
@@ -33,7 +33,7 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='SGD', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Train the model
-model.fit(X_train, y_train, epochs=10)
+model.fit(X_train, y_train, epochs=100)
 train_loss, train_accuracy = model.evaluate(X_train, y_train)
 test_loss, test_accuracy = model.evaluate(X_test, y_test)
 print("Training Accuracy: {:.2f}%".format(train_accuracy * 100))
