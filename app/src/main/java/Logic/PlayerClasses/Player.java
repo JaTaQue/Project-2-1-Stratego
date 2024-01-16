@@ -432,6 +432,8 @@ public abstract class Player {
         game.getBoard()[currentXY[0]][currentXY[1]] = tempPiece;
         tempPiece.setPosition(currentXY);
         currentPiece.setPosition(targetXY);
+        //saves the innitial position of the piece
+        currentPiece.setInnitPos(targetXY.clone());
     }
 
     public abstract int[] getRandomMove(Game currGame, int[] movablePosition);
