@@ -1,4 +1,6 @@
 package AI;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -362,6 +364,171 @@ public class Node{
         Test.boardToASCIIArt(newBoard, opponenPlayer);
         System.out.println("-----------------------");
         return newBoard;
+    }
+
+    public void createAndWriteCSV(Piece[][] boarder){
+        String[] field = new String[481];
+        for (int i = 0; i < 480; i++) {
+            field[i] = "Col" + (i + 1);
+        }
+        field[480] = "Class";
+        
+        String[] position = new String[481];
+        int count = 0;
+        for (int i = 0; i<=3; i++){ //or just do for(int i = 9; i>6; i--)
+            for (int j = 0; j < field[0].length(); j++) {
+                switch (boarder[i][j].getRank()) {
+                    case 1:
+                        for(int z = 0; z<=12;z++){
+                            if(z==0){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                            
+                        }
+                        
+                        break;
+                    case 2:
+                        for(int z = 0; z<=12;z++){
+                            if(z==1){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                    
+                        break;
+                    case 3:
+                        for(int z = 0; z<=12;z++){
+                            if(z==2){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                    
+                        
+                        break;
+                    case 4:
+
+                        for(int z = 0; z<=12;z++){
+                            if(z==3){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 5:    
+
+                        for(int z = 0; z<=12;z++){
+                            if(z==4){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }                    
+                        break;
+                    case 6:
+                        for(int z = 0; z<=12;z++){
+                            if(z==5){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 7:    
+                        
+                        for(int z = 0; z<=12;z++){
+                            if(z==6){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 8:
+                        
+                        for(int z = 0; z<=12;z++){
+                            if(z==7){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 9:
+                    
+                        for(int z = 0; z<=12;z++){
+                            if(z==8){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 10:
+                    
+                        for(int z = 0; z<=12;z++){
+                            if(z==9){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 11:
+                    
+                        for(int z = 0; z<=12;z++){
+                            if(z==10){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+                    case 12:
+            
+                        for(int z = 0; z<=12;z++){
+                            if(z==11){
+                                position[count] = "1";
+                            }else{
+                                position[count] = "0";
+                            }
+                            count = count+1;
+                        }
+                        break;
+
+                    
+                }
+            }
+        }
+        String csvFile = "KonnieBoiGuess.csv";
+        try (FileWriter writer = new FileWriter(csvFile)) {
+            // Writing headers
+            writer.append(String.join(",", field)).append("\n");
+
+            // Writing data
+
+            writer.append(String.join(",", position)).append("\n");
+
+            System.out.println("CSV file created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
