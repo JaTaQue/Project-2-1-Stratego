@@ -132,7 +132,7 @@ public class Node{
                     boardCopy[i][j] = null;
                 } else {
                     int[] positionCopy = {board[i][j].getPosition()[0], board[i][j].getPosition()[1]};
-                    boardCopy[i][j] = new Piece(board[i][j].getRank(), board[i][j].getColor(), positionCopy, board[i][j].isDead(), board[i][j].isVisible(), board[i][j].isScout(), board[i][j].hasMoved());
+                    boardCopy[i][j] = new Piece(board[i][j].getRank(), board[i][j].getColor(), positionCopy, board[i][j].isDead(), board[i][j].isVisible(), board[i][j].isScout(), board[i][j].hasMoved(), board[i][j].getInnitPos());
                 }
             }
         }
@@ -146,6 +146,7 @@ public class Node{
         //players need copies
     }
 
+    //INFORMATION SET
     public static Piece[][] getRandoBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
         board = copyBoard(board);
         List<Integer> availablePiecesAmount = new ArrayList<>(Arrays.asList(1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 1, 6));
@@ -194,10 +195,10 @@ public class Node{
                 }
             }
         }
-        int shifter = 1;
-        if(availablePiecesAmount.get(11) > 0) {
-            shifter += 1;
-        }
+        // int shifter = 1;
+        // if(availablePiecesAmount.get(11) > 0) {
+        //     shifter += 1;
+        // }
 
 
         int currentValue = availablePiecesAmount.get(1);
@@ -206,7 +207,7 @@ public class Node{
         int non_zero_count = Integer.MAX_VALUE;
         while(non_zero_count > 0) {
             if(Moved.size() > 0) {
-                int randRank = (int) ((availablePiecesAmount.size() - shifter)*Math.random() + 1);
+                int randRank = (int) ((availablePiecesAmount.size() - 2)*Math.random() + 1);
                 if(availablePiecesAmount.get(randRank - 1) > 0) {
                     Piece copiedPiece = board[Moved.get(0)[0]][Moved.get(0)[1]].copyPiece();
                     copiedPiece.setRank(randRank);
@@ -241,12 +242,126 @@ public class Node{
             }
         }
 
-        System.out.println("-----RANDO BOARD----");
-        Test.boardToASCIIArt(newBoard, opponenPlayer);
-        System.out.println("-----------------------");
+        // System.out.println("-----RANDO BOARD----");
+        // Test.boardToASCIIArt(newBoard, opponenPlayer);
+        // System.out.println("-----------------------");
+
+        guessSetup(board, opponentColor, opponenPlayer);
 
         return newBoard;
     } 
+    
+    //ANN
+    public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
+        board = copyBoard(board);
+        List<Integer> availablePiecesAmount = new ArrayList<>(Arrays.asList(1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 1, 6));
+        // for (int i = 1; i < 13; i++) {
+        //     int amount = opponenPlayer.howManyDeadOfRank(i);
+        //     int currentValue = availablePiecesAmount.get(i-1);
+        //     availablePiecesAmount.set(i-1, currentValue-amount);
+        // }
+
+        ArrayList<int[]> notMovedYet = new ArrayList<int[]>();
+        ArrayList<int[]> Moved = new ArrayList<int[]>();
+
+        int VisibleScoutCount = 0;
+        Piece[][] newBoard = new Piece[10][10];
+        ArrayList<Piece> opponentPieces = opponenPlayer.getAvailablePieces();
+
+        for (Piece deadPieces : opponentPieces){
+            System.out.println(deadPieces.toString());
+            if(deadPieces.isDead()){
+                
+                int[] deadPiecePos = deadPieces.getInnitPos();
+                int rankDeadPiece = deadPieces.getRank();
+                newBoard[deadPiecePos[0]][deadPiecePos[1]]=deadPieces.copyPiece();
+
+                int currentValue = availablePiecesAmount.get(rankDeadPiece-1);
+                availablePiecesAmount.set(rankDeadPiece-1, currentValue-1);
+            }
+        }
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+
+                
+                if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){
+                    if(board[i][j].getColor().equals(opponentColor)){
+                        if(board[i][j].isVisible()){
+                            System.out.println(board[i][j].toString());
+                            int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
+                            availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
+                            int[]startPos = board[i][j].getInnitPos();
+                            newBoard[startPos[0]][startPos[1]] = board[i][j].copyPiece();
+                        }
+                        else if(board[i][j].isScout()) {
+                            int[]startPos = board[i][j].getInnitPos();
+                            newBoard[startPos[0]][startPos[1]] = board[i][j].copyPiece();
+                            VisibleScoutCount++;
+                        }
+                        else if(board[i][j].hasMoved()){
+                            Moved.add(board[i][j].getPosition());
+                        }
+                        else{
+                            notMovedYet.add(board[i][j].getPosition());
+                        }
+                    }
+                }
+            }
+        }
+        // int shifter = 1;
+        // if(availablePiecesAmount.get(11) > 0) {
+        //     shifter += 1;
+        // }
+
+        //deleting scouts 
+        int currentValue = availablePiecesAmount.get(1);
+        availablePiecesAmount.set(1, currentValue - VisibleScoutCount);
+
+        int non_zero_count = Integer.MAX_VALUE;
+        while(non_zero_count > 0) {
+            if(Moved.size() > 0) {
+                int randRank = (int) ((availablePiecesAmount.size() - 2)*Math.random() + 1);
+                //(availablePiecesAmount.size() - shifter)
+                if(availablePiecesAmount.get(randRank - 1) > 0) {
+                    Piece copiedPiece = board[Moved.get(0)[0]][Moved.get(0)[1]].copyPiece();
+                    copiedPiece.setRank(randRank);
+                    
+                    newBoard[copiedPiece.getInnitPos()[0]][copiedPiece.getInnitPos()[1]] = copiedPiece;
+                    Moved.remove(0);
+                    availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
+                }
+            }  else if (notMovedYet.size() > 0) {
+                int randRank = (int) (availablePiecesAmount.size()*Math.random() + 1);
+                if(availablePiecesAmount.get(randRank - 1) > 0) {
+                    Piece copiedPiece = board[notMovedYet.get(0)[0]][notMovedYet.get(0)[1]].copyPiece();
+                    copiedPiece.setRank(randRank);
+                    
+                    newBoard[copiedPiece.getInnitPos()[0]][copiedPiece.getInnitPos()[1]] = copiedPiece;
+                    notMovedYet.remove(0);
+                    availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
+                }
+            } else {
+                System.out.println("Colonizer");
+                for (int i = 0; i < availablePiecesAmount.size(); i++) {
+                    System.out.print(availablePiecesAmount.get(i));
+                }
+            }
+
+            non_zero_count = 0;
+            for (int i = 0; i < availablePiecesAmount.size(); i++) {
+                if(availablePiecesAmount.get(i) > 0) {
+                    non_zero_count += 1;
+
+                }
+            }
+        }
+
+        System.out.println("-----SETUP BOARD----");
+        Test.boardToASCIIArt(newBoard, opponenPlayer);
+        System.out.println("-----------------------");
+        return newBoard;
+    }
 
 }
 

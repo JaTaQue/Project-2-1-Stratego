@@ -81,8 +81,8 @@ public class Test {
      */
     public static void boardToASCIIArt(Piece[][] board, Player currentPlayer){
         if(currentPlayer.getColor().equals("Blue")){
-            for(int i = 0; i < 10; i++){
-                for(int j = 0; j < 10; j++){
+            for(int i = 0; i < board.length; i++){
+                for(int j = 0; j < board[i].length; j++){
                     printTile(board, i, j);
                 }
                 System.out.print(" "+i);
@@ -91,8 +91,8 @@ public class Test {
             
             System.out.println("\n0 1 2 3 4 5 6 7 8 9\n");
         }else{
-            for(int i = 9; i >= 0; i--){
-                for(int j = 9; j >= 0; j--){
+            for(int i = board.length-1; i >= 0; i--){
+                for(int j = board[0].length-1; j >= 0; j--){
                     printTile(board, i, j);
                 }
                 System.out.print(" "+i);

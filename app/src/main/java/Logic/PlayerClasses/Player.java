@@ -331,7 +331,7 @@ public abstract class Player {
         ArrayList<Piece> pieces = this.getAvailablePieces();
 
         for (Piece p : pieces){
-            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition().clone(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved()));
+            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition().clone(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved(), p.getInnitPos()));
         }
 
         return availablePiecesCopy;
@@ -413,6 +413,7 @@ public abstract class Player {
         piece.setPosition(targetPosition);
         game.board[targetPosition[0]][targetPosition[1]] = piece;
         piece.setInnitPos(targetPosition.clone());
+        
         piecePlaced(piece);
     }
 

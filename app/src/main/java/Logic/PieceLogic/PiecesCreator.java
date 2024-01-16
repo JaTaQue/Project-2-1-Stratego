@@ -64,7 +64,7 @@ public class PiecesCreator {
      * @return A new Piece object with the specified rank and color.
      */
     private static Piece createPiece(int rank, String color) {
-        return new Piece(rank, color, null, false, false, false, false);
+        return new Piece(rank, color, null, false, false, false, false, null);
 
     }
 }

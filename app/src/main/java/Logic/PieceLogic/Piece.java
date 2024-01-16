@@ -25,7 +25,7 @@ public class Piece {
      */
 
 
-    public Piece(int rank, String color, int[] position, boolean isDead, boolean isVisible, boolean isScout, boolean hasMoved) {
+    public Piece(int rank, String color, int[] position, boolean isDead, boolean isVisible, boolean isScout, boolean hasMoved, int[] initialPos) {
         this.RANK = rank;
         this.COLOR = color;
         this.position = position;
@@ -33,13 +33,14 @@ public class Piece {
         this.isVisible = isVisible;
         this.isScout = isScout;
         this.hasMoved = hasMoved;
+        this.innitPos = initialPos;
     }
 
     public int[] getInnitPos(){
         return innitPos;
     }
     public void setInnitPos(int[] pos){
-        innitPos = pos;
+        this.innitPos = pos;
     }
 
     /**
@@ -110,9 +111,7 @@ public class Piece {
     @Override
     public String toString() {
         return "Piece [RANK=" + RANK + ", position=" + Arrays.toString(position) + ", isDead=" + isDead + ", COLOR="
-                + COLOR + ", isVisible="+ isVisible + ", isScout="
-                + isScout + ", isMoved="
-                + hasMoved +"]";
+                + COLOR + ", isVisible="+ isVisible + ", isScout="+ isScout + ", isMoved=" + hasMoved + ", initialPos=" + Arrays.toString(innitPos)+"]";
     }
 
     public int[] getTile() {
@@ -124,7 +123,7 @@ public class Piece {
 
     public Piece copyPiece() {
         int[] positionCopy = position.clone();
-        return new Piece(this.RANK, this.COLOR, positionCopy, this.isDead, this.isVisible, isScout, hasMoved);
+        return new Piece(this.RANK, this.COLOR, positionCopy, this.isDead, this.isVisible, isScout, hasMoved, innitPos);
     }
 
     public void setVisible() {
