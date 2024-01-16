@@ -132,7 +132,8 @@ public class Node{
                     boardCopy[i][j] = null;
                 } else {
                     int[] positionCopy = {board[i][j].getPosition()[0], board[i][j].getPosition()[1]};
-                    boardCopy[i][j] = new Piece(board[i][j].getRank(), board[i][j].getColor(), positionCopy, board[i][j].isDead(), board[i][j].isVisible(), board[i][j].isScout(), board[i][j].hasMoved(), board[i][j].getInnitPos());
+                    int[] innitPosCopy = {board[i][j].getInnitPos()[0], board[i][j].getInnitPos()[1]};
+                    boardCopy[i][j] = new Piece(board[i][j].getRank(), board[i][j].getColor(), positionCopy, board[i][j].isDead(), board[i][j].isVisible(), board[i][j].isScout(), board[i][j].hasMoved(), innitPosCopy);
                 }
             }
         }

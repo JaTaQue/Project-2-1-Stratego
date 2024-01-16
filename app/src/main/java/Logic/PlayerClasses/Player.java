@@ -331,7 +331,7 @@ public abstract class Player {
         ArrayList<Piece> pieces = this.getAvailablePieces();
 
         for (Piece p : pieces){
-            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition().clone(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved(), p.getInnitPos()));
+            availablePiecesCopy.add(new Piece(p.getRank(), p.getColor(), p.getPosition().clone(), p.isDead(), p.isVisible(), p.isScout(), p.hasMoved(), p.getInnitPos().clone()));
         }
 
         return availablePiecesCopy;
