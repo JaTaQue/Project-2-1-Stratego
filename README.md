@@ -8,7 +8,8 @@ models in the background:
 - pandas==2.1.4
 - scikit-learn==1.3.2
 - tensorflow==2.15
-<!-- You can install the required packages by running `pip install -r requirements.txt`. -->
+
+### You can install the required packages by running `pip install -r requirements.txt`
 
 
 ## Running the Project
