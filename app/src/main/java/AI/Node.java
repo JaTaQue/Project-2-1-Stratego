@@ -134,7 +134,14 @@ public class Node{
                     boardCopy[i][j] = null;
                 } else {
                     int[] positionCopy = {board[i][j].getPosition()[0], board[i][j].getPosition()[1]};
-                    int[] innitPosCopy = {board[i][j].getInnitPos()[0], board[i][j].getInnitPos()[1]};
+                    int[] innitPosCopy = new int[2];
+                    if(board[i][j].getRank()!=-1){
+                        innitPosCopy[0] = board[i][j].getInnitPos()[0];
+                        innitPosCopy[1] = board[i][j].getInnitPos()[1];
+                    }
+                    else{
+                        innitPosCopy=null;
+                    }
                     boardCopy[i][j] = new Piece(board[i][j].getRank(), board[i][j].getColor(), positionCopy, board[i][j].isDead(), board[i][j].isVisible(), board[i][j].isScout(), board[i][j].hasMoved(), innitPosCopy);
                 }
             }
@@ -249,7 +256,9 @@ public class Node{
         // Test.boardToASCIIArt(newBoard, opponenPlayer);
         // System.out.println("-----------------------");
 
-        guessSetup(board, opponentColor, opponenPlayer);
+
+        //THIS WORKS!!
+        // createAndWriteCSV(guessSetup(board, opponentColor, opponenPlayer));
 
         return newBoard;
     } 
@@ -272,7 +281,7 @@ public class Node{
         ArrayList<Piece> opponentPieces = opponenPlayer.getAvailablePieces();
 
         for (Piece deadPieces : opponentPieces){
-            System.out.println(deadPieces.toString());
+            // System.out.println(deadPieces.toString());
             if(deadPieces.isDead()){
                 
                 int[] deadPiecePos = deadPieces.getInnitPos();
@@ -291,7 +300,7 @@ public class Node{
                 if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){
                     if(board[i][j].getColor().equals(opponentColor)){
                         if(board[i][j].isVisible()){
-                            System.out.println(board[i][j].toString());
+                            // System.out.println(board[i][j].toString());
                             int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
                             availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
                             int[]startPos = board[i][j].getInnitPos();
@@ -360,13 +369,16 @@ public class Node{
             }
         }
 
-        System.out.println("-----SETUP BOARD----");
-        Test.boardToASCIIArt(newBoard, opponenPlayer);
-        System.out.println("-----------------------");
+        // System.out.println("-----SETUP BOARD----");
+        // Test.boardToASCIIArt(newBoard, opponenPlayer);
+        // System.out.println("-----------------------");
         return newBoard;
     }
 
-    public void createAndWriteCSV(Piece[][] boarder){
+    public static void createAndWriteCSV(Piece[][] boarder){
+
+        //ONLY FOR BOARDS WITH 40 PIECES
+
         String[] field = new String[481];
         for (int i = 0; i < 480; i++) {
             field[i] = "Col" + (i + 1);
@@ -375,11 +387,11 @@ public class Node{
         
         String[] position = new String[481];
         int count = 0;
-        for (int i = 0; i<=3; i++){ //or just do for(int i = 9; i>6; i--)
-            for (int j = 0; j < field[0].length(); j++) {
+        for (int i = 9; i>5; i--){ //or just do for(int i = 9; i>6; i--)
+            for (int j = 9; j>=0; j--) {
                 switch (boarder[i][j].getRank()) {
                     case 1:
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==0){
                                 position[count] = "1";
                             }else{
@@ -391,7 +403,7 @@ public class Node{
                         
                         break;
                     case 2:
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==1){
                                 position[count] = "1";
                             }else{
@@ -402,7 +414,7 @@ public class Node{
                     
                         break;
                     case 3:
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==2){
                                 position[count] = "1";
                             }else{
@@ -415,7 +427,7 @@ public class Node{
                         break;
                     case 4:
 
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==3){
                                 position[count] = "1";
                             }else{
@@ -426,7 +438,7 @@ public class Node{
                         break;
                     case 5:    
 
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==4){
                                 position[count] = "1";
                             }else{
@@ -436,7 +448,7 @@ public class Node{
                         }                    
                         break;
                     case 6:
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==5){
                                 position[count] = "1";
                             }else{
@@ -447,7 +459,7 @@ public class Node{
                         break;
                     case 7:    
                         
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==6){
                                 position[count] = "1";
                             }else{
@@ -458,7 +470,7 @@ public class Node{
                         break;
                     case 8:
                         
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==7){
                                 position[count] = "1";
                             }else{
@@ -469,7 +481,7 @@ public class Node{
                         break;
                     case 9:
                     
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==8){
                                 position[count] = "1";
                             }else{
@@ -480,7 +492,7 @@ public class Node{
                         break;
                     case 10:
                     
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==9){
                                 position[count] = "1";
                             }else{
@@ -491,7 +503,7 @@ public class Node{
                         break;
                     case 11:
                     
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==10){
                                 position[count] = "1";
                             }else{
@@ -502,7 +514,7 @@ public class Node{
                         break;
                     case 12:
             
-                        for(int z = 0; z<=12;z++){
+                        for(int z = 0; z<12;z++){
                             if(z==11){
                                 position[count] = "1";
                             }else{
