@@ -528,7 +528,7 @@ public class Node{
                 }
             }
         }
-        String csvFile = "KonnieBoiGuess.csv";
+        String csvFile = "RandomGuess.csv";
         try (FileWriter writer = new FileWriter(csvFile)) {
             // Writing headers
             writer.append(String.join(",", field)).append("\n");

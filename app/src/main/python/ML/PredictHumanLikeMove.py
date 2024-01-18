@@ -12,7 +12,7 @@ class PredictHumanLikeMove:
         model = tf.keras.models.load_model(model_path)
         
         # Build the full path to the CSV file
-        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'PredictTest.csv')
+        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'AI\RandomGuess.csv')
 
         # Now read the CSV file
         data = pd.read_csv(data_file)
