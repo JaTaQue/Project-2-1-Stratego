@@ -16,12 +16,13 @@ class PredictHumanLikeMove:
 
         # Now read the CSV file
         data = pd.read_csv(data_file)
-        data = data.drop('Class', axis=1)
+        if 'Class' in data.columns:
+            data = data.drop('Class', axis=1)
+        else:
+            print("'Class' column not found in DataFrame. Continuing...")
         
         # Make predictions using the loaded model
         prediction = model.predict(data)
-        print(type(prediction))
-        print(prediction[1000][1])
         
         return prediction[0][1]
 
