@@ -4,8 +4,6 @@ import java.util.Scanner;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.BaselinePlayer;
-import Logic.PlayerClasses.HumanPlayer;
-import Logic.PlayerClasses.RandomPlayer;
 import Logic.PlayerClasses.Player;
 
 /**
