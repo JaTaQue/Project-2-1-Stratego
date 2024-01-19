@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-
 import Logic.GameLogic.AttackLogic;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.Player;
-import Logic.PlayerClasses.RandomPlayer;
-import Logic.Tester.Test;
 
 public class Node{
     int visitQuantity;
