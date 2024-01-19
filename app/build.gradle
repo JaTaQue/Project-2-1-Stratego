@@ -50,7 +50,7 @@ dependencies {
 }
 
 
-mainClassName = 'Logic.Tester.pytest'//'App'
+mainClassName = 'App'//'Logic.Tester.pytest'
 
 
 test {

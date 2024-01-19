@@ -6,7 +6,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Build the full path to the CSV file
-data_file = os.path.join(script_dir, 'trainingDataKonnie2.csv')
+data_file = os.path.join(script_dir, 'ANNTrainingData.csv')
 
 # Now read the CSV file
 data = pd.read_csv(data_file)
