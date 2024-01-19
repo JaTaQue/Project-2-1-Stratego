@@ -1,4 +1,5 @@
 package AI;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -527,13 +528,16 @@ public class Node{
         String csvFile = "RandomGuess.csv";
         try (FileWriter writer = new FileWriter(csvFile)) {
             // Writing headers
-            writer.append(String.join(",", field)).append("\n");
-
-            // Writing data
-
-            writer.append(String.join(",", position)).append("\n");
-
-            System.out.println("CSV file created successfully.");
+            FileWriter fileWriter = new FileWriter(csvFile); 
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter); 
+ 
+            // Write header row 
+            bufferedWriter.write(String.join(",", field)); 
+            bufferedWriter.newLine(); 
+ 
+            // Write data rows 
+            bufferedWriter.write(String.join(",", position)); 
+            System.out.println("CSV written created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
