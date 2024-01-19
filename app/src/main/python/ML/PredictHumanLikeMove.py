@@ -6,15 +6,25 @@ import os
 class PredictHumanLikeMove:
 
     def __init__(self):
+        """
+        Initializes the PredictHumanLikeMove class.
+        
+        Loads the TensorFlow model from the specified model path.
+        """
         # Load the TensorFlow model
         model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_parameters.h5')
         self.model = tf.keras.models.load_model(model_path)
 
 
     def predict(self):
-        # Build the full path to the CSV file
-        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'PredictTest.csv')
+        """
+        Predicts the target variable using the loaded model.
 
+        Returns:
+            float: The predicted value for the target variable.
+        """
+        # Build the full path to the CSV file
+        data_file = 'app/src/main/java/AI/RandomGuess.csv'
         # Now read the CSV file
         data = pd.read_csv(data_file)
         # Separate the features and target variables if necessary
@@ -27,19 +37,21 @@ class PredictHumanLikeMove:
         # Make predictions using the loaded model
         prediction = self.model.predict(data)
         print(prediction.tolist())
-        print("------------------------------------------------------------------------------------------------------\n")
         return prediction[0][1]
 
 
-    def test(self):
+    def evaluate(self):
+        """
+        This method is used to evaluate the performance of the model by testing it on a separate test dataset.
+        It reads the training data from a CSV file, splits it into features and target variables, and then splits it into training and test sets.
+        The model is compiled and evaluated on both the training and test sets, and the accuracy is printed.
+        """
         script_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Build the full path to the CSV file
         data_file = os.path.join(script_dir, 'ANNTrainingData.csv')
 
         script_dir = os.path.dirname(os.path.abspath(__file__))
-
-
 
         # Now read the CSV file
         data = pd.read_csv(data_file)
@@ -59,4 +71,4 @@ class PredictHumanLikeMove:
         print("Test Accuracy: {:.2f}%".format(test_accuracy * 100))
 
 phlm = PredictHumanLikeMove()
-phlm.test()
+phlm.predict()
