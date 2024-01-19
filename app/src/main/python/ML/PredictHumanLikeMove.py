@@ -12,10 +12,11 @@ class PredictHumanLikeMove:
         model = tf.keras.models.load_model(model_path)
         
         # Build the full path to the CSV file
-        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'AI\RandomGuess.csv')
+        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'trainingDataKonnie.csv')
 
         # Now read the CSV file
         data = pd.read_csv(data_file)
+        # Separate the features and target variables if necessary
         if 'Class' in data.columns:
             data = data.drop('Class', axis=1)
         else:
@@ -23,7 +24,7 @@ class PredictHumanLikeMove:
         
         # Make predictions using the loaded model
         prediction = model.predict(data)
-        
+
         return prediction[0][1]
 
 PredictHumanLikeMove.predict()
