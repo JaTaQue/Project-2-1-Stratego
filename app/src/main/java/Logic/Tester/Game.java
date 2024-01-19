@@ -487,5 +487,9 @@ public class Game {
     public Player getPlayer2() {
         return player2;
     }
+
+    public static ArrayList<String> getAvailableColors() {
+        return availableColors;
+    }
 }
 

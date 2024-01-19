@@ -1,0 +1,26 @@
+random vs mcts (both random init posiitions)
+    private static final double C = 0.15;
+    private static final int ROLLOUT_TIME_MILLIS = 20;
+    private static final long DURATION = 500;
+    private final int LOOKAHEAD = 2;
+
+    won:    4
+    lost:   1
+    draw:   0
+    moves:  289
+
+    won:    3
+    lost:   2
+    draw:   0
+    moves:  189
+
+lewis vs mcts (both random init posiitions)
+    private static final double C = 0.15;
+    private static final int ROLLOUT_TIME_MILLIS = 20;
+    private static final long DURATION = 500;
+    private final int LOOKAHEAD = 2;
+
+    won:    5
+    lost:   0
+    draw:   0
+    moves:  306

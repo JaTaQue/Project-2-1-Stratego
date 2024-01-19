@@ -17,70 +17,100 @@ public class Test {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_LAKE = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
+
+    private static final int GAMES = 5;
     
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            Game game = Game.PlayerVsAI();
-            
-            Player aiPlayer = new AIPlayer("Blue");
-            game.setPlayer1(aiPlayer);
-            game.setCurrentPlayer(aiPlayer);
+        int winCount = 0;
+        int loseCount = 0;
+        int drawCount = 0;
 
-            Player blPlayer = new BaselinePlayer("Red");   // don't put human !!
-            game.setPlayer2(blPlayer);
+        int moves = 0;
 
-            System.out.println();
-
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-
-            System.out.println();
-
-            while(!game.hasStarted()){ 
-                System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
-                scanner.nextLine();     
-
-                //game.placePiecesBlackBox(game.getCurrentPlayer());
-                game.getCurrentPlayer().placePiecesSimulation(game);
-
-                boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
+        for(int i = 0; i < GAMES; i++){
+            try (Scanner scanner = new Scanner(System.in)) {
+                Game game = Game.PlayerVsAI();
                 
+                Player aiPlayer = new AIPlayer("Blue");
+                game.setPlayer1(aiPlayer);
+                game.setCurrentPlayer(aiPlayer);
+    
+                Player blPlayer = new BaselinePlayer("Red");   // don't put human !!
+                game.setPlayer2(blPlayer);
+    
                 System.out.println();
-                game.switchCurrentPlayer(); 
+    
+                boardToASCIIArt(game.getBoard());
+    
+                System.out.println();
+    
+                while(!game.hasStarted()){ 
+                    System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
+                    // scanner.nextLine();     
+    
+                    //game.placePiecesBlackBox(game.getCurrentPlayer());
+                    game.getCurrentPlayer().placePiecesSimulation(game);
+    
+                    boardToASCIIArt(game.getBoard());
+                    
+                    System.out.println();
+                    game.switchCurrentPlayer(); 
+    
+                }
+
+                int moveNumber = 1;
+    
+                System.out.println("GAME ON\n");
+    
+                while(!game.isOver()){
+                    if(game.getCurrentPlayer() == game.getPlayer1())System.out.println("\n\nMOVE #" + moveNumber++ + " GAME #" + (i+1));
+                    System.out.println("Current player: " + game.getCurrentPlayer().getColor()+"\n");
+                    boardToASCIIArt(game.getBoard());
+    
+                    int[][] nextMove = game.getCurrentPlayer().getNextMove(game);
+                    int[] currentPosition = nextMove[0];
+                    int[] targetPosition = nextMove[1];
+    
+                    game.makeAMove(currentPosition, game.getBoard()[currentPosition[0]][currentPosition[1]], targetPosition);  
+    
+                }  
+    
+                //when game is done it prints the final board one more time
+                System.out.println();
+                boardToASCIIArt(game.getBoard());
+                System.out.println("\n  ~ GAME OVER ~");
+                if (game.getPlayer1().isWinner()){
+                    System.out.println("BLUE WON");
+                    winCount++;
+                } else if (game.getPlayer2().isWinner()){
+                    System.out.println("RED WON");
+                    loseCount++;
+                }else{
+                    System.out.println("DRAW");
+                    drawCount++;
+                }
+                System.out.println();
+                
+                Game.getAvailableColors().add("Blue");
+                Game.getAvailableColors().add("Red");
+                moves += moveNumber;
 
             }
-
-            System.out.println("GAME ON\n");
-
-            while(!game.isOver()){
-                System.out.println("\n\nCurrent player: " + game.getCurrentPlayer().getColor()+"\n");
-                boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-
-                int[][] nextMove = game.getCurrentPlayer().getNextMove(game);
-                int[] currentPosition = nextMove[0];
-                int[] targetPosition = nextMove[1];
-
-                game.makeAMove(currentPosition, game.getBoard()[currentPosition[0]][currentPosition[1]], targetPosition);  
-
-            }  
-
-            //when game is done it prints the final board one more time
-            System.out.println();
-            boardToASCIIArt(game.getBoard(), game.getCurrentPlayer());
-            System.out.println("\n  ~ GAME OVER ~");
-            if (game.getPlayer1().isWinner()){System.out.println("BLUE WON");} else if (game.getPlayer2().isWinner()){System.out.println("RED WON");}
-            System.out.println();
+            System.out.println("won: \t" + winCount);
+            System.out.println("lost: \t" + loseCount);
+            System.out.println("draw: \t" + drawCount);
+            System.out.println("moves: \t" + moves / GAMES);
         }
+        
     }
 
     /**
      * generates an ASCII art representation of the game board and prints it to the console
      * @param board the 2D array representing the game board with pieces
-     * @param currentPlayer the current player whose perspective the board is shown from
      */
-    public static void boardToASCIIArt(Piece[][] board, Player currentPlayer){
-        if(currentPlayer.getColor().equals("Blue")){
-            for(int i = 0; i < board.length; i++){
-                for(int j = 0; j < board[i].length; j++){
+    public static void boardToASCIIArt(Piece[][] board){
+            for(int i = 0; i < 10; i++){
+                for(int j = 0; j < 10; j++){
                     printTile(board, i, j);
                 }
                 System.out.print(" "+i);
@@ -88,16 +118,6 @@ public class Test {
             }
             
             System.out.println("\n0 1 2 3 4 5 6 7 8 9\n");
-        }else{
-            for(int i = board.length-1; i >= 0; i--){
-                for(int j = board[0].length-1; j >= 0; j--){
-                    printTile(board, i, j);
-                }
-                System.out.print(" "+i);
-                System.out.println();
-            }
-            System.out.println("\n9 8 7 6 5 4 3 2 1 0\n");
-        }
     }
 
     /**

@@ -11,6 +11,7 @@ import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.AIPlayer;
 import Logic.PlayerClasses.Player;
+import Logic.Tester.Test;
 
 public class Node{
     int visitQuantity;
@@ -93,27 +94,22 @@ public class Node{
 
         for (Piece piece : pieces){
 
-                // System.out.println("piece"+piece);
-                if(piece != null && !piece.isDead() && piece.getRank()!=-1){
+            if(piece != null && !piece.isDead() && piece.getRank()!=-1){
+
                     int[] piecePos = piece.getPosition().clone();
-                    // System.out.println(Arrays.toString(piecePos));
                     ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
-                    // if(piece.getRank()==2 && !moves.isEmpty()){
-                    //     for (int i = 0; i < moves.size(); i++) {
-                    //         System.out.println(moves.get(i)[0]+" "+moves.get(i)[1]);
-                    //     }
-                     
-                    // }
+
                     for (int i = 0; i < moves.size(); i++) {
                         Piece[][] nextBoard = copyBoard(board);
-
+                        AIPlayer copyPlayer = player.copyPlayer();
+                        Player copyPlayer2 = enemyPlayer.copyPlayer();
                         if(nextBoard[moves.get(i)[0]][moves.get(i)[1]]==null){
                             MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], moves.get(i), nextBoard);
                         }
                         else{
-                            AttackLogic.battle(nextBoard, piecePos, moves.get(i), player, enemyPlayer);
+                            AttackLogic.battle(nextBoard, piecePos, moves.get(i), copyPlayer, copyPlayer2);
                         }
-                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), player.copyPlayer(), enemyPlayer.copyPlayer()));
+                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), copyPlayer, copyPlayer2));
                     }
                 }
                 
@@ -181,7 +177,7 @@ public class Node{
                 if(!(((board[i][j]==null)) || (board[i][j].getRank()==-1))){
                     if(board[i][j].getColor().equals(opponentColor)){
                         if(board[i][j].isVisible()){
-                            System.out.println(board[i][j].toString());
+                            // System.out.println(board[i][j].toString());
                             int currentValue = availablePiecesAmount.get(board[i][j].getRank()-1);
                             availablePiecesAmount.set(board[i][j].getRank()-1, currentValue-1);
                             newBoard[i][j] = board[i][j].copyPiece();
@@ -249,13 +245,9 @@ public class Node{
             }
         }
 
-        // System.out.println("-----RANDO BOARD----");
-        // Test.boardToASCIIArt(newBoard, opponenPlayer);
-        // System.out.println("-----------------------");
-
-
-        //THIS WORKS!!
-        // createAndWriteCSV(guessSetup(board, opponentColor, opponenPlayer));
+        System.out.println("-----RANDO BOARD----");
+        Test.boardToASCIIArt(newBoard);
+        System.out.println("-----------------------");
 
         return newBoard;
     } 

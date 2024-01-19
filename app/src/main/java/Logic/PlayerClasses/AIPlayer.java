@@ -118,24 +118,24 @@ public class AIPlayer extends Player{
     // protected ArrayList<Piece> availablePieces = new ArrayList<Piece>();
     // protected int[] piecesToBePlacedAmount = Arrays.copyOf(availablePiecesAmount, availablePiecesAmount.length);
 
-    @Override 
-    public void placePiecesForPlayer(Game game) {
-        ArrayList<ArrayList<int[]>> positions = getPositions(game);
+    // @Override 
+    // public void placePiecesForPlayer(Game game) {
+    //     ArrayList<ArrayList<int[]>> positions = getPositions(game);
 
-        Player player = game.getCurrentPlayer();
+    //     Player player = game.getCurrentPlayer();
 
 
-        for (Piece piece : player.getAvailablePieces()) {
+    //     for (Piece piece : player.getAvailablePieces()) {
             
-            int rank = piece.getRank();
+    //         int rank = piece.getRank();
 
-            placePiece(piece, positions.get(rank-1).get(0), game);
-            positions.get(rank-1).remove(0);
-            pieces.add(piece);
+    //         placePiece(piece, positions.get(rank-1).get(0), game);
+    //         positions.get(rank-1).remove(0);
+    //         pieces.add(piece);
         
-        }
+    //     }
 
-    }
+    // }
  
     private ArrayList<ArrayList<int[]>> getPositions(Game game) {
         if(game.getCurrentPlayer() == game.getPlayer1()){
