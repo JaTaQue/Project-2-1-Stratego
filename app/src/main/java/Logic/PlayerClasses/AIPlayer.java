@@ -29,6 +29,11 @@ public class AIPlayer extends Player{
         super(color);
     }
 
+    /**
+     * constructs a Player object with the specified color, pieces, its dead pieces and much more
+     * @author Group 7
+     * @version 1 
+     */
     public AIPlayer(String color, ArrayList<Piece> pieces, int[] deadPiecesAmount, int[] availablePiecesAmount, ArrayList<Piece> availablePieces, int[] piecesToBePlacedAmount, boolean isWinner) {
         super(color, pieces, deadPiecesAmount, availablePiecesAmount, availablePieces, piecesToBePlacedAmount, isWinner);
     }
@@ -38,6 +43,11 @@ public class AIPlayer extends Player{
         return false;
     }
 
+    /**
+     * Creates a copy of the current AIPlayer object
+     * @author Group 7
+     * @version 1 
+     */
     public AIPlayer copyPlayer() {
         int[] deadCopy = deadPiecesAmount.clone();
         int[] availablePiecesAmountCopy = availablePiecesAmount.clone();
@@ -46,6 +56,11 @@ public class AIPlayer extends Player{
         return new AIPlayer(this.color, piecesCopy, deadCopy, availablePiecesAmountCopy, availableCopy, null, isWinner);
     }
 
+    /**
+     * Returns the next move of the MCTS
+     * @author Group 7
+     * @version 1 
+     */
     @Override
     public int[][] getNextMove(Game game) {
         // int[][] nextMove = mcts.returnNextMove(game.getBoard(), game.getCurrentPlayer(), game.getEnemyPlayer());
@@ -61,7 +76,13 @@ public class AIPlayer extends Player{
         return nextMove;
     }
 
-
+    /**
+     * Generates a random move for the player based on the provided current position.
+     *
+     * @param game The Game object representing the current game state
+     * @param currentPosition The current position on the board
+     * @return An array of two integers representing the X and Y coordinates of the random move
+     */
        public int[] getRandomMove(Game game, int[] currentPosition){
         if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of baselineplayer");
@@ -120,6 +141,11 @@ public class AIPlayer extends Player{
     // protected ArrayList<Piece> availablePieces = new ArrayList<Piece>();
     // protected int[] piecesToBePlacedAmount = Arrays.copyOf(availablePiecesAmount, availablePiecesAmount.length);
 
+    /**
+     * Place the pieces on the board (pre defined setup)
+     *
+     * @param game The Game object representing the current game state
+     */
     @Override 
     public void placePiecesForPlayer(Game game) {
         ArrayList<ArrayList<int[]>> positions = getPositions(game);
@@ -139,6 +165,11 @@ public class AIPlayer extends Player{
 
     }
  
+    /**
+     * Place the pieces on the board (pre defined setup)
+     *
+     * @param game The Game object representing the current game state
+     */
     private ArrayList<ArrayList<int[]>> getPositions(Game game) {
         if(game.getCurrentPlayer() == game.getPlayer1()){
             ArrayList<int[]> positionsRank1 = new ArrayList<int[]>(Arrays.asList(new int[]{2,3}));
