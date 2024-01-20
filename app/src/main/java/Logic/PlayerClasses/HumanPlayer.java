@@ -34,6 +34,10 @@ public class HumanPlayer extends Player {
         return true;
     }
 
+    /**
+     * creates deep copy of human player object
+     * @return new HumanPlayer deepCopy
+     */
     public HumanPlayer copyPlayer() {
         int[] deadCopy = deadPiecesAmount.clone();
         int[] availablePiecesAmountCopy = availablePiecesAmount.clone();

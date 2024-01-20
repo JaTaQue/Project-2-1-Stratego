@@ -33,7 +33,10 @@ public class BaselinePlayer extends Player {
         return false;
     }
 
-    
+    /**
+     * Creates a deep copy of the BaselinePlayer object
+     * @return new BaseLinePlayer that represents a deep copy of the original
+     */
     public BaselinePlayer copyPlayer() {
         int[] deadCopy = deadPiecesAmount.clone();
         int[] availablePiecesAmountCopy = availablePiecesAmount.clone();
@@ -42,7 +45,13 @@ public class BaselinePlayer extends Player {
         return new BaselinePlayer(this.color, piecesCopy, deadCopy, availablePiecesAmountCopy, availableCopy, null, isWinner);
     }
 
-
+    /**
+     * This method gives the next move based on the specific conditions of the peter N.lewis agent
+     * @author Group 7
+     * @version 1 
+     * @param game the current game state
+     * @return an array of integer where the first element represent the current position and the second element the destination position on the board.
+     */
     @Override    
     public int[][] getNextMove(Game game){
         if(this.IsPlayable()){
@@ -112,7 +121,7 @@ public class BaselinePlayer extends Player {
                     }   
                 }
             }
-            //Fifth condition retreat if known piece is next to stronger piece
+            //Fifth condition 
             else{
                 RandomPlayer rp = new RandomPlayer(this.color);
                 int[] movablePosition = rp.getRandomMovablePosition(game);
@@ -139,6 +148,13 @@ public class BaselinePlayer extends Player {
 
     }
 
+    /**
+     * Generates a random move for the player based on the provided current position.
+     *
+     * @param game The Game object representing the current game state
+     * @param currentPosition The current position on the board
+     * @return An array of two integers representing the X and Y coordinates of the random move
+     */
     public int[] getRandomMovablePosition(Game game){
         if(this.IsPlayable()){
             System.out.println("Something went wrong, playable player uses method of baselineplayer");
