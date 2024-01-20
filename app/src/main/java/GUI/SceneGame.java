@@ -30,8 +30,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.Arrays;
 
-
-
 public class SceneGame implements Initializable {
 
     @FXML
@@ -71,10 +69,7 @@ public class SceneGame implements Initializable {
     }
 
 
-    /*
-    * fran I love you suck my cock you are a great developer and I respect you
-    * @Author: fran's worst enemy
-     */
+
     private void icondrawer(MouseEvent mouseEvent) {
         if(selected){
             double mouseAnchorX = mouseEvent.getX();
