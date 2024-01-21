@@ -1,7 +1,9 @@
+import os
+
 import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-import os
+
 
 class PredictHumanLikeMove:
 
@@ -43,7 +45,7 @@ class PredictHumanLikeMove:
         # Make predictions using the loaded model
         prediction = self.model.predict(data)
         #print(prediction.tolist())
-        return prediction
+        return prediction[0][1]
 
 
     def evaluate(self):

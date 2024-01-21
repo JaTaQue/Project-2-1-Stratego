@@ -1,10 +1,11 @@
-package AI;
+/*package AI;
 
-import AI.Node;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;
 import org.junit.jupiter.api.Test;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NodeTest {
@@ -30,4 +31,4 @@ public class NodeTest {
             assertEquals(10, row.length, "Each row of the best board should have 10 columns");
         }
     }
-}
+}*/

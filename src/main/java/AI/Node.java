@@ -248,6 +248,10 @@ public class Node{
         Test.boardToASCIIArt(newBoard);
         System.out.println("-----------------------");
 
+        //print getbestboard
+        System.out.println("-----BEST BOARD----");
+        Piece[][] bestBoard = getBestBoard(newBoard, opponentColor, opponenPlayer);
+        Test.boardToASCIIArt(bestBoard);
         return newBoard;
     }
     
