@@ -29,3 +29,5 @@ gradle-app.setting
 .fleet/run.json
 .fleet/settings.json
 app/bin/
+T.gradle
+/venv/
