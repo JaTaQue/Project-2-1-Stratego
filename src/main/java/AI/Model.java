@@ -1,10 +1,11 @@
 package AI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import jep.Jep;
 import jep.JepException;
 import jep.SharedInterpreter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Model {
     private static final Logger LOGGER = Logger.getLogger(Model.class.getName());

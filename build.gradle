@@ -17,24 +17,6 @@ plugins {
 
 version = '1.0'
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['app/src/main/java']
-        }
-        resources {
-            srcDirs = ['app/src/main/resources']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['app/src/test/java']
-        }
-        resources {
-            srcDirs = ['app/src/test/resources']
-        }
-    }
-}
 
 java {
     modularity.inferModulePath.set(false)
