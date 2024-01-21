@@ -17,17 +17,10 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-.vscode/settings.json
-.idea/workspace.xml
-.idea/uiDesigner.xml
-.idea/misc.xml
-.idea/jarRepositories.xml
-.idea/gradle.xml
-.idea/compiler.xml
-.idea/vcs.xml
-.idea/.name
-.fleet/run.json
-.fleet/settings.json
-app/bin/
-T.gradle
+/build
+/bin/
+/.idea/
+/.vscode/
+/.fleet/
 /venv/
+T.gradle

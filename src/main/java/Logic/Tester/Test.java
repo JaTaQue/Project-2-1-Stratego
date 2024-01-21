@@ -40,7 +40,7 @@ public class Test {
     
                 System.out.println();
     
-                boardToASCIIArt(game.getBoard());
+                //boardToASCIIArt(game.getBoard());
     
                 System.out.println();
     
@@ -51,7 +51,7 @@ public class Test {
                     //game.placePiecesBlackBox(game.getCurrentPlayer());
                     game.getCurrentPlayer().placePiecesSimulation(game);
     
-                    boardToASCIIArt(game.getBoard());
+                    //boardToASCIIArt(game.getBoard());
                     
                     System.out.println();
                     game.switchCurrentPlayer(); 

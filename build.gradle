@@ -1,0 +1,66 @@
+import org.gradle.internal.os.OperatingSystem
+
+plugins {
+    id 'java'
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.1.0"
+}
+
+version = '1.0'
+
+java {
+    modularity.inferModulePath.set(false)
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+javafx {
+    version = "21.0.1"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+    implementation 'com.google.guava:guava:32.0.0-android'
+    implementation 'black.ninia:jep:4.2.0'
+}
+
+application {
+    mainClass.set('Logic.Tester.Test')
+}
+
+// Define the 'createVenv' task
+tasks.register('createVenv', Exec) {
+    commandLine 'python', '-m', 'venv', 'venv'
+}
+
+// Define the 'installPythonRequirements' task
+tasks.register('installPythonRequirements', Exec) {
+    dependsOn tasks.named('createVenv')
+    if (OperatingSystem.current().isWindows()) {
+        commandLine 'venv\\Scripts\\pip', 'install', '-r', 'requirements.txt'
+    } else {
+        commandLine 'venv/bin/pip', 'install', '-r', 'requirements.txt'
+    }
+}
+
+// Make the 'build' task depend on the 'installPythonRequirements' task
+build.dependsOn tasks.named('installPythonRequirements')
+
+test {
+    useJUnitPlatform()
+}
+
+// Set the java.library.path to include the path to the Jep native library
+run {
+    if (OperatingSystem.current().isWindows()) {
+        systemProperty "java.library.path", "venv\\Lib\\site-packages\\jep"
+    } else {
+        systemProperty "java.library.path", "venv/lib/python3.11/site-packages/jep"
+    }
+}

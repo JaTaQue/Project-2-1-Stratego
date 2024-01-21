@@ -23,6 +23,8 @@ public class Node{
     Piece[][] board;
     int[] currentFigurePos;
     int[] nextFigurePos;
+    static Model ANN = new Model();
+
 
     public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, AIPlayer player, Player enemyPlayer){
         visitQuantity = 0;
@@ -96,21 +98,20 @@ public class Node{
 
             if(piece != null && !piece.isDead() && piece.getRank()!=-1){
 
-                    int[] piecePos = piece.getPosition().clone();
-                    ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
+                int[] piecePos = piece.getPosition().clone();
+                ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
 
-                    for (int i = 0; i < moves.size(); i++) {
-                        Piece[][] nextBoard = copyBoard(board);
-                        AIPlayer copyPlayer = player.copyPlayer();
-                        Player copyPlayer2 = enemyPlayer.copyPlayer();
-                        if(nextBoard[moves.get(i)[0]][moves.get(i)[1]]==null){
-                            MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], moves.get(i), nextBoard);
-                        }
-                        else{
-                            AttackLogic.battle(nextBoard, piecePos, moves.get(i), copyPlayer, copyPlayer2);
-                        }
-                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), copyPlayer, copyPlayer2));
+                for (int[] move : moves) {
+                    Piece[][] nextBoard = copyBoard(board);
+                    AIPlayer copyPlayer = player.copyPlayer();
+                    Player copyPlayer2 = enemyPlayer.copyPlayer();
+                    if (nextBoard[move[0]][move[1]] == null) {
+                        MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], move, nextBoard);
+                    } else {
+                        AttackLogic.battle(nextBoard, piecePos, move, copyPlayer, copyPlayer2);
                     }
+                    nextNodes.add(new Node(nextBoard, this, piecePos, move, copyPlayer, copyPlayer2));
+                }
                 }
                 
             
@@ -246,11 +247,33 @@ public class Node{
         }
 
         System.out.println("-----RANDO BOARD----");
-        Test.boardToASCIIArt(newBoard);
+        //Test.boardToASCIIArt(newBoard);
         System.out.println("-----------------------");
 
+        //print getbestboard
+        getBestBoard(newBoard, opponentColor, opponenPlayer);
         return newBoard;
-    } 
+    }
+    
+    public static Piece[][] getBestBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
+        Piece[][] bestBoard = null;
+
+        double bestBoardEval = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < 3; i++) {
+//            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
+            Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
+            createAndWriteCSV(guessBoard);
+            
+            double boardEval = ANN.predict();
+            System.out.println("Board Evaluation: " + boardEval); // Print board evaluation for testing
+            if(boardEval > bestBoardEval) {
+                bestBoardEval = boardEval;
+                bestBoard = guessBoard;
+            }
+        }
+        System.out.println("Best Board Evaluation: " + bestBoardEval); // Print best board evaluation for testing
+        return bestBoard;
+    }
     
     //ANN
     public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
@@ -517,18 +540,19 @@ public class Node{
                 }
             }
         }
-        String csvFile = "RandomGuess.csv";
+        String csvFile = "src/main/java/AI/RandomGuess.csv";
         try (FileWriter writer = new FileWriter(csvFile)) {
             // Writing headers
             FileWriter fileWriter = new FileWriter(csvFile); 
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter); 
+            try (BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                // Write header row 
+                bufferedWriter.write(String.join(",", field)); 
+                bufferedWriter.newLine(); 
  
-            // Write header row 
-            bufferedWriter.write(String.join(",", field)); 
-            bufferedWriter.newLine(); 
+                // Write data rows 
+                bufferedWriter.write(String.join(",", position));
+            } 
  
-            // Write data rows 
-            bufferedWriter.write(String.join(",", position)); 
             System.out.println("CSV written created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
