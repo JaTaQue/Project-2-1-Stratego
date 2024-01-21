@@ -80,7 +80,7 @@ public class HumanPlayer extends Player {
 
         if(!movablePieces.isEmpty()){
             int movablePiecesSize = movablePieces.size();
-            int randomInteger = (int) (Math.random()*(movablePiecesSize-1));
+            int randomInteger = (int) (Math.random()*(movablePiecesSize));
             return movablePieces.get(randomInteger);
         }
         else{
@@ -100,7 +100,7 @@ public class HumanPlayer extends Player {
 
         if(!MoveLogic.returnPossiblePositions(currentPosition, board).isEmpty()){
             int possiblePositionsSize = MoveLogic.returnPossiblePositions(currentPosition, board).size();
-            int randomInteger = (int) (Math.random()*(possiblePositionsSize-1));
+            int randomInteger = (int) (Math.random()*(possiblePositionsSize));
 
             int X = MoveLogic.returnPossiblePositions(currentPosition, board).get(randomInteger)[0];
             int Y = MoveLogic.returnPossiblePositions(currentPosition, board).get(randomInteger)[1];
