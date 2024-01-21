@@ -75,11 +75,11 @@ application {
 
 // Define the 'installPythonRequirements' task
 tasks.register('installPythonRequirements', Exec) {
-    commandLine 'py', '-3.11', '-m', 'pip', 'install', '-r', 'requirements.txt'
+    commandLine  'pip', 'install', '-r', 'requirements.txt'
 }
 
 // Make the 'build' task depend on the 'installPythonRequirements' task
-build.dependsOn tasks.named('installPythonRequirements')
+//build.dependsOn tasks.named('installPythonRequirements')
 
 test {
     // Use JUnit Platform for unit tests.
