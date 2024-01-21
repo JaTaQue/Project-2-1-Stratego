@@ -108,7 +108,7 @@ public class AIPlayer extends Player{
 
         if(!movablePieces.isEmpty()){
             int movablePiecesSize = movablePieces.size();
-            int randomInteger = (int) (Math.random()*(movablePiecesSize-1));
+            int randomInteger = (int) (Math.random()*(movablePiecesSize));
             return movablePieces.get(randomInteger);
         }
         else{
