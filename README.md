@@ -3,13 +3,21 @@
 This is a coding project for implementing the board game Stratego. The project is developed using Java and JavaFX for the graphical user interface.
 
 ## Dependencies
+
+The project requires Python 3.8 or higher to run. Please note that Python 3.12 is not supported.
+The project requires Java 11 or higher to run.
+The project uses Gradle as a build tool and for managing java dependencies.
+Gradle also handles the installation of JavaFX.
+
 The following python packages are required to run the machine learning
 models in the background:
 - pandas==2.1.4
 - scikit-learn==1.3.2
 - tensorflow==2.15
+- jep==4.2.0
+- numpy==1.24.3
 
-### You can install the required packages by running `pip install -r requirements.txt`
+### Gradle will automatically pip install these, you can mannually install the required packages by running `pip install -r requirements.txt`
 
 
 ## Running the Project

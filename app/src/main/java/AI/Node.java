@@ -250,7 +250,34 @@ public class Node{
         System.out.println("-----------------------");
 
         return newBoard;
-    } 
+    }
+    
+    public static Piece[][] getBestBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
+        // create a random board and send it to guess setup, then convert the result to CSV
+        // then send the CSV to the ANN
+        // ANN will return a board evaluation, then we will compare it to the best board evaluation
+        // if it is better, we will save it as the best board
+        // repeat this process 100 times
+        // return the best board
+        Piece[][] bestBoard = null;
+        Model ANN = new Model();
+
+        double bestBoardEval = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < 3; i++) {
+            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
+            Piece[][] guessBoard = guessSetup(randoBoard, opponentColor, opponenPlayer);
+            createAndWriteCSV(guessBoard);
+            
+            double boardEval = ANN.predict();
+            System.out.println("Board Evaluation: " + boardEval); // Print board evaluation for testing
+            if(boardEval > bestBoardEval) {
+                bestBoardEval = boardEval;
+                bestBoard = guessBoard;
+            }
+        }
+        System.out.println("Best Board Evaluation: " + bestBoardEval); // Print best board evaluation for testing
+        return bestBoard;
+    }
     
     //ANN
     public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
@@ -521,14 +548,15 @@ public class Node{
         try (FileWriter writer = new FileWriter(csvFile)) {
             // Writing headers
             FileWriter fileWriter = new FileWriter(csvFile); 
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter); 
+            try (BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                // Write header row 
+                bufferedWriter.write(String.join(",", field)); 
+                bufferedWriter.newLine(); 
  
-            // Write header row 
-            bufferedWriter.write(String.join(",", field)); 
-            bufferedWriter.newLine(); 
+                // Write data rows 
+                bufferedWriter.write(String.join(",", position));
+            } 
  
-            // Write data rows 
-            bufferedWriter.write(String.join(",", position)); 
             System.out.println("CSV written created successfully.");
         } catch (IOException e) {
             e.printStackTrace();

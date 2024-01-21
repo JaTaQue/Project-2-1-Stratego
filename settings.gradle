@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'Project 2-1 Stratego'
-include('app')
+

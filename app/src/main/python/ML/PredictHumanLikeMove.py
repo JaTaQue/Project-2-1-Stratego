@@ -12,7 +12,7 @@ class PredictHumanLikeMove:
         Loads the TensorFlow model from the specified model path.
         """
         # Load the TensorFlow model
-        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_parameters.h5')
+        model_path = 'app/src/main/python/ML/model_parameters.h5'
         self.model = tf.keras.models.load_model(model_path)
 
 
@@ -24,9 +24,15 @@ class PredictHumanLikeMove:
             float: The predicted value for the target variable.
         """
         # Build the full path to the CSV file
+        # data_file = 'app/src/main/java/AI/RandomGuess.csv'
         data_file = 'app/src/main/java/AI/RandomGuess.csv'
+
         # Now read the CSV file
         data = pd.read_csv(data_file)
+        if data.empty:
+            print("Data is empty. Cannot make a prediction.")
+            return
+        
         # Separate the features and target variables if necessary
         if 'Class' in data.columns:
             data = data.drop('Class', axis=1)
@@ -36,8 +42,8 @@ class PredictHumanLikeMove:
         
         # Make predictions using the loaded model
         prediction = self.model.predict(data)
-        print(prediction.tolist())
-        return prediction[0][1]
+        #print(prediction.tolist())
+        return prediction
 
 
     def evaluate(self):
@@ -69,6 +75,3 @@ class PredictHumanLikeMove:
         test_loss, test_accuracy = self.model.evaluate(X_test, y_test)
         print("Training Accuracy: {:.2f}%".format(train_accuracy * 100))
         print("Test Accuracy: {:.2f}%".format(test_accuracy * 100))
-
-phlm = PredictHumanLikeMove()
-phlm.predict()
