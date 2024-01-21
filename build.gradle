@@ -58,7 +58,8 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
-    testRuntimeOnly 'org.junit.platform:junit-platform-engine:1.9.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:32.0.0-android'
@@ -68,13 +69,13 @@ dependencies {
 }
 
 application {
-    mainClass.set('AI.Model')
+    mainClass.set('App')
 }
 
 
 // Define the 'installPythonRequirements' task
 tasks.register('installPythonRequirements', Exec) {
-    commandLine 'pip', 'install', '-r', 'requirements.txt'
+    commandLine 'py', '-3.11', '-m', 'pip', 'install', '-r', 'requirements.txt'
 }
 
 // Make the 'build' task depend on the 'installPythonRequirements' task

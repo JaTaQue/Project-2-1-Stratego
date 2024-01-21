@@ -96,21 +96,20 @@ public class Node{
 
             if(piece != null && !piece.isDead() && piece.getRank()!=-1){
 
-                    int[] piecePos = piece.getPosition().clone();
-                    ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
+                int[] piecePos = piece.getPosition().clone();
+                ArrayList<int[]> moves = MoveLogic.returnPossiblePositions(piecePos, board);
 
-                    for (int i = 0; i < moves.size(); i++) {
-                        Piece[][] nextBoard = copyBoard(board);
-                        AIPlayer copyPlayer = player.copyPlayer();
-                        Player copyPlayer2 = enemyPlayer.copyPlayer();
-                        if(nextBoard[moves.get(i)[0]][moves.get(i)[1]]==null){
-                            MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], moves.get(i), nextBoard);
-                        }
-                        else{
-                            AttackLogic.battle(nextBoard, piecePos, moves.get(i), copyPlayer, copyPlayer2);
-                        }
-                        nextNodes.add(new Node(nextBoard, this, piecePos, moves.get(i), copyPlayer, copyPlayer2));
+                for (int[] move : moves) {
+                    Piece[][] nextBoard = copyBoard(board);
+                    AIPlayer copyPlayer = player.copyPlayer();
+                    Player copyPlayer2 = enemyPlayer.copyPlayer();
+                    if (nextBoard[move[0]][move[1]] == null) {
+                        MoveLogic.move(nextBoard[piecePos[0]][piecePos[1]], move, nextBoard);
+                    } else {
+                        AttackLogic.battle(nextBoard, piecePos, move, copyPlayer, copyPlayer2);
                     }
+                    nextNodes.add(new Node(nextBoard, this, piecePos, move, copyPlayer, copyPlayer2));
+                }
                 }
                 
             
@@ -253,12 +252,6 @@ public class Node{
     }
     
     public static Piece[][] getBestBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
-        // create a random board and send it to guess setup, then convert the result to CSV
-        // then send the CSV to the ANN
-        // ANN will return a board evaluation, then we will compare it to the best board evaluation
-        // if it is better, we will save it as the best board
-        // repeat this process 100 times
-        // return the best board
         Piece[][] bestBoard = null;
         Model ANN = new Model();
 

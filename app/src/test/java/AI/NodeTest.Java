@@ -1,5 +1,6 @@
 package AI;
 
+import AI.Node;
 import Logic.PieceLogic.Piece;
 import Logic.PlayerClasses.Player;
 import Logic.PlayerClasses.RandomPlayer;
@@ -28,7 +29,5 @@ public class NodeTest {
         for (Piece[] row : bestBoard) {
             assertEquals(10, row.length, "Each row of the best board should have 10 columns");
         }
-
-        // Add more assertions as needed to check that the returned board is correct
     }
 }
