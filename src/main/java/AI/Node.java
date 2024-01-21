@@ -23,6 +23,8 @@ public class Node{
     Piece[][] board;
     int[] currentFigurePos;
     int[] nextFigurePos;
+    static Model ANN = new Model();
+
 
     public Node(Piece[][] board, Node parent, int[] currentFigurePos, int[] nextFigurePos, AIPlayer player, Player enemyPlayer){
         visitQuantity = 0;
@@ -245,24 +247,21 @@ public class Node{
         }
 
         System.out.println("-----RANDO BOARD----");
-        Test.boardToASCIIArt(newBoard);
+        //Test.boardToASCIIArt(newBoard);
         System.out.println("-----------------------");
 
         //print getbestboard
-        System.out.println("-----BEST BOARD----");
-        Piece[][] bestBoard = getBestBoard(newBoard, opponentColor, opponenPlayer);
-        Test.boardToASCIIArt(bestBoard);
+        getBestBoard(newBoard, opponentColor, opponenPlayer);
         return newBoard;
     }
     
     public static Piece[][] getBestBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
         Piece[][] bestBoard = null;
-        Model ANN = new Model();
 
         double bestBoardEval = Double.NEGATIVE_INFINITY;
         for (int i = 0; i < 3; i++) {
-            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
-            Piece[][] guessBoard = guessSetup(randoBoard, opponentColor, opponenPlayer);
+//            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
+            Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
             createAndWriteCSV(guessBoard);
             
             double boardEval = ANN.predict();
@@ -541,7 +540,7 @@ public class Node{
                 }
             }
         }
-        String csvFile = "RandomGuess.csv";
+        String csvFile = "src/main/java/AI/RandomGuess.csv";
         try (FileWriter writer = new FileWriter(csvFile)) {
             // Writing headers
             FileWriter fileWriter = new FileWriter(csvFile); 

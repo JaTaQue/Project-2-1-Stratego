@@ -14,7 +14,7 @@ public class Model {
     public Model() {
         try {
             jep = new SharedInterpreter();
-            jep.runScript("app/src/main/python/ML/PredictHumanLikeMove.py");
+            jep.runScript("src/main/python/ML/PredictHumanLikeMove.py");
             jep.eval("phlm = PredictHumanLikeMove()");
         } catch (JepException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
@@ -33,5 +33,10 @@ public class Model {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
         return null;
+    }
+
+    //jep close method
+    public void close() {
+        jep.close();
     }
 }

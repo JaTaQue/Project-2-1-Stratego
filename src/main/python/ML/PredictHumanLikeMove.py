@@ -14,7 +14,7 @@ class PredictHumanLikeMove:
         Loads the TensorFlow model from the specified model path.
         """
         # Load the TensorFlow model
-        model_path = 'app/src/main/python/ML/model_parameters.h5'
+        model_path = 'src/main/python/ML/model_parameters.h5'
         self.model = tf.keras.models.load_model(model_path)
 
 
@@ -27,7 +27,7 @@ class PredictHumanLikeMove:
         """
         # Build the full path to the CSV file
         # data_file = 'app/src/main/java/AI/RandomGuess.csv'
-        data_file = 'app/src/main/java/AI/RandomGuess.csv'
+        data_file = 'src/main/java/AI/RandomGuess.csv'
 
         # Now read the CSV file
         data = pd.read_csv(data_file)
