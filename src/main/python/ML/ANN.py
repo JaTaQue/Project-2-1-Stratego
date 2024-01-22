@@ -33,7 +33,7 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='SGD', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Train the model
-model.fit(X_train, y_train, epochs=100)
+model.fit(X_train, y_train, epochs=100,verbose=0)
 #train_loss, train_accuracy = model.evaluate(X_train, y_train)
 #test_loss, test_accuracy = model.evaluate(X_test, y_test)
 #print("Training Accuracy: {:.2f}%".format(train_accuracy * 100))
