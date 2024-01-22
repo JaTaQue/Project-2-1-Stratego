@@ -262,7 +262,7 @@ public class Node{
         for (int i = 0; i < 50; i++) {
 //            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
             Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
-            createAndWriteCSV(guessBoard);
+            createAndWriteCSV(guessBoard, opponentColor);
             
             double boardEval = ANN.predict();
             if(boardEval > bestBoardEval) {
@@ -274,6 +274,7 @@ public class Node{
             }
         }
 
+        
         //converting to current position
         Piece[][] newBoard = new Piece[10][10];
 
@@ -291,22 +292,23 @@ public class Node{
                 }
 
             }
-        }System.out.println("-----BEST BOARD----");
-        Test.boardToASCIIArt(newBoard);
-        System.out.println("-----------------------");
+        }
+        // System.out.println("-----BEST BOARD----");
+        // Test.boardToASCIIArt(newBoard);
+        // System.out.println("-----------------------");
 
 
 
         return newBoard;
     }
     
-    //getbestsetup
-    public static Piece[][] getBestSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
-        // return a guess before the game starts
-        Piece[][] bestBoard = null;
-        // instantieate a non empty piece[][] to work as an initial guess
-        return null;
-    }
+    // //getbestsetup
+    // public static Piece[][] getBestSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
+    //     // return a guess before the game starts
+    //     Piece[][] bestBoard = null;
+    //     // instantieate a non empty piece[][] to work as an initial guess
+    //     return null;
+    // }
     //ANN
     public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
         board = copyBoard(board);
@@ -419,10 +421,10 @@ public class Node{
         return newBoard;
     }
 
-    public static void createAndWriteCSV(Piece[][] boarder){
+    public static void createAndWriteCSV(Piece[][] boarder, String opponentColor){
 
         //ONLY FOR BOARDS WITH 40 PIECES
-
+        
         String[] field = new String[481];
         for (int i = 0; i < 480; i++) {
             field[i] = "Col" + (i + 1);
@@ -431,8 +433,9 @@ public class Node{
         
         String[] position = new String[481];
         int count = 0;
-        for (int i = 9; i>5; i--){ //or just do for(int i = 9; i>6; i--)
+        for (int i = 9; i>=0; i--){ //or just do for(int i = 9; i>6; i--)
             for (int j = 9; j>=0; j--) {
+                if(boarder[i][j]!=null&&boarder[i][j].getRank()!=-1&&boarder[i][j].getColor().equals(opponentColor)){
                 switch (boarder[i][j].getRank()) {
                     case 1:
                         for(int z = 0; z<12;z++){
@@ -568,7 +571,7 @@ public class Node{
                         }
                         break;
 
-                    
+                }
                 }
             }
         }

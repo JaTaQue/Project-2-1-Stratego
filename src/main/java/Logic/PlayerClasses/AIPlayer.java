@@ -3,9 +3,11 @@ package Logic.PlayerClasses;
 import java.util.ArrayList;
 import java.util.Arrays;
 import AI.MCTS;
+import AI.Node;
 import Logic.GameLogic.MoveLogic;
 import Logic.PieceLogic.Piece;
 import Logic.Tester.Game;
+import Logic.Tester.Test;
 
 /**
  * The AI class represents a bot in a AI vs AI or player vs AI game
@@ -153,6 +155,59 @@ public class AIPlayer extends Player{
     //     }
 
     // }
+
+     @Override 
+    public void placePiecesForPlayer(Game game) {
+
+
+        Piece[][] testBoard = new Piece[10][10];
+        int counter = 0;
+        
+        while(counter<40){
+    
+            int randomX = (int)(Math.random()*10);
+            int randomY = (int)(Math.random()*10);
+            int[] targetPosition = new int[]{randomX,randomY};
+    
+            Piece pieceToBePlaced = getAvailablePieces().get(counter);
+            // System.out.println("piecetobeplaced: " + pieceToBePlaced);
+    
+            if(Game.canPlaceAtPosition(targetPosition, testBoard, equals(game.player1) ? game.placingBordersPlayer1 : game.placingBordersPlayer2)){
+                
+                // System.out.println("pieces: "+currentPlayer.getPieces());
+                counter++;
+
+                pieceToBePlaced.setPosition(targetPosition);
+                
+                pieceToBePlaced.setInnitPos(targetPosition);
+                
+                testBoard[randomX][randomY]=pieceToBePlaced.copyPiece();
+            }
+
+            // System.out.println("amt: " +Arrays.toString(player.getPiecesToBePlacedAmount()));
+        }
+        System.out.println("testboard: ");
+        Test.boardToASCIIArt(testBoard);
+        
+
+
+
+        Piece[][] bestSetupBoard = Node.getBestBoard(testBoard, game.getCurrentPlayer().getColor(), game.getCurrentPlayer().copyPlayer());
+        
+        for (int i = 0; i < bestSetupBoard.length; i++) {
+            for (int j = 0; j < bestSetupBoard[i].length; j++) {
+                if(bestSetupBoard[i][j]!=null&&bestSetupBoard[i][j].getRank()!=-1){
+                    if(bestSetupBoard[i][j].getColor().equals(game.getCurrentPlayer().getColor())){
+                        int[] pos = {i,j};
+                        placePiece(bestSetupBoard[i][j], pos, game);
+                        pieces.add(bestSetupBoard[i][j]);
+                    }
+                }
+            }
+        }
+
+        setPieces(pieces);
+    }
  
     private ArrayList<ArrayList<int[]>> getPositions(Game game) {
         if(game.getCurrentPlayer() == game.getPlayer1()){
