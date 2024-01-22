@@ -36,16 +36,16 @@ application {
 
 // Define the 'createVenv' task
 tasks.register('createVenv', Exec) {
-    commandLine 'python', '-m', 'venv', 'venv'
+    commandLine 'python', '-m', 'venv', '.venv'
 }
 
 // Define the 'installPythonRequirements' task
 tasks.register('installPythonRequirements', Exec) {
     dependsOn tasks.named('createVenv')
     if (OperatingSystem.current().isWindows()) {
-        commandLine 'venv\\Scripts\\pip', 'install', '-r', 'requirements.txt'
+        commandLine '.venv\\Scripts\\pip', 'install', '-r', 'requirements.txt'
     } else {
-        commandLine 'venv/bin/pip', 'install', '-r', 'requirements.txt'
+        commandLine '.venv/bin/pip', 'install', '-r', 'requirements.txt'
     }
 }
 
@@ -59,8 +59,8 @@ test {
 // Set the java.library.path to include the path to the Jep native library
 run {
     if (OperatingSystem.current().isWindows()) {
-        systemProperty "java.library.path", "venv\\Lib\\site-packages\\jep"
+        systemProperty "java.library.path", ".venv\\Lib\\site-packages\\jep"
     } else {
-        systemProperty "java.library.path", "venv/lib/python3.11/site-packages/jep"
+        systemProperty "java.library.path", ".venv/lib/python3.11/site-packages/jep"
     }
 }
