@@ -17,7 +17,9 @@ public class MCTS {
         AIPlayer copyCurrent = (AIPlayer)game.getCurrentPlayer().copyPlayer();
         // RandomPlayer copyOpponent = (RandomPlayer)game.getEnemyPlayer().copyPlayer();
         Player copyOpponent = game.getEnemyPlayer().copyPlayer();
-        Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), copyOpponent), null, null, null, copyCurrent, copyOpponent);
+        //getBestBoard is ANN, getRandoBoard is not
+        //Node root = new Node(Node.getRandoBoard(game.getBoard(), game.getEnemyPlayer().getColor(), copyOpponent), null, null, null, copyCurrent, copyOpponent);
+        Node root = new Node(Node.getBestBoard(game.getBoard(), game.getEnemyPlayer().getColor(), copyOpponent), null, null, null, copyCurrent, copyOpponent);
         root.addChildren(root.expand());
         long startTime = System.currentTimeMillis();
         while ((System.currentTimeMillis() - startTime) < DURATION) {

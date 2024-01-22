@@ -34,8 +34,8 @@ model.compile(optimizer='SGD', loss='sparse_categorical_crossentropy', metrics=[
 
 # Train the model
 model.fit(X_train, y_train, epochs=100)
-train_loss, train_accuracy = model.evaluate(X_train, y_train)
-test_loss, test_accuracy = model.evaluate(X_test, y_test)
-print("Training Accuracy: {:.2f}%".format(train_accuracy * 100))
-print("Test Accuracy: {:.2f}%".format(test_accuracy * 100))
+#train_loss, train_accuracy = model.evaluate(X_train, y_train)
+#test_loss, test_accuracy = model.evaluate(X_test, y_test)
+#print("Training Accuracy: {:.2f}%".format(train_accuracy * 100))
+#print("Test Accuracy: {:.2f}%".format(test_accuracy * 100))
 model.save('model_parameters.h5')

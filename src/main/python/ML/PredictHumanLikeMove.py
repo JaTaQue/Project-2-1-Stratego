@@ -38,12 +38,13 @@ class PredictHumanLikeMove:
         # Separate the features and target variables if necessary
         if 'Class' in data.columns:
             data = data.drop('Class', axis=1)
-            print("Dropped 'Class' column from DataFrame. Continuing...")
+            #print("Dropped 'Class' column from DataFrame. Continuing...")
         else:
             print("'Class' column not found in DataFrame. Continuing...")
         
         # Make predictions using the loaded model
         prediction = self.model.predict(data)
+        #print prediction
         #print(prediction.tolist())
         return prediction[0][1]
 

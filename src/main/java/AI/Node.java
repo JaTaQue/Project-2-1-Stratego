@@ -251,30 +251,74 @@ public class Node{
         System.out.println("-----------------------");
 
         //print getbestboard
-        getBestBoard(newBoard, opponentColor, opponenPlayer);
+        // getBestBoard(newBoard, opponentColor, opponenPlayer);
         return newBoard;
     }
     
     public static Piece[][] getBestBoard(Piece[][] board, String opponentColor, Player opponenPlayer){
         Piece[][] bestBoard = null;
-
+        
         double bestBoardEval = Double.NEGATIVE_INFINITY;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 50; i++) {
 //            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
             Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
             createAndWriteCSV(guessBoard);
             
             double boardEval = ANN.predict();
-            System.out.println("Board Evaluation: " + boardEval); // Print board evaluation for testing
             if(boardEval > bestBoardEval) {
                 bestBoardEval = boardEval;
                 bestBoard = guessBoard;
             }
+            if(boardEval >= 0.99) {
+                break;
+            }
         }
-        System.out.println("Best Board Evaluation: " + bestBoardEval); // Print best board evaluation for testing
-        return bestBoard;
+
+        //converting to current position
+        Piece[][] newBoard = new Piece[10][10];
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                
+                if(board[i][j]!=null){ 
+                    if(board[i][j].getRank()==-1||!board[i][j].getColor().equals(opponentColor)){ //all pieces and lakes except opponent's
+                        newBoard[i][j]=board[i][j].copyPiece();
+                    } 
+                    else if(board[i][j].getColor().equals(opponentColor)) {
+                        int[] startPos = board[i][j].getInnitPos().clone();
+                        newBoard[i][j] = bestBoard[startPos[0]][startPos[1]].copyPiece();
+                    }
+                }
+
+            }
+        }System.out.println("-----BEST BOARD----");
+        Test.boardToASCIIArt(newBoard);
+        System.out.println("-----------------------");
+
+
+
+        return newBoard;
     }
     
+    //getbestsetup
+    public static Piece[][] getBestSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
+        Piece[][] bestBoard = null;
+        
+        double bestBoardEval = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < 50; i++) {
+//            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
+            Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
+            createAndWriteCSV(guessBoard);
+            
+            double boardEval = ANN.predict();
+            if(boardEval > bestBoardEval) {
+                bestBoardEval = boardEval;
+                bestBoard = guessBoard;
+            }
+            if(boardEval >= 0.99) {
+                break;
+            }
+        }
     //ANN
     public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
         board = copyBoard(board);
@@ -551,14 +595,12 @@ public class Node{
  
                 // Write data rows 
                 bufferedWriter.write(String.join(",", position));
-            } 
+            }
  
-            System.out.println("CSV written created successfully.");
+            //System.out.println("CSV written created successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 }
-
-
