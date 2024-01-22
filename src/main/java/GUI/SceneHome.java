@@ -35,7 +35,7 @@ public class SceneHome implements Initializable{
 
     @FXML
     private ChoiceBox<String> gamebox;
-    private String[] modes = {"Player", "AI"};
+    private String[] modes = {"PvP", "PvE", "EvE"};
 
 
     @FXML
@@ -44,11 +44,6 @@ public class SceneHome implements Initializable{
     @FXML
     private Label gameModeLabel;
 
-    @FXML
-    private ChoiceBox<String> boxergamer;
-
-    @FXML
-    private Button goButton;
 
     public String gameMode;
 
@@ -67,7 +62,7 @@ public class SceneHome implements Initializable{
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
-        controller.setGame(gameMode.charAt(0), gameMode.charAt(0));
+        controller.setGame(gameMode);
     }
 
     public void HomeToPVP(ActionEvent event) throws IOException{
@@ -114,8 +109,6 @@ public class SceneHome implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gamebox.getItems().addAll(modes);
-        boxergamer.getItems().addAll(modes);
-        /*
         gamebox.setOnAction(event -> {
             try {
                 dogame(event);
@@ -124,25 +117,18 @@ public class SceneHome implements Initializable{
                 e.printStackTrace();
             }
         });
-        */
+
         SceneHelp.Stop(painer);
     }
 
 
     public void dogame(ActionEvent event) throws IOException{
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ScreenGame.fxml"));
-        Parent root = loader.load();
-        SceneGame controller = loader.getController();
-        stage.setScene(new Scene(root));
-        stage.setResizable(false);
-        stage.show();
-        char p1 = gamebox.getValue().charAt(0);
-        char p2 = boxergamer.getValue().charAt(0);
-        controller.setGame(p1, p2);
+
+        String myMode = gamebox.getValue();
+        System.out.println(myMode);
+        //gameModeLabel.setText(myMode);
+        gameMode = myMode;
+        HomeToGame(event);
     }
-
-
-
 
 }

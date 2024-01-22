@@ -9,23 +9,42 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="painer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneHome">
-   <Button fx:id="pvp" layoutY="661.0" mnemonicParsing="false" onAction="#HomeToPVP" opacity="0.0" prefHeight="26.0" prefWidth="34.0" text="Player versus Player" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="661.0" />
+   <Button fx:id="pvp" layoutX="37.0" layoutY="483.0" mnemonicParsing="false" onAction="#HomeToPVP" opacity="0.0" prefHeight="68.0" prefWidth="144.0" text="Player versus Player" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="483.0" />
 
-   <Button fx:id="help" layoutX="228.0" layoutY="414.0" mnemonicParsing="false" onAction="#HomeToHelp" prefHeight="68.0" prefWidth="144.0" text="Help" />
-   <Button fx:id="exit" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="33.0" prefWidth="46.0" text="Exit" />
-   <Button fx:id="pve" layoutX="49.0" layoutY="661.0" mnemonicParsing="false" onAction="#HomeToPVE" opacity="0.0" prefHeight="26.0" prefWidth="34.0" text="Player versus AI" />
-   <Button fx:id="eve" layoutX="124.0" layoutY="668.0" mnemonicParsing="false" onAction="#HomeToEVE" opacity="0.0" prefHeight="18.0" prefWidth="34.0" text="AI versus AI" />
-   <ChoiceBox fx:id="gamebox" layoutX="60.0" layoutY="324.0" prefWidth="150.0" />
-   <ChoiceBox fx:id="boxergamer" layoutX="386.0" layoutY="324.0" prefWidth="150.0" />
-   <Button fx:id="goButton" layoutX="283.0" layoutY="350.0" mnemonicParsing="false" onAction="#dogame" text="GO" />
-   <ImageView fitHeight="201.0" fitWidth="523.0" layoutX="38.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+   <Button fx:id="help" layoutX="228.0" layoutY="350.0" mnemonicParsing="false" onAction="#HomeToHelp" prefHeight="68.0" prefWidth="144.0" text="Help" />
+   <Button fx:id="exit" layoutX="24.0" layoutY="22.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="33.0" prefWidth="46.0" text="Exit" />
+   <Button fx:id="pve" layoutX="442.0" layoutY="468.0" mnemonicParsing="false" onAction="#HomeToPVE" opacity="0.0" prefHeight="68.0" prefWidth="144.0" text="Player versus AI" />
+   <Button fx:id="eve" layoutX="228.0" layoutY="462.0" mnemonicParsing="false" onAction="#HomeToEVE" opacity="0.0" prefHeight="68.0" prefWidth="144.0" text="AI versus AI" />
+   <ChoiceBox fx:id="gamebox" layoutX="224.0" layoutY="299.0" prefWidth="150.0" />
+   <ImageView fitHeight="117.0" fitWidth="487.0" layoutX="97.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@title.png" />
       </image>
    </ImageView>
-   <Label layoutX="197.0" layoutY="184.0" prefHeight="127.0" prefWidth="219.0" text="GROUP 7">
+   <Label layoutX="206.0" layoutY="156.0" prefHeight="142.0" prefWidth="195.0" text="Group 7">
       <font>
          <Font name="Bodoni MT Poster Compressed" size="96.0" />
       </font>
    </Label>
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="47.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@default/11B.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="51.0" fitWidth="59.0" layoutX="-15.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="462.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@default/11R.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="148.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@default/2R.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="349.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@default/4B.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

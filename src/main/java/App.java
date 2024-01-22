@@ -50,8 +50,7 @@ public class App extends Application {
                         }else{
                             moderas = "EvE";
                         }
-                        String por = "sadf";
-                        controller.setGame(moderas.charAt(0), por.charAt(0));
+                        controller.setGame(moderas);
                         Scene scener = new Scene(rooter);
                         scener.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
