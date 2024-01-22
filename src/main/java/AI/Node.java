@@ -302,23 +302,11 @@ public class Node{
     
     //getbestsetup
     public static Piece[][] getBestSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
+        // return a guess before the game starts
         Piece[][] bestBoard = null;
-        
-        double bestBoardEval = Double.NEGATIVE_INFINITY;
-        for (int i = 0; i < 50; i++) {
-//            Piece[][] randoBoard = getRandoBoard(board, opponentColor, opponenPlayer);
-            Piece[][] guessBoard = guessSetup(board, opponentColor, opponenPlayer);
-            createAndWriteCSV(guessBoard);
-            
-            double boardEval = ANN.predict();
-            if(boardEval > bestBoardEval) {
-                bestBoardEval = boardEval;
-                bestBoard = guessBoard;
-            }
-            if(boardEval >= 0.99) {
-                break;
-            }
-        }
+        // instantieate a non empty piece[][] to work as an initial guess
+        return null;
+    }
     //ANN
     public static Piece[][] guessSetup(Piece[][] board, String opponentColor, Player opponenPlayer){
         board = copyBoard(board);
