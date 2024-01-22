@@ -24,3 +24,6 @@ gradle-app.setting
 /.fleet/
 T.gradle
 /.venv/
+src/main/java/AI/RandomGuess.csv
+build.gradle
+build.gradle

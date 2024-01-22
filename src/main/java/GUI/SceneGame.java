@@ -122,9 +122,9 @@ public class SceneGame implements Initializable {
         }
     }
 
-    void setGame(String gameMode) {
+    public void setGame(char P1, char P2) {
         //create a new game based on the game mode
-        switch (gameMode) {
+        switch ("I cant") {
             case "PvP":
                 game = Game.PlayerVsPlayer();
                 break;
