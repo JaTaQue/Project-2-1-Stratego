@@ -40,14 +40,8 @@ test {
 
 // You can manually set the java.library.path system property here
 // ↓↓↓↓↓↓↓↓↓↓↓↓
-run.systemProperty "java.library.path", "<your-path-here>"
+//run.systemProperty "java.library.path", "<your-path-here>"
 
-// Or you can uncomment the following line to automatically set the java.library.path system property
-// using the 'setJavaLibraryPath' task. This task determines the location of the Jep native library
-// and saves it in a file named 'jepPath.txt'. For subsequent runs, the task reads the location from
-// the file instead of determining it again.
-// ↓↓↓↓↓↓↓↓↓↓↓↓
-//run.dependsOn tasks.named('setJavaLibraryPath')
 
 
 tasks.register('setJavaLibraryPath') {
@@ -75,4 +69,13 @@ tasks.register('setJavaLibraryPath') {
             System.setProperty("java.library.path", jepPath)
         }
     }
+
+// Or you can uncomment the following line to automatically set the java.library.path system property
+// using the 'setJavaLibraryPath' task. This task determines the location of the Jep native library
+// and saves it in a file named 'jepPath.txt'. For subsequent runs, the task reads the location from
+// the file instead of determining it again.
+// ↓↓↓↓↓↓↓↓↓↓↓↓
+run.dependsOn tasks.named('setJavaLibraryPath')
+
+
 }
