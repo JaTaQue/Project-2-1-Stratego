@@ -209,40 +209,40 @@ public class AIPlayer extends Player{
         setPieces(pieces);
     }
  
-    private ArrayList<ArrayList<int[]>> getPositions(Game game) {
-        if(game.getCurrentPlayer() == game.getPlayer1()){
-            ArrayList<int[]> positionsRank1 = new ArrayList<int[]>(Arrays.asList(new int[]{2,3}));
-            ArrayList<int[]> positionsRank2 = new ArrayList<int[]>(Arrays.asList(new int[]{0,0}, new int[]{0,3}, new int[]{2,5}, new int[]{3,1}, new int[]{3,2}, new int[]{3,4}, new int[]{3,8}, new int[]{2,9}));
-            ArrayList<int[]> positionsRank3 = new ArrayList<int[]>(Arrays.asList(new int[]{0,1}, new int[]{0,4}, new int[]{0,8}, new int[]{0,9}, new int[]{3,6}));
-            ArrayList<int[]> positionsRank4 = new ArrayList<int[]>(Arrays.asList(new int[]{1,0}, new int[]{1,2}, new int[]{1,9}, new int[]{2,1}));
-            ArrayList<int[]> positionsRank5 = new ArrayList<int[]>(Arrays.asList(new int[]{1,5}, new int[]{1,7}, new int[]{2,0}, new int[]{3,3}));
-            ArrayList<int[]> positionsRank6 = new ArrayList<int[]>(Arrays.asList(new int[]{1,8}, new int[]{3,0}, new int[]{3,5}, new int[]{3,9}));
-            ArrayList<int[]> positionsRank7 = new ArrayList<int[]>(Arrays.asList(new int[]{1,3}, new int[]{2,6}, new int[]{2,7}));
-            ArrayList<int[]> positionsRank8 = new ArrayList<int[]>(Arrays.asList(new int[]{1,4}, new int[]{2,8}));
-            ArrayList<int[]> positionsRank9 = new ArrayList<int[]>(Arrays.asList(new int[]{2,4}));
-            ArrayList<int[]> positionsRank10 = new ArrayList<int[]>(Arrays.asList(new int[]{3,7}));
-            ArrayList<int[]> positionsRank11 = new ArrayList<int[]>(Arrays.asList(new int[]{0,6}));
-            ArrayList<int[]> positionsRank12 = new ArrayList<int[]>(Arrays.asList(new int[]{0,2}, new int[]{0,5}, new int[]{0,7}, new int[]{1,1}, new int[]{1,6}, new int[]{2,2}));
+    // private ArrayList<ArrayList<int[]>> getPositions(Game game) {
+    //     if(game.getCurrentPlayer() == game.getPlayer1()){
+    //         ArrayList<int[]> positionsRank1 = new ArrayList<int[]>(Arrays.asList(new int[]{2,3}));
+    //         ArrayList<int[]> positionsRank2 = new ArrayList<int[]>(Arrays.asList(new int[]{0,0}, new int[]{0,3}, new int[]{2,5}, new int[]{3,1}, new int[]{3,2}, new int[]{3,4}, new int[]{3,8}, new int[]{2,9}));
+    //         ArrayList<int[]> positionsRank3 = new ArrayList<int[]>(Arrays.asList(new int[]{0,1}, new int[]{0,4}, new int[]{0,8}, new int[]{0,9}, new int[]{3,6}));
+    //         ArrayList<int[]> positionsRank4 = new ArrayList<int[]>(Arrays.asList(new int[]{1,0}, new int[]{1,2}, new int[]{1,9}, new int[]{2,1}));
+    //         ArrayList<int[]> positionsRank5 = new ArrayList<int[]>(Arrays.asList(new int[]{1,5}, new int[]{1,7}, new int[]{2,0}, new int[]{3,3}));
+    //         ArrayList<int[]> positionsRank6 = new ArrayList<int[]>(Arrays.asList(new int[]{1,8}, new int[]{3,0}, new int[]{3,5}, new int[]{3,9}));
+    //         ArrayList<int[]> positionsRank7 = new ArrayList<int[]>(Arrays.asList(new int[]{1,3}, new int[]{2,6}, new int[]{2,7}));
+    //         ArrayList<int[]> positionsRank8 = new ArrayList<int[]>(Arrays.asList(new int[]{1,4}, new int[]{2,8}));
+    //         ArrayList<int[]> positionsRank9 = new ArrayList<int[]>(Arrays.asList(new int[]{2,4}));
+    //         ArrayList<int[]> positionsRank10 = new ArrayList<int[]>(Arrays.asList(new int[]{3,7}));
+    //         ArrayList<int[]> positionsRank11 = new ArrayList<int[]>(Arrays.asList(new int[]{0,6}));
+    //         ArrayList<int[]> positionsRank12 = new ArrayList<int[]>(Arrays.asList(new int[]{0,2}, new int[]{0,5}, new int[]{0,7}, new int[]{1,1}, new int[]{1,6}, new int[]{2,2}));
 
-            ArrayList<ArrayList<int[]>> positions = new ArrayList<ArrayList<int[]>>(Arrays.asList(positionsRank1,positionsRank2,positionsRank3,positionsRank4,positionsRank5,positionsRank6,positionsRank7,positionsRank8,positionsRank9,positionsRank10,positionsRank11,positionsRank12));
-            return positions;
-        }else{
-            ArrayList<int[]> positionsRank1 = new ArrayList<int[]>(Arrays.asList(new int[]{7,3}));
-            ArrayList<int[]> positionsRank2 = new ArrayList<int[]>(Arrays.asList(new int[]{9,0}, new int[]{9,3}, new int[]{7,5}, new int[]{6,1}, new int[]{6,2}, new int[]{6,4}, new int[]{6,8}, new int[]{7,9}));
-            ArrayList<int[]> positionsRank3 = new ArrayList<int[]>(Arrays.asList(new int[]{9,1}, new int[]{9,4}, new int[]{9,8}, new int[]{9,9}, new int[]{6,6}));
-            ArrayList<int[]> positionsRank4 = new ArrayList<int[]>(Arrays.asList(new int[]{8,0}, new int[]{8,2}, new int[]{8,9}, new int[]{7,1}));
-            ArrayList<int[]> positionsRank5 = new ArrayList<int[]>(Arrays.asList(new int[]{8,5}, new int[]{8,7}, new int[]{7,0}, new int[]{6,3}));
-            ArrayList<int[]> positionsRank6 = new ArrayList<int[]>(Arrays.asList(new int[]{8,8}, new int[]{6,0}, new int[]{6,5}, new int[]{6,9}));
-            ArrayList<int[]> positionsRank7 = new ArrayList<int[]>(Arrays.asList(new int[]{8,3}, new int[]{7,6}, new int[]{7,7}));
-            ArrayList<int[]> positionsRank8 = new ArrayList<int[]>(Arrays.asList(new int[]{8,4}, new int[]{7,8}));
-            ArrayList<int[]> positionsRank9 = new ArrayList<int[]>(Arrays.asList(new int[]{7,4}));
-            ArrayList<int[]> positionsRank10 = new ArrayList<int[]>(Arrays.asList(new int[]{6,7}));
-            ArrayList<int[]> positionsRank11 = new ArrayList<int[]>(Arrays.asList(new int[]{9,6}));
-            ArrayList<int[]> positionsRank12 = new ArrayList<int[]>(Arrays.asList(new int[]{9,2}, new int[]{9,5}, new int[]{9,7}, new int[]{8,1}, new int[]{8,6}, new int[]{7,2}));
+    //         ArrayList<ArrayList<int[]>> positions = new ArrayList<ArrayList<int[]>>(Arrays.asList(positionsRank1,positionsRank2,positionsRank3,positionsRank4,positionsRank5,positionsRank6,positionsRank7,positionsRank8,positionsRank9,positionsRank10,positionsRank11,positionsRank12));
+    //         return positions;
+    //     }else{
+    //         ArrayList<int[]> positionsRank1 = new ArrayList<int[]>(Arrays.asList(new int[]{7,6}));
+    //         ArrayList<int[]> positionsRank2 = new ArrayList<int[]>(Arrays.asList(new int[]{9,9}, new int[]{9,6}, new int[]{7,4}, new int[]{6,8}, new int[]{6,7}, new int[]{6,5}, new int[]{6,1}, new int[]{7,0}));
+    //         ArrayList<int[]> positionsRank3 = new ArrayList<int[]>(Arrays.asList(new int[]{9,8}, new int[]{9,5}, new int[]{9,1}, new int[]{9,0}, new int[]{6,3}));
+    //         ArrayList<int[]> positionsRank4 = new ArrayList<int[]>(Arrays.asList(new int[]{8,9}, new int[]{8,7}, new int[]{8,0}, new int[]{7,8}));
+    //         ArrayList<int[]> positionsRank5 = new ArrayList<int[]>(Arrays.asList(new int[]{8,4}, new int[]{8,2}, new int[]{7,9}, new int[]{6,6}));
+    //         ArrayList<int[]> positionsRank6 = new ArrayList<int[]>(Arrays.asList(new int[]{8,1}, new int[]{6,9}, new int[]{6,4}, new int[]{6,0}));
+    //         ArrayList<int[]> positionsRank7 = new ArrayList<int[]>(Arrays.asList(new int[]{8,6}, new int[]{7,3}, new int[]{7,2}));
+    //         ArrayList<int[]> positionsRank8 = new ArrayList<int[]>(Arrays.asList(new int[]{8,5}, new int[]{7,1}));
+    //         ArrayList<int[]> positionsRank9 = new ArrayList<int[]>(Arrays.asList(new int[]{7,5}));
+    //         ArrayList<int[]> positionsRank10 = new ArrayList<int[]>(Arrays.asList(new int[]{6,2}));
+    //         ArrayList<int[]> positionsRank11 = new ArrayList<int[]>(Arrays.asList(new int[]{9,3}));
+    //         ArrayList<int[]> positionsRank12 = new ArrayList<int[]>(Arrays.asList(new int[]{9,7}, new int[]{9,4}, new int[]{9,2}, new int[]{8,8}, new int[]{8,3}, new int[]{7,7}));
 
-            ArrayList<ArrayList<int[]>> positions = new ArrayList<ArrayList<int[]>>(Arrays.asList(positionsRank1,positionsRank2,positionsRank3,positionsRank4,positionsRank5,positionsRank6,positionsRank7,positionsRank8,positionsRank9,positionsRank10,positionsRank11,positionsRank12));
-            return positions;
-        }
-    }
+    //         ArrayList<ArrayList<int[]>> positions = new ArrayList<ArrayList<int[]>>(Arrays.asList(positionsRank1,positionsRank2,positionsRank3,positionsRank4,positionsRank5,positionsRank6,positionsRank7,positionsRank8,positionsRank9,positionsRank10,positionsRank11,positionsRank12));
+    //         return positions;
+    //     }
+    // }
 }
 
