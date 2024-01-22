@@ -193,8 +193,15 @@ public class SceneGame implements Initializable {
                     if(piece.getRank()==-1)
                         component.draw("lake");
                         //piece
-                    else if(piece.getRank()!=0)
-                        component.draw(0,piece.getColor());
+                    else if(piece.getRank()!=0){
+                        //if the current player and the enemy player arent playable, reveal all pieces
+                        if(!game.getCurrentPlayer().IsPlayable() && !game.getEnemyPlayer().IsPlayable())
+                            component.draw(piece.getRank(),piece.getColor());
+                        else
+                            component.draw(0,piece.getColor());
+                    }
+
+
                     boardGUI[i][j] = component;
                     pane.getChildren().add(component.getRectangle());
                 }
@@ -216,6 +223,9 @@ public class SceneGame implements Initializable {
 
         //hide the pieces of the enemy player
         hideGUI(enemyPlayer);
+        //if current player and enemy player arent plyable reveal the enemy pieces
+        if(!currentPlayer.IsPlayable() && !enemyPlayer.IsPlayable())
+            showGUI(enemyPlayer);
 
         //display an alert to confirm the move
         //sleep for 0.5 seconds

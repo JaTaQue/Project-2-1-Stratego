@@ -231,10 +231,7 @@ public class Node{
                     availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
                 }
             } else {
-                System.out.println("Colonizer");
-                for (int i = 0; i < availablePiecesAmount.size(); i++) {
-                    System.out.print(availablePiecesAmount.get(i));
-                }
+                non_zero_count = 0;
             }
 
             non_zero_count = 0;
@@ -400,10 +397,7 @@ public class Node{
                     availablePiecesAmount.set(randRank - 1, availablePiecesAmount.get(randRank - 1) - 1);
                 }
             } else {
-                System.out.println("Colonizer");
-                for (int i = 0; i < availablePiecesAmount.size(); i++) {
-                    System.out.print(availablePiecesAmount.get(i));
-                }
+                non_zero_count = 0;
             }
 
             non_zero_count = 0;
