@@ -19,23 +19,27 @@ models in the background:
 
 ## Building the project
 
-Gradle will automatically create a Python virtual environment and install these packages. It also sets the `java.library.path` to include the path to the Jep native library. This setup is cross-platform and should work on both Windows and Unix-like systems.
+
+To manually install the required packages, you can run `pip install -r requirements.txt`.
+
+Once the required packages are installed, you need to set the `java.library.path` system property to the location of the Jep native library. The location of the Jep native library is determined by the output of the `pip show jep` command, appended with `/jep/`. 
+
+This has to be declared in the run task of your `build.gradle` file, which provides the option to set the path manually or attempt to run the necessary terminal command and set the system property automatically. By default, the manual approach is uncommented and the automatic is commented.
 
 ```bash
 ./gradlew build
 ```
 
-If you want to manually install the required packages, you can run `pip install -r requirements.txt`.
 
 ## Running the Project
 
 The project uses Gradle as a build tool and for managing java dependencies. Gradle also handles the installation of JavaFX.
 
-To run the project, use the following command in the terminal:
+To run the project, use the following command in the terminal or click the gradle task:
 
 ```bash
 ./gradlew run
 ```
 This command will start the Gradle run task, which will compile the project, install necessary dependencies including JavaFX, and start the application. If it doesn't work, run the build command first.  Alternatively, you can run the Test.java file to perform a faster simulation in the terminal.  
 ## Game Rules
-Stratego is a strategy board game for two players. The objective of the game is to find and capture the opponent's Flag, or to capture so many enemy pieces that the opponent cannot make any further moves.
+Stratego is a strategy board game for two players. The objective of the game is to find and capture the opponent's Flag, or to capture so many enemy pieces that the opponent cannot make any further moves. The game provides a help screen with specific interactions.
