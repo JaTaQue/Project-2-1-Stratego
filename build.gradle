@@ -34,33 +34,45 @@ application {
     mainClass.set('App')
 }
 
-// Define the 'createVenv' task
-tasks.register('createVenv', Exec) {
-    commandLine 'python', '-m', 'venv', '.venv'
-}
-
-// Define the 'installPythonRequirements' task
-tasks.register('installPythonRequirements', Exec) {
-    dependsOn tasks.named('createVenv')
-    if (OperatingSystem.current().isWindows()) {
-        commandLine '.venv\\Scripts\\pip', 'install', '-r', 'requirements.txt'
-    } else {
-        commandLine '.venv/bin/pip', 'install', '-r', 'requirements.txt'
-    }
-}
-
-// Make the 'build' task depend on the 'installPythonRequirements' task
-build.dependsOn tasks.named('installPythonRequirements')
-
 test {
     useJUnitPlatform()
 }
 
-// Set the java.library.path to include the path to the Jep native library
-run {
-    if (OperatingSystem.current().isWindows()) {
-        systemProperty "java.library.path", ".venv\\Lib\\site-packages\\jep"
-    } else {
-        systemProperty "java.library.path", ".venv/lib/python3.11/site-packages/jep"
+// You can manually set the java.library.path system property here
+// ↓↓↓↓↓↓↓↓↓↓↓↓
+run.systemProperty "java.library.path", "<your-path-here>"
+
+// Or you can uncomment the following line to automatically set the java.library.path system property
+// using the 'setJavaLibraryPath' task. This task determines the location of the Jep native library
+// and saves it in a file named 'jepPath.txt'. For subsequent runs, the task reads the location from
+// the file instead of determining it again.
+// ↓↓↓↓↓↓↓↓↓↓↓↓
+//run.dependsOn tasks.named('setJavaLibraryPath')
+
+
+tasks.register('setJavaLibraryPath') {
+    doLast {
+        def jepPathFile = new File('jepPath.txt')
+        def jepPath
+        if (jepPathFile.exists()) {
+            // If the file exists, read the location from the file
+            jepPath = jepPathFile.text
+        } else {
+            // If the file doesn't exist, determine the location and save it in the file
+            def jepLocation = new ByteArrayOutputStream()
+            exec {
+                commandLine 'pip', 'show', 'jep'
+                standardOutput = jepLocation
+            }
+            jepPath = jepLocation.toString().split("\n").find { it.startsWith("Location: ") }.split(": ")[1] + "/jep/"
+            jepPathFile.write(jepPath)
+        }
+
+        // Set the java.library.path system property
+        if (OperatingSystem.current().isWindows()) {
+            System.setProperty("java.library.path", jepPath.replace('/', '\\'))
+        } else {
+            System.setProperty("java.library.path", jepPath)
+        }
     }
 }
