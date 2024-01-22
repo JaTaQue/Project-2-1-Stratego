@@ -137,8 +137,8 @@ public class SceneHome implements Initializable{
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
-        String p1 = gamebox.getValue().charAt(0);
-        String p2 = boxergamer.getValue().charAt(0);
+        char p1 = gamebox.getValue().charAt(0);
+        char p2 = boxergamer.getValue().charAt(0);
         controller.setGame(p1, p2);
     }
 
