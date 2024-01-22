@@ -43,7 +43,7 @@ class PredictHumanLikeMove:
             print("'Class' column not found in DataFrame. Continuing...")
         
         # Make predictions using the loaded model
-        prediction = self.model.predict(data)
+        prediction = self.model.predict(data, verbose=0)
         #print prediction
         #print(prediction.tolist())
         return prediction[0][1]
